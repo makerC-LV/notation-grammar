@@ -63,13 +63,13 @@ sourceSets {
                 "src/main/java",
                 "target/generated-sources/antlr4"
             ]
-            include '**/*.java'
+            //include '**/*.java'
             
         }
     }
 }
 
-
+/*
 jar 
 {
     archiveName = "notationgrammar.jar"
@@ -91,3 +91,4 @@ jar
 
     exclude 'META-INF/*.RSA', 'META-INF/*.SF','META-INF/*.DSA'    
 }
+*/
