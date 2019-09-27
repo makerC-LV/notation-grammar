@@ -63,8 +63,9 @@ sourceSets {
                 "src/main/java",
                 "target/generated-sources/antlr4"
             ]
-            //include '**/*.java'
-            
+            include '**/*.java'
+            include '**/*.tokens'
+            include '**/*.interp'
         }
     }
 }
