@@ -69,6 +69,10 @@ sourceSets {
     }
 }
 
+jar {
+	from sourceSets.main.allSource
+
+}
 /*
 jar 
 {
