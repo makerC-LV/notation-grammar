@@ -15,7 +15,7 @@ song : keysig timesig partlist
 
 keysig : KEYMARKER KEYCHORD SEMICOLON ;
 
-timesig : TIMEMARKER DIGIT SLASH DIGIT SEMICOLON ;
+timesig : TIMEMARKER TIMENUMERATOR SLASH TIMEDENOMINATOR SEMICOLON ;
 
 partlist : part+ ;
 

@@ -21,8 +21,9 @@ public class Song2Parser extends Parser {
 		new PredictionContextCache();
 	public static final int
 		DIGIT=1, WS=2, VARNAME=3, SEMICOLON=4, LPAREN=5, RPAREN=6, SLASH=7, LBRACKET=8, 
-		RBRACKET=9, ASSIGN=10, KEYMARKER=11, TIMEMARKER=12, KEYCHORD=13, RHYTHM=14, 
-		NOTE=15, OCTAVE=16, DURATION=17, VARNOTE=18, INSTRUMENT=19, RINSTRUMENT=20;
+		RBRACKET=9, ASSIGN=10, KEYMARKER=11, TIMEMARKER=12, KEYCHORD=13, TIMENUMERATOR=14, 
+		TIMEDENOMINATOR=15, RHYTHM=16, NOTE=17, OCTAVE=18, DURATION=19, VARNOTE=20, 
+		INSTRUMENT=21, RINSTRUMENT=22;
 	public static final int
 		RULE_song = 0, RULE_keysig = 1, RULE_timesig = 2, RULE_partlist = 3, RULE_part = 4, 
 		RULE_vardecl = 5, RULE_varvalue = 6, RULE_notepart = 7, RULE_phrase = 8, 
@@ -46,7 +47,8 @@ public class Song2Parser extends Parser {
 		return new String[] {
 			null, "DIGIT", "WS", "VARNAME", "SEMICOLON", "LPAREN", "RPAREN", "SLASH", 
 			"LBRACKET", "RBRACKET", "ASSIGN", "KEYMARKER", "TIMEMARKER", "KEYCHORD", 
-			"RHYTHM", "NOTE", "OCTAVE", "DURATION", "VARNOTE", "INSTRUMENT", "RINSTRUMENT"
+			"TIMENUMERATOR", "TIMEDENOMINATOR", "RHYTHM", "NOTE", "OCTAVE", "DURATION", 
+			"VARNOTE", "INSTRUMENT", "RINSTRUMENT"
 		};
 	}
 	private static final String[] _SYMBOLIC_NAMES = makeSymbolicNames();
@@ -246,11 +248,9 @@ public class Song2Parser extends Parser {
 
 	public static class TimesigContext extends ParserRuleContext {
 		public TerminalNode TIMEMARKER() { return getToken(Song2Parser.TIMEMARKER, 0); }
-		public List<TerminalNode> DIGIT() { return getTokens(Song2Parser.DIGIT); }
-		public TerminalNode DIGIT(int i) {
-			return getToken(Song2Parser.DIGIT, i);
-		}
+		public TerminalNode TIMENUMERATOR() { return getToken(Song2Parser.TIMENUMERATOR, 0); }
 		public TerminalNode SLASH() { return getToken(Song2Parser.SLASH, 0); }
+		public TerminalNode TIMEDENOMINATOR() { return getToken(Song2Parser.TIMEDENOMINATOR, 0); }
 		public TerminalNode SEMICOLON() { return getToken(Song2Parser.SEMICOLON, 0); }
 		public TimesigContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -280,11 +280,11 @@ public class Song2Parser extends Parser {
 			setState(43);
 			match(TIMEMARKER);
 			setState(44);
-			match(DIGIT);
+			match(TIMENUMERATOR);
 			setState(45);
 			match(SLASH);
 			setState(46);
-			match(DIGIT);
+			match(TIMEDENOMINATOR);
 			setState(47);
 			match(SEMICOLON);
 			}
@@ -904,7 +904,7 @@ public class Song2Parser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\26w\4\2\t\2\4\3\t"+
+		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\30w\4\2\t\2\4\3\t"+
 		"\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b\4\t\t\t\4\n\t\n\4\13\t\13\4"+
 		"\f\t\f\3\2\3\2\3\2\3\2\3\2\3\2\3\2\3\2\3\2\3\2\3\2\3\2\3\2\3\2\3\2\5\2"+
 		"(\n\2\3\3\3\3\3\3\3\3\3\4\3\4\3\4\3\4\3\4\3\4\3\5\6\5\65\n\5\r\5\16\5"+
@@ -918,20 +918,20 @@ public class Song2Parser extends Parser {
 		"\5\b\5\2\33(\3\2\2\2\34\35\5\4\3\2\35\36\5\b\5\2\36(\3\2\2\2\37 \5\6\4"+
 		"\2 !\5\b\5\2!(\3\2\2\2\"#\5\6\4\2#$\5\4\3\2$%\5\b\5\2%(\3\2\2\2&(\5\b"+
 		"\5\2\'\30\3\2\2\2\'\34\3\2\2\2\'\37\3\2\2\2\'\"\3\2\2\2\'&\3\2\2\2(\3"+
-		"\3\2\2\2)*\7\r\2\2*+\7\17\2\2+,\7\6\2\2,\5\3\2\2\2-.\7\16\2\2./\7\3\2"+
-		"\2/\60\7\t\2\2\60\61\7\3\2\2\61\62\7\6\2\2\62\7\3\2\2\2\63\65\5\n\6\2"+
+		"\3\2\2\2)*\7\r\2\2*+\7\17\2\2+,\7\6\2\2,\5\3\2\2\2-.\7\16\2\2./\7\20\2"+
+		"\2/\60\7\t\2\2\60\61\7\21\2\2\61\62\7\6\2\2\62\7\3\2\2\2\63\65\5\n\6\2"+
 		"\64\63\3\2\2\2\65\66\3\2\2\2\66\64\3\2\2\2\66\67\3\2\2\2\67\t\3\2\2\2"+
 		"8<\5\f\7\29<\5\20\t\2:<\5\24\13\2;8\3\2\2\2;9\3\2\2\2;:\3\2\2\2<\13\3"+
 		"\2\2\2=>\7\5\2\2>?\7\f\2\2?@\5\16\b\2@A\7\6\2\2A\r\3\2\2\2BE\5\20\t\2"+
 		"CE\5\24\13\2DB\3\2\2\2DC\3\2\2\2EF\3\2\2\2FD\3\2\2\2FG\3\2\2\2GJ\3\2\2"+
-		"\2HJ\7\21\2\2ID\3\2\2\2IH\3\2\2\2J\17\3\2\2\2KL\7\7\2\2LM\5\22\n\2MN\7"+
-		"\b\2\2NQ\3\2\2\2OQ\7\5\2\2PK\3\2\2\2PO\3\2\2\2Q\21\3\2\2\2RT\7\25\2\2"+
-		"SR\3\2\2\2ST\3\2\2\2TV\3\2\2\2UW\7\21\2\2VU\3\2\2\2WX\3\2\2\2XV\3\2\2"+
-		"\2XY\3\2\2\2Yb\3\2\2\2Z\\\7\24\2\2[Z\3\2\2\2\\]\3\2\2\2][\3\2\2\2]^\3"+
-		"\2\2\2^b\3\2\2\2_`\7\25\2\2`b\7\5\2\2aS\3\2\2\2a[\3\2\2\2a_\3\2\2\2b\23"+
+		"\2HJ\7\23\2\2ID\3\2\2\2IH\3\2\2\2J\17\3\2\2\2KL\7\7\2\2LM\5\22\n\2MN\7"+
+		"\b\2\2NQ\3\2\2\2OQ\7\5\2\2PK\3\2\2\2PO\3\2\2\2Q\21\3\2\2\2RT\7\27\2\2"+
+		"SR\3\2\2\2ST\3\2\2\2TV\3\2\2\2UW\7\23\2\2VU\3\2\2\2WX\3\2\2\2XV\3\2\2"+
+		"\2XY\3\2\2\2Yb\3\2\2\2Z\\\7\26\2\2[Z\3\2\2\2\\]\3\2\2\2][\3\2\2\2]^\3"+
+		"\2\2\2^b\3\2\2\2_`\7\27\2\2`b\7\5\2\2aS\3\2\2\2a[\3\2\2\2a_\3\2\2\2b\23"+
 		"\3\2\2\2cd\7\7\2\2de\5\26\f\2ef\7\b\2\2fi\3\2\2\2gi\7\5\2\2hc\3\2\2\2"+
-		"hg\3\2\2\2i\25\3\2\2\2jl\7\26\2\2kj\3\2\2\2kl\3\2\2\2ln\3\2\2\2mo\7\20"+
-		"\2\2nm\3\2\2\2op\3\2\2\2pn\3\2\2\2pq\3\2\2\2qu\3\2\2\2rs\7\26\2\2su\7"+
+		"hg\3\2\2\2i\25\3\2\2\2jl\7\30\2\2kj\3\2\2\2kl\3\2\2\2ln\3\2\2\2mo\7\22"+
+		"\2\2nm\3\2\2\2op\3\2\2\2pn\3\2\2\2pq\3\2\2\2qu\3\2\2\2rs\7\30\2\2su\7"+
 		"\5\2\2tk\3\2\2\2tr\3\2\2\2u\27\3\2\2\2\21\'\66;DFIPSX]ahkpt";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
