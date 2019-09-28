@@ -44,20 +44,22 @@ public class Song2Visitor<T> extends Song2ParserBaseVisitor<T> {
 
 	@Override
 	public T visitSong(SongContext ctx) {
-		System.out.println(ctx);
+		//System.out.println(ctx);
 		return super.visitSong(ctx);
 	}
 
 	@Override
 	public T visitKeysig(KeysigContext ctx) {
-		System.out.println(ctx);
+		//System.out.println(ctx);
 		return super.visitKeysig(ctx);
 	}
 
 	@Override
 	public T visitTimesig(TimesigContext ctx) {
-		System.out.println(ctx);
-		return super.visitTimesig(ctx);
+		T v = super.visitTimesig(ctx);
+		System.out.println(ctx.TIMESIGFRACTION().getText());
+		
+		return v;
 	}
 
 	

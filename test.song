@@ -1,0 +1,12 @@
+key [C#maj] ;
+time 4/4 ;
+
+(C D E F)
+
+(Bass o _ o _ )
+
+_x = (Piano A B) (Flute C D) ;
+
+_y = (f g) ;
+
+_x _y _x _y
