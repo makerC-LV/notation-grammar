@@ -1,4 +1,4 @@
-// Generated from Song2Lexer.g4 by ANTLR 4.7.2
+// Generated from Song2Lexer.g4 by ANTLR 4.4
 
     package shiva.song2;
     import java.util.HashMap;
@@ -14,7 +14,7 @@ import org.antlr.v4.runtime.misc.*;
 
 @SuppressWarnings({"all", "warnings", "unchecked", "unused", "cast"})
 public class Song2Lexer extends Lexer {
-	static { RuntimeMetaData.checkVersion("4.7.2", RuntimeMetaData.VERSION); }
+	static { RuntimeMetaData.checkVersion("4.4", RuntimeMetaData.VERSION); }
 
 	protected static final DFA[] _decisionToDFA;
 	protected static final PredictionContextCache _sharedContextCache =
@@ -24,72 +24,22 @@ public class Song2Lexer extends Lexer {
 		RBRACKET=9, ASSIGN=10, KEYMARKER=11, TIMEMARKER=12, KEYCHORD=13, TIMESIGFRACTION=14, 
 		RHYTHM=15, NOTE=16, OCTAVE=17, DURATION=18, VARNOTE=19, INSTRUMENT=20, 
 		RINSTRUMENT=21;
-	public static String[] channelNames = {
-		"DEFAULT_TOKEN_CHANNEL", "HIDDEN"
-	};
-
 	public static String[] modeNames = {
 		"DEFAULT_MODE"
 	};
 
-	private static String[] makeRuleNames() {
-		return new String[] {
-			"DIGIT", "WS", "VARNAME", "SEMICOLON", "LPAREN", "RPAREN", "SLASH", "LBRACKET", 
-			"RBRACKET", "ASSIGN", "BASENOTE", "NOTEMODIFIER", "SCALE", "KEYMARKER", 
-			"TIMEMARKER", "KEYCHORD", "TIMESIGFRACTION", "RHYTHM", "NOTE", "OCTAVE", 
-			"DURATION", "VARNOTE", "NUM", "INSTRUMENT", "RINSTRUMENT"
-		};
-	}
-	public static final String[] ruleNames = makeRuleNames();
-
-	private static String[] makeLiteralNames() {
-		return new String[] {
-			null, null, null, null, "';'", "'('", "')'", "'/'", "'['", "']'", "'='", 
-			"'key'", "'time'"
-		};
-	}
-	private static final String[] _LITERAL_NAMES = makeLiteralNames();
-	private static String[] makeSymbolicNames() {
-		return new String[] {
-			null, "DIGIT", "WS", "VARNAME", "SEMICOLON", "LPAREN", "RPAREN", "SLASH", 
-			"LBRACKET", "RBRACKET", "ASSIGN", "KEYMARKER", "TIMEMARKER", "KEYCHORD", 
-			"TIMESIGFRACTION", "RHYTHM", "NOTE", "OCTAVE", "DURATION", "VARNOTE", 
-			"INSTRUMENT", "RINSTRUMENT"
-		};
-	}
-	private static final String[] _SYMBOLIC_NAMES = makeSymbolicNames();
-	public static final Vocabulary VOCABULARY = new VocabularyImpl(_LITERAL_NAMES, _SYMBOLIC_NAMES);
-
-	/**
-	 * @deprecated Use {@link #VOCABULARY} instead.
-	 */
-	@Deprecated
-	public static final String[] tokenNames;
-	static {
-		tokenNames = new String[_SYMBOLIC_NAMES.length];
-		for (int i = 0; i < tokenNames.length; i++) {
-			tokenNames[i] = VOCABULARY.getLiteralName(i);
-			if (tokenNames[i] == null) {
-				tokenNames[i] = VOCABULARY.getSymbolicName(i);
-			}
-
-			if (tokenNames[i] == null) {
-				tokenNames[i] = "<INVALID>";
-			}
-		}
-	}
-
-	@Override
-	@Deprecated
-	public String[] getTokenNames() {
-		return tokenNames;
-	}
-
-	@Override
-
-	public Vocabulary getVocabulary() {
-		return VOCABULARY;
-	}
+	public static final String[] tokenNames = {
+		"'\\u0000'", "'\\u0001'", "'\\u0002'", "'\\u0003'", "'\\u0004'", "'\\u0005'", 
+		"'\\u0006'", "'\\u0007'", "'\b'", "'\t'", "'\n'", "'\\u000B'", "'\f'", 
+		"'\r'", "'\\u000E'", "'\\u000F'", "'\\u0010'", "'\\u0011'", "'\\u0012'", 
+		"'\\u0013'", "'\\u0014'", "'\\u0015'"
+	};
+	public static final String[] ruleNames = {
+		"DIGIT", "WS", "VARNAME", "SEMICOLON", "LPAREN", "RPAREN", "SLASH", "LBRACKET", 
+		"RBRACKET", "ASSIGN", "BASENOTE", "NOTEMODIFIER", "SCALE", "KEYMARKER", 
+		"TIMEMARKER", "KEYCHORD", "TIMESIGFRACTION", "RHYTHM", "NOTE", "OCTAVE", 
+		"DURATION", "VARNOTE", "NUM", "INSTRUMENT", "RINSTRUMENT"
+	};
 
 
 	public Song2Lexer(CharStream input) {
@@ -101,13 +51,13 @@ public class Song2Lexer extends Lexer {
 	public String getGrammarFileName() { return "Song2Lexer.g4"; }
 
 	@Override
+	public String[] getTokenNames() { return tokenNames; }
+
+	@Override
 	public String[] getRuleNames() { return ruleNames; }
 
 	@Override
 	public String getSerializedATN() { return _serializedATN; }
-
-	@Override
-	public String[] getChannelNames() { return channelNames; }
 
 	@Override
 	public String[] getModeNames() { return modeNames; }
@@ -116,7 +66,7 @@ public class Song2Lexer extends Lexer {
 	public ATN getATN() { return _ATN; }
 
 	public static final String _serializedATN =
-		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\2\27\u00b4\b\1\4\2"+
+		"\3\u0430\ud6d1\u8206\uad2d\u4417\uaef1\u8d80\uaadd\2\27\u00b4\b\1\4\2"+
 		"\t\2\4\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b\4\t\t\t\4\n\t\n\4"+
 		"\13\t\13\4\f\t\f\4\r\t\r\4\16\t\16\4\17\t\17\4\20\t\20\4\21\t\21\4\22"+
 		"\t\22\4\23\t\23\4\24\t\24\4\25\t\25\4\26\t\26\4\27\t\27\4\30\t\30\4\31"+
@@ -132,28 +82,28 @@ public class Song2Lexer extends Lexer {
 		"\3\32\3\32\3\32\3\32\3\32\3\32\3\32\5\32\u00b3\n\32\2\2\33\3\3\5\4\7\5"+
 		"\t\6\13\7\r\b\17\t\21\n\23\13\25\f\27\2\31\2\33\2\35\r\37\16!\17#\20%"+
 		"\21\'\22)\23+\24-\25/\2\61\26\63\27\3\2\t\3\2\62;\5\2\13\f\17\17\"\"\7"+
-		"\2//\62;C\\aac|\4\2CIci\4\2%%dd\4\2aaqq\6\2jjssuvyy\2\u00bf\2\3\3\2\2"+
-		"\2\2\5\3\2\2\2\2\7\3\2\2\2\2\t\3\2\2\2\2\13\3\2\2\2\2\r\3\2\2\2\2\17\3"+
-		"\2\2\2\2\21\3\2\2\2\2\23\3\2\2\2\2\25\3\2\2\2\2\35\3\2\2\2\2\37\3\2\2"+
-		"\2\2!\3\2\2\2\2#\3\2\2\2\2%\3\2\2\2\2\'\3\2\2\2\2)\3\2\2\2\2+\3\2\2\2"+
-		"\2-\3\2\2\2\2\61\3\2\2\2\2\63\3\2\2\2\3\66\3\2\2\2\5;\3\2\2\2\7A\3\2\2"+
-		"\2\tG\3\2\2\2\13I\3\2\2\2\rK\3\2\2\2\17M\3\2\2\2\21O\3\2\2\2\23Q\3\2\2"+
-		"\2\25S\3\2\2\2\27U\3\2\2\2\31W\3\2\2\2\33_\3\2\2\2\35a\3\2\2\2\37e\3\2"+
-		"\2\2!j\3\2\2\2#t\3\2\2\2%x\3\2\2\2\'z\3\2\2\2)\u0089\3\2\2\2+\u008b\3"+
-		"\2\2\2-\u0096\3\2\2\2/\u0099\3\2\2\2\61\u00a7\3\2\2\2\63\u00b2\3\2\2\2"+
-		"\65\67\t\2\2\2\66\65\3\2\2\2\678\3\2\2\28\66\3\2\2\289\3\2\2\29\4\3\2"+
-		"\2\2:<\t\3\2\2;:\3\2\2\2<=\3\2\2\2=;\3\2\2\2=>\3\2\2\2>?\3\2\2\2?@\b\3"+
-		"\2\2@\6\3\2\2\2AC\7a\2\2BD\t\4\2\2CB\3\2\2\2DE\3\2\2\2EC\3\2\2\2EF\3\2"+
-		"\2\2F\b\3\2\2\2GH\7=\2\2H\n\3\2\2\2IJ\7*\2\2J\f\3\2\2\2KL\7+\2\2L\16\3"+
-		"\2\2\2MN\7\61\2\2N\20\3\2\2\2OP\7]\2\2P\22\3\2\2\2QR\7_\2\2R\24\3\2\2"+
-		"\2ST\7?\2\2T\26\3\2\2\2UV\t\5\2\2V\30\3\2\2\2WX\t\6\2\2X\32\3\2\2\2YZ"+
-		"\7o\2\2Z[\7c\2\2[`\7l\2\2\\]\7o\2\2]^\7k\2\2^`\7p\2\2_Y\3\2\2\2_\\\3\2"+
-		"\2\2`\34\3\2\2\2ab\7m\2\2bc\7g\2\2cd\7{\2\2d\36\3\2\2\2ef\7v\2\2fg\7k"+
-		"\2\2gh\7o\2\2hi\7g\2\2i \3\2\2\2jk\5\21\t\2km\5\27\f\2ln\5\31\r\2ml\3"+
-		"\2\2\2mn\3\2\2\2np\3\2\2\2oq\5\33\16\2po\3\2\2\2pq\3\2\2\2qr\3\2\2\2r"+
-		"s\5\23\n\2s\"\3\2\2\2tu\5\3\2\2uv\5\17\b\2vw\5\3\2\2w$\3\2\2\2xy\t\7\2"+
-		"\2y&\3\2\2\2z|\5\27\f\2{}\5)\25\2|{\3\2\2\2|}\3\2\2\2}\177\3\2\2\2~\u0080"+
-		"\5\31\r\2\177~\3\2\2\2\177\u0080\3\2\2\2\u0080\u0082\3\2\2\2\u0081\u0083"+
+		"\2//\62;C\\aac|\4\2CIci\4\2%%dd\4\2aaqq\6\2jjssuvyy\u00bf\2\3\3\2\2\2"+
+		"\2\5\3\2\2\2\2\7\3\2\2\2\2\t\3\2\2\2\2\13\3\2\2\2\2\r\3\2\2\2\2\17\3\2"+
+		"\2\2\2\21\3\2\2\2\2\23\3\2\2\2\2\25\3\2\2\2\2\35\3\2\2\2\2\37\3\2\2\2"+
+		"\2!\3\2\2\2\2#\3\2\2\2\2%\3\2\2\2\2\'\3\2\2\2\2)\3\2\2\2\2+\3\2\2\2\2"+
+		"-\3\2\2\2\2\61\3\2\2\2\2\63\3\2\2\2\3\66\3\2\2\2\5;\3\2\2\2\7A\3\2\2\2"+
+		"\tG\3\2\2\2\13I\3\2\2\2\rK\3\2\2\2\17M\3\2\2\2\21O\3\2\2\2\23Q\3\2\2\2"+
+		"\25S\3\2\2\2\27U\3\2\2\2\31W\3\2\2\2\33_\3\2\2\2\35a\3\2\2\2\37e\3\2\2"+
+		"\2!j\3\2\2\2#t\3\2\2\2%x\3\2\2\2\'z\3\2\2\2)\u0089\3\2\2\2+\u008b\3\2"+
+		"\2\2-\u0096\3\2\2\2/\u0099\3\2\2\2\61\u00a7\3\2\2\2\63\u00b2\3\2\2\2\65"+
+		"\67\t\2\2\2\66\65\3\2\2\2\678\3\2\2\28\66\3\2\2\289\3\2\2\29\4\3\2\2\2"+
+		":<\t\3\2\2;:\3\2\2\2<=\3\2\2\2=;\3\2\2\2=>\3\2\2\2>?\3\2\2\2?@\b\3\2\2"+
+		"@\6\3\2\2\2AC\7a\2\2BD\t\4\2\2CB\3\2\2\2DE\3\2\2\2EC\3\2\2\2EF\3\2\2\2"+
+		"F\b\3\2\2\2GH\7=\2\2H\n\3\2\2\2IJ\7*\2\2J\f\3\2\2\2KL\7+\2\2L\16\3\2\2"+
+		"\2MN\7\61\2\2N\20\3\2\2\2OP\7]\2\2P\22\3\2\2\2QR\7_\2\2R\24\3\2\2\2ST"+
+		"\7?\2\2T\26\3\2\2\2UV\t\5\2\2V\30\3\2\2\2WX\t\6\2\2X\32\3\2\2\2YZ\7o\2"+
+		"\2Z[\7c\2\2[`\7l\2\2\\]\7o\2\2]^\7k\2\2^`\7p\2\2_Y\3\2\2\2_\\\3\2\2\2"+
+		"`\34\3\2\2\2ab\7m\2\2bc\7g\2\2cd\7{\2\2d\36\3\2\2\2ef\7v\2\2fg\7k\2\2"+
+		"gh\7o\2\2hi\7g\2\2i \3\2\2\2jk\5\21\t\2km\5\27\f\2ln\5\31\r\2ml\3\2\2"+
+		"\2mn\3\2\2\2np\3\2\2\2oq\5\33\16\2po\3\2\2\2pq\3\2\2\2qr\3\2\2\2rs\5\23"+
+		"\n\2s\"\3\2\2\2tu\5\3\2\2uv\5\17\b\2vw\5\3\2\2w$\3\2\2\2xy\t\7\2\2y&\3"+
+		"\2\2\2z|\5\27\f\2{}\5)\25\2|{\3\2\2\2|}\3\2\2\2}\177\3\2\2\2~\u0080\5"+
+		"\31\r\2\177~\3\2\2\2\177\u0080\3\2\2\2\u0080\u0082\3\2\2\2\u0081\u0083"+
 		"\5+\26\2\u0082\u0081\3\2\2\2\u0082\u0083\3\2\2\2\u0083(\3\2\2\2\u0084"+
 		"\u0085\7\63\2\2\u0085\u008a\7\63\2\2\u0086\u0087\7\63\2\2\u0087\u008a"+
 		"\7\62\2\2\u0088\u008a\t\2\2\2\u0089\u0084\3\2\2\2\u0089\u0086\3\2\2\2"+
