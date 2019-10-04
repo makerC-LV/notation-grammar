@@ -1,0 +1,11 @@
+key [Cminor] ;
+time 4/4 ;
+V1 = I[Guitar] ;
+V2 = I[Flute] ;
+P1 = Cq Dh Ex F {g a} ;
+P2 = Gmaj Adim A#aug B-min ;
+(V1 P1 P1 )
+(V2 P1 P1 BM[Tmark])
+(V1 P2 P1 | P2)
+(V2 S[Tmark] P2 P2 )
+

@@ -1,0 +1,45 @@
+		// Major Chords
+		  'MAJ'    
+		|  'MAJ6'   
+		|  'MAJ7'   
+		|  'MAJ9'   
+		|  'ADD9'   
+		|  'MAJ6%9' 
+		|  'MAJ7%6' 
+		|  'MAJ13'  
+
+		// Minor Chords
+		|  'MIN'     
+		|  'MIN6'    
+		|  'MIN7'    
+		|  'MIN9'    
+		|  'MIN11'   
+		|  'MIN7%11' 
+		|  'MINADD9' 
+		|  'MIN6%9'  
+		|  'MINMAJ7' 
+		|  'MINMAJ9' 
+
+		// Dominant Chords
+		|  'DOM7'      
+		|  'DOM7%6'    
+		|  'DOM7%11'   
+		|  'DOM7SUS'   
+		|  'DOM7%6SUS' 
+		|  'DOM9'       
+		|  'DOM11'     
+		|  'DOM13'     
+		|  'DOM13SUS'  
+		|  'DOM7%6%11' 
+
+		// Augmented Chords
+		|  'AUG'  
+		|  'AUG7' 
+		
+		// Diminished Chords
+		|  'DIM'  
+		|  'DIM7' 
+
+		// Suspended Chords
+		|  'SUS4' 
+		|  'SUS2' 

@@ -1,0 +1,16 @@
+timing  T[beat:bar] sets time
+barline |  advances time to the end of the bar
+M[name]  bookmark current time
+T[name]  sets time to bookmarked time
+
+voicedef Vvar = InstName ;
+
+templatephrase = ( (note|chord|parallelnotes)+ )  // note and duration def, no voice
+
+templatephrasedef = name = templatephrase ;
+
+
+voicedpart = (voicename (templatephrase | templatephrasevar | timing)+ )
+
+
+
