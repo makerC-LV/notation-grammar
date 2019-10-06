@@ -5,9 +5,11 @@ import java.util.List;
 import java.util.TreeMap;
 
 import org.jfugue.midi.MidiDictionary;
+import org.jfugue.theory.Note;
 
 public class MMTrack {
 
+	boolean percussionTrack;
 	int midiInstrument;
 	String midiInstrumentName;
 	String name;
@@ -16,6 +18,12 @@ public class MMTrack {
 	TreeMap<MMDuration, List<MMTrackItem>> items = new TreeMap<>();
 
 	MMDuration currentTime = MMDuration.ZERO;
+	
+	private MMTrack(String name) {
+		this.name = name;
+		this.midiChannel = 9;
+		percussionTrack = true;
+	}
 	
 	public MMTrack(String name, String midiInstrumentName, int midiChannel) {
 		super();
@@ -26,6 +34,14 @@ public class MMTrack {
 		
 	}
 
+	static public MMTrack createPercussionTrack(String name) {
+		return new MMTrack(name);
+	}
+	
+	
+	public boolean isPercussionTrack() {
+		return percussionTrack;
+	}
 
 	public String getName() {
 		return name;
@@ -55,9 +71,23 @@ public class MMTrack {
 		
 	}
 	
-	public void add(MMTemplatePhrase phrase) {
+	public void add(MMNotePhrase phrase) {
 		for (MMTrackItem item: phrase.getItems()) {
 			add(item.copy());
+		}
+	}
+	
+	public void add(MMRhythmPhrase phrase, int midiNoteNum) {
+		MMDuration dur = phrase.getNoteDuration();
+		
+		for (boolean b: phrase.getBeats()) {
+			Note n = Note.createRest(1);
+			if (b) {
+				n = new Note(midiNoteNum);
+			}
+			MMNote mmnote = new MMNote(MMDuration.ZERO, n, dur);
+			add(mmnote);
+			
 		}
 	}
 	
@@ -92,6 +122,8 @@ public class MMTrack {
 		sb.append("]");
 		return sb.toString();
 	}
+
+	
 	
 	
 }

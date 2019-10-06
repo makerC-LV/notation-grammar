@@ -20,41 +20,46 @@ public class Song4Parser extends Parser {
 	protected static final PredictionContextCache _sharedContextCache =
 		new PredictionContextCache();
 	public static final int
-		KEYSIG=1, CHORD=2, NOTE=3, TEMPOMARKER=4, KEYMARKER=5, TIMEMARKER=6, VOICEVAR=7, 
-		PHRASETEMPLATEVAR=8, TIMEVAR=9, TIMINGMARKER=10, INSTRUMENTNAME=11, NUM=12, 
-		DIGIT=13, BARMARKER=14, SEMICOLON=15, COLON=16, LPAREN=17, RPAREN=18, 
-		SLASH=19, LBRACKET=20, RBRACKET=21, LBRACE=22, RBRACE=23, ASSIGN=24, WS=25, 
-		COMMENT=26, LINE_COMMENT=27;
+		TEMPO=1, KEY=2, TIME=3, VOICE=4, DRUM=5, NOTES=6, RHYTHM=7, MARKTIME=8, 
+		RECALLTIME=9, VAR=10, KEYSIG=11, CHORD=12, NOTE=13, BARMARKER=14, SEMICOLON=15, 
+		COLON=16, LPAREN=17, RPAREN=18, SLASH=19, LBRACKET=20, RBRACKET=21, LBRACE=22, 
+		RBRACE=23, ASSIGN=24, TIMES=25, PLUS=26, MINUS=27, INSTRUMENTNAME=28, 
+		NUM=29, DIGIT=30, WS=31, COMMENT=32, LINE_COMMENT=33;
 	public static final int
-		RULE_song = 0, RULE_tempo = 1, RULE_keysig = 2, RULE_timesig = 3, RULE_voiceDef = 4, 
-		RULE_phraseDef = 5, RULE_templatePhrase = 6, RULE_templatePhraseElement = 7, 
-		RULE_parallelNotes = 8, RULE_parallelNotesElement = 9, RULE_voicedPhrase = 10, 
-		RULE_voicedPhraseElement = 11, RULE_timeBookmark = 12, RULE_timeRecall = 13, 
-		RULE_timeSet = 14;
+		RULE_song = 0, RULE_phrase = 1, RULE_tempo = 2, RULE_keysig = 3, RULE_timesig = 4, 
+		RULE_voiceDef = 5, RULE_rhythmVoiceDef = 6, RULE_phraseDef = 7, RULE_rhythmPhraseDef = 8, 
+		RULE_rhythmPhrase = 9, RULE_rhythmPhraseElement = 10, RULE_parallelNotes = 11, 
+		RULE_parallelNotesElement = 12, RULE_notePhrase = 13, RULE_notePhraseElement = 14, 
+		RULE_voicedNotePhrase = 15, RULE_voicedNotePhraseElement = 16, RULE_repeatedVar = 17, 
+		RULE_voicedRhythmPhrase = 18, RULE_voicedRhythmPhraseElement = 19, RULE_timeBookmark = 20, 
+		RULE_timeRecall = 21, RULE_timeSet = 22;
 	private static String[] makeRuleNames() {
 		return new String[] {
-			"song", "tempo", "keysig", "timesig", "voiceDef", "phraseDef", "templatePhrase", 
-			"templatePhraseElement", "parallelNotes", "parallelNotesElement", "voicedPhrase", 
-			"voicedPhraseElement", "timeBookmark", "timeRecall", "timeSet"
+			"song", "phrase", "tempo", "keysig", "timesig", "voiceDef", "rhythmVoiceDef", 
+			"phraseDef", "rhythmPhraseDef", "rhythmPhrase", "rhythmPhraseElement", 
+			"parallelNotes", "parallelNotesElement", "notePhrase", "notePhraseElement", 
+			"voicedNotePhrase", "voicedNotePhraseElement", "repeatedVar", "voicedRhythmPhrase", 
+			"voicedRhythmPhraseElement", "timeBookmark", "timeRecall", "timeSet"
 		};
 	}
 	public static final String[] ruleNames = makeRuleNames();
 
 	private static String[] makeLiteralNames() {
 		return new String[] {
-			null, null, null, null, "'tempo'", "'key'", "'time'", null, null, null, 
-			"'S'", null, null, null, "'|'", "';'", "':'", "'('", "')'", "'/'", "'['", 
-			"']'", "'{'", "'}'", "'='"
+			null, "'tempo'", "'key'", "'time'", "'voice'", "'drum'", "'notes'", "'rhythm'", 
+			"'marktime'", "'recalltime'", null, null, null, null, "'|'", "';'", "':'", 
+			"'('", "')'", "'/'", "'['", "']'", "'{'", "'}'", "'='", "'X'", "'+'", 
+			"'-'"
 		};
 	}
 	private static final String[] _LITERAL_NAMES = makeLiteralNames();
 	private static String[] makeSymbolicNames() {
 		return new String[] {
-			null, "KEYSIG", "CHORD", "NOTE", "TEMPOMARKER", "KEYMARKER", "TIMEMARKER", 
-			"VOICEVAR", "PHRASETEMPLATEVAR", "TIMEVAR", "TIMINGMARKER", "INSTRUMENTNAME", 
-			"NUM", "DIGIT", "BARMARKER", "SEMICOLON", "COLON", "LPAREN", "RPAREN", 
-			"SLASH", "LBRACKET", "RBRACKET", "LBRACE", "RBRACE", "ASSIGN", "WS", 
-			"COMMENT", "LINE_COMMENT"
+			null, "TEMPO", "KEY", "TIME", "VOICE", "DRUM", "NOTES", "RHYTHM", "MARKTIME", 
+			"RECALLTIME", "VAR", "KEYSIG", "CHORD", "NOTE", "BARMARKER", "SEMICOLON", 
+			"COLON", "LPAREN", "RPAREN", "SLASH", "LBRACKET", "RBRACKET", "LBRACE", 
+			"RBRACE", "ASSIGN", "TIMES", "PLUS", "MINUS", "INSTRUMENTNAME", "NUM", 
+			"DIGIT", "WS", "COMMENT", "LINE_COMMENT"
 		};
 	}
 	private static final String[] _SYMBOLIC_NAMES = makeSymbolicNames();
@@ -124,17 +129,29 @@ public class Song4Parser extends Parser {
 		public VoiceDefContext voiceDef(int i) {
 			return getRuleContext(VoiceDefContext.class,i);
 		}
+		public List<RhythmVoiceDefContext> rhythmVoiceDef() {
+			return getRuleContexts(RhythmVoiceDefContext.class);
+		}
+		public RhythmVoiceDefContext rhythmVoiceDef(int i) {
+			return getRuleContext(RhythmVoiceDefContext.class,i);
+		}
 		public List<PhraseDefContext> phraseDef() {
 			return getRuleContexts(PhraseDefContext.class);
 		}
 		public PhraseDefContext phraseDef(int i) {
 			return getRuleContext(PhraseDefContext.class,i);
 		}
-		public List<VoicedPhraseContext> voicedPhrase() {
-			return getRuleContexts(VoicedPhraseContext.class);
+		public List<RhythmPhraseDefContext> rhythmPhraseDef() {
+			return getRuleContexts(RhythmPhraseDefContext.class);
 		}
-		public VoicedPhraseContext voicedPhrase(int i) {
-			return getRuleContext(VoicedPhraseContext.class,i);
+		public RhythmPhraseDefContext rhythmPhraseDef(int i) {
+			return getRuleContext(RhythmPhraseDefContext.class,i);
+		}
+		public List<PhraseContext> phrase() {
+			return getRuleContexts(PhraseContext.class);
+		}
+		public PhraseContext phrase(int i) {
+			return getRuleContext(PhraseContext.class,i);
 		}
 		public SongContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -162,78 +179,166 @@ public class Song4Parser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(31);
+			setState(47);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			if (_la==TEMPOMARKER) {
+			if (_la==TEMPO) {
 				{
-				setState(30);
+				setState(46);
 				tempo();
 				}
 			}
 
-			setState(34);
+			setState(50);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			if (_la==KEYMARKER) {
+			if (_la==KEY) {
 				{
-				setState(33);
+				setState(49);
 				keysig();
 				}
 			}
 
-			setState(37);
+			setState(53);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			if (_la==TIMEMARKER) {
+			if (_la==TIME) {
 				{
-				setState(36);
+				setState(52);
 				timesig();
 				}
 			}
 
-			setState(42);
+			setState(58);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			while (_la==VOICEVAR) {
+			while (_la==VOICE) {
 				{
 				{
-				setState(39);
+				setState(55);
 				voiceDef();
 				}
 				}
-				setState(44);
+				setState(60);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
-			setState(48);
+			setState(64);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			while (_la==PHRASETEMPLATEVAR) {
+			while (_la==DRUM) {
 				{
 				{
-				setState(45);
+				setState(61);
+				rhythmVoiceDef();
+				}
+				}
+				setState(66);
+				_errHandler.sync(this);
+				_la = _input.LA(1);
+			}
+			setState(70);
+			_errHandler.sync(this);
+			_la = _input.LA(1);
+			while (_la==NOTES) {
+				{
+				{
+				setState(67);
 				phraseDef();
 				}
 				}
-				setState(50);
+				setState(72);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
-			setState(52); 
+			setState(76);
+			_errHandler.sync(this);
+			_la = _input.LA(1);
+			while (_la==RHYTHM) {
+				{
+				{
+				setState(73);
+				rhythmPhraseDef();
+				}
+				}
+				setState(78);
+				_errHandler.sync(this);
+				_la = _input.LA(1);
+			}
+			setState(80); 
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			do {
 				{
 				{
-				setState(51);
-				voicedPhrase();
+				setState(79);
+				phrase();
 				}
 				}
-				setState(54); 
+				setState(82); 
 				_errHandler.sync(this);
 				_la = _input.LA(1);
-			} while ( _la==LPAREN );
+			} while ( (((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << CHORD) | (1L << NOTE) | (1L << LPAREN) | (1L << LBRACE) | (1L << NUM))) != 0) );
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	public static class PhraseContext extends ParserRuleContext {
+		public VoicedNotePhraseContext voicedNotePhrase() {
+			return getRuleContext(VoicedNotePhraseContext.class,0);
+		}
+		public VoicedRhythmPhraseContext voicedRhythmPhrase() {
+			return getRuleContext(VoicedRhythmPhraseContext.class,0);
+		}
+		public PhraseContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_phrase; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof Song4ParserListener ) ((Song4ParserListener)listener).enterPhrase(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof Song4ParserListener ) ((Song4ParserListener)listener).exitPhrase(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof Song4ParserVisitor ) return ((Song4ParserVisitor<? extends T>)visitor).visitPhrase(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+
+	public final PhraseContext phrase() throws RecognitionException {
+		PhraseContext _localctx = new PhraseContext(_ctx, getState());
+		enterRule(_localctx, 2, RULE_phrase);
+		try {
+			setState(86);
+			_errHandler.sync(this);
+			switch ( getInterpreter().adaptivePredict(_input,8,_ctx) ) {
+			case 1:
+				enterOuterAlt(_localctx, 1);
+				{
+				setState(84);
+				voicedNotePhrase();
+				}
+				break;
+			case 2:
+				enterOuterAlt(_localctx, 2);
+				{
+				setState(85);
+				voicedRhythmPhrase();
+				}
+				break;
 			}
 		}
 		catch (RecognitionException re) {
@@ -248,7 +353,7 @@ public class Song4Parser extends Parser {
 	}
 
 	public static class TempoContext extends ParserRuleContext {
-		public TerminalNode TEMPOMARKER() { return getToken(Song4Parser.TEMPOMARKER, 0); }
+		public TerminalNode TEMPO() { return getToken(Song4Parser.TEMPO, 0); }
 		public TerminalNode NUM() { return getToken(Song4Parser.NUM, 0); }
 		public TerminalNode SEMICOLON() { return getToken(Song4Parser.SEMICOLON, 0); }
 		public TempoContext(ParserRuleContext parent, int invokingState) {
@@ -272,15 +377,15 @@ public class Song4Parser extends Parser {
 
 	public final TempoContext tempo() throws RecognitionException {
 		TempoContext _localctx = new TempoContext(_ctx, getState());
-		enterRule(_localctx, 2, RULE_tempo);
+		enterRule(_localctx, 4, RULE_tempo);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(56);
-			match(TEMPOMARKER);
-			setState(57);
+			setState(88);
+			match(TEMPO);
+			setState(89);
 			match(NUM);
-			setState(58);
+			setState(90);
 			match(SEMICOLON);
 			}
 		}
@@ -296,7 +401,7 @@ public class Song4Parser extends Parser {
 	}
 
 	public static class KeysigContext extends ParserRuleContext {
-		public TerminalNode KEYMARKER() { return getToken(Song4Parser.KEYMARKER, 0); }
+		public TerminalNode KEY() { return getToken(Song4Parser.KEY, 0); }
 		public TerminalNode KEYSIG() { return getToken(Song4Parser.KEYSIG, 0); }
 		public TerminalNode SEMICOLON() { return getToken(Song4Parser.SEMICOLON, 0); }
 		public KeysigContext(ParserRuleContext parent, int invokingState) {
@@ -320,15 +425,15 @@ public class Song4Parser extends Parser {
 
 	public final KeysigContext keysig() throws RecognitionException {
 		KeysigContext _localctx = new KeysigContext(_ctx, getState());
-		enterRule(_localctx, 4, RULE_keysig);
+		enterRule(_localctx, 6, RULE_keysig);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(60);
-			match(KEYMARKER);
-			setState(61);
+			setState(92);
+			match(KEY);
+			setState(93);
 			match(KEYSIG);
-			setState(62);
+			setState(94);
 			match(SEMICOLON);
 			}
 		}
@@ -344,7 +449,7 @@ public class Song4Parser extends Parser {
 	}
 
 	public static class TimesigContext extends ParserRuleContext {
-		public TerminalNode TIMEMARKER() { return getToken(Song4Parser.TIMEMARKER, 0); }
+		public TerminalNode TIME() { return getToken(Song4Parser.TIME, 0); }
 		public List<TerminalNode> NUM() { return getTokens(Song4Parser.NUM); }
 		public TerminalNode NUM(int i) {
 			return getToken(Song4Parser.NUM, i);
@@ -372,19 +477,19 @@ public class Song4Parser extends Parser {
 
 	public final TimesigContext timesig() throws RecognitionException {
 		TimesigContext _localctx = new TimesigContext(_ctx, getState());
-		enterRule(_localctx, 6, RULE_timesig);
+		enterRule(_localctx, 8, RULE_timesig);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(64);
-			match(TIMEMARKER);
-			setState(65);
+			setState(96);
+			match(TIME);
+			setState(97);
 			match(NUM);
-			setState(66);
+			setState(98);
 			match(SLASH);
-			setState(67);
+			setState(99);
 			match(NUM);
-			setState(68);
+			setState(100);
 			match(SEMICOLON);
 			}
 		}
@@ -400,7 +505,8 @@ public class Song4Parser extends Parser {
 	}
 
 	public static class VoiceDefContext extends ParserRuleContext {
-		public TerminalNode VOICEVAR() { return getToken(Song4Parser.VOICEVAR, 0); }
+		public TerminalNode VOICE() { return getToken(Song4Parser.VOICE, 0); }
+		public TerminalNode VAR() { return getToken(Song4Parser.VAR, 0); }
 		public TerminalNode ASSIGN() { return getToken(Song4Parser.ASSIGN, 0); }
 		public TerminalNode INSTRUMENTNAME() { return getToken(Song4Parser.INSTRUMENTNAME, 0); }
 		public TerminalNode SEMICOLON() { return getToken(Song4Parser.SEMICOLON, 0); }
@@ -425,17 +531,73 @@ public class Song4Parser extends Parser {
 
 	public final VoiceDefContext voiceDef() throws RecognitionException {
 		VoiceDefContext _localctx = new VoiceDefContext(_ctx, getState());
-		enterRule(_localctx, 8, RULE_voiceDef);
+		enterRule(_localctx, 10, RULE_voiceDef);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(70);
-			match(VOICEVAR);
-			setState(71);
+			setState(102);
+			match(VOICE);
+			setState(103);
+			match(VAR);
+			setState(104);
 			match(ASSIGN);
-			setState(72);
+			setState(105);
 			match(INSTRUMENTNAME);
-			setState(73);
+			setState(106);
+			match(SEMICOLON);
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	public static class RhythmVoiceDefContext extends ParserRuleContext {
+		public TerminalNode DRUM() { return getToken(Song4Parser.DRUM, 0); }
+		public TerminalNode VAR() { return getToken(Song4Parser.VAR, 0); }
+		public TerminalNode ASSIGN() { return getToken(Song4Parser.ASSIGN, 0); }
+		public TerminalNode INSTRUMENTNAME() { return getToken(Song4Parser.INSTRUMENTNAME, 0); }
+		public TerminalNode SEMICOLON() { return getToken(Song4Parser.SEMICOLON, 0); }
+		public RhythmVoiceDefContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_rhythmVoiceDef; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof Song4ParserListener ) ((Song4ParserListener)listener).enterRhythmVoiceDef(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof Song4ParserListener ) ((Song4ParserListener)listener).exitRhythmVoiceDef(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof Song4ParserVisitor ) return ((Song4ParserVisitor<? extends T>)visitor).visitRhythmVoiceDef(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+
+	public final RhythmVoiceDefContext rhythmVoiceDef() throws RecognitionException {
+		RhythmVoiceDefContext _localctx = new RhythmVoiceDefContext(_ctx, getState());
+		enterRule(_localctx, 12, RULE_rhythmVoiceDef);
+		try {
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(108);
+			match(DRUM);
+			setState(109);
+			match(VAR);
+			setState(110);
+			match(ASSIGN);
+			setState(111);
+			match(INSTRUMENTNAME);
+			setState(112);
 			match(SEMICOLON);
 			}
 		}
@@ -451,10 +613,11 @@ public class Song4Parser extends Parser {
 	}
 
 	public static class PhraseDefContext extends ParserRuleContext {
-		public TerminalNode PHRASETEMPLATEVAR() { return getToken(Song4Parser.PHRASETEMPLATEVAR, 0); }
+		public TerminalNode NOTES() { return getToken(Song4Parser.NOTES, 0); }
+		public TerminalNode VAR() { return getToken(Song4Parser.VAR, 0); }
 		public TerminalNode ASSIGN() { return getToken(Song4Parser.ASSIGN, 0); }
-		public TemplatePhraseContext templatePhrase() {
-			return getRuleContext(TemplatePhraseContext.class,0);
+		public NotePhraseContext notePhrase() {
+			return getRuleContext(NotePhraseContext.class,0);
 		}
 		public TerminalNode SEMICOLON() { return getToken(Song4Parser.SEMICOLON, 0); }
 		public PhraseDefContext(ParserRuleContext parent, int invokingState) {
@@ -478,17 +641,19 @@ public class Song4Parser extends Parser {
 
 	public final PhraseDefContext phraseDef() throws RecognitionException {
 		PhraseDefContext _localctx = new PhraseDefContext(_ctx, getState());
-		enterRule(_localctx, 10, RULE_phraseDef);
+		enterRule(_localctx, 14, RULE_phraseDef);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(75);
-			match(PHRASETEMPLATEVAR);
-			setState(76);
+			setState(114);
+			match(NOTES);
+			setState(115);
+			match(VAR);
+			setState(116);
 			match(ASSIGN);
-			setState(77);
-			templatePhrase();
-			setState(78);
+			setState(117);
+			notePhrase();
+			setState(118);
 			match(SEMICOLON);
 			}
 		}
@@ -503,59 +668,49 @@ public class Song4Parser extends Parser {
 		return _localctx;
 	}
 
-	public static class TemplatePhraseContext extends ParserRuleContext {
-		public List<TemplatePhraseElementContext> templatePhraseElement() {
-			return getRuleContexts(TemplatePhraseElementContext.class);
+	public static class RhythmPhraseDefContext extends ParserRuleContext {
+		public TerminalNode RHYTHM() { return getToken(Song4Parser.RHYTHM, 0); }
+		public TerminalNode VAR() { return getToken(Song4Parser.VAR, 0); }
+		public TerminalNode ASSIGN() { return getToken(Song4Parser.ASSIGN, 0); }
+		public RhythmPhraseContext rhythmPhrase() {
+			return getRuleContext(RhythmPhraseContext.class,0);
 		}
-		public TemplatePhraseElementContext templatePhraseElement(int i) {
-			return getRuleContext(TemplatePhraseElementContext.class,i);
-		}
-		public TemplatePhraseContext(ParserRuleContext parent, int invokingState) {
+		public TerminalNode SEMICOLON() { return getToken(Song4Parser.SEMICOLON, 0); }
+		public RhythmPhraseDefContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
-		@Override public int getRuleIndex() { return RULE_templatePhrase; }
+		@Override public int getRuleIndex() { return RULE_rhythmPhraseDef; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof Song4ParserListener ) ((Song4ParserListener)listener).enterTemplatePhrase(this);
+			if ( listener instanceof Song4ParserListener ) ((Song4ParserListener)listener).enterRhythmPhraseDef(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof Song4ParserListener ) ((Song4ParserListener)listener).exitTemplatePhrase(this);
+			if ( listener instanceof Song4ParserListener ) ((Song4ParserListener)listener).exitRhythmPhraseDef(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof Song4ParserVisitor ) return ((Song4ParserVisitor<? extends T>)visitor).visitTemplatePhrase(this);
+			if ( visitor instanceof Song4ParserVisitor ) return ((Song4ParserVisitor<? extends T>)visitor).visitRhythmPhraseDef(this);
 			else return visitor.visitChildren(this);
 		}
 	}
 
-	public final TemplatePhraseContext templatePhrase() throws RecognitionException {
-		TemplatePhraseContext _localctx = new TemplatePhraseContext(_ctx, getState());
-		enterRule(_localctx, 12, RULE_templatePhrase);
+	public final RhythmPhraseDefContext rhythmPhraseDef() throws RecognitionException {
+		RhythmPhraseDefContext _localctx = new RhythmPhraseDefContext(_ctx, getState());
+		enterRule(_localctx, 16, RULE_rhythmPhraseDef);
 		try {
-			int _alt;
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(81); 
-			_errHandler.sync(this);
-			_alt = 1;
-			do {
-				switch (_alt) {
-				case 1:
-					{
-					{
-					setState(80);
-					templatePhraseElement();
-					}
-					}
-					break;
-				default:
-					throw new NoViableAltException(this);
-				}
-				setState(83); 
-				_errHandler.sync(this);
-				_alt = getInterpreter().adaptivePredict(_input,6,_ctx);
-			} while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER );
+			setState(120);
+			match(RHYTHM);
+			setState(121);
+			match(VAR);
+			setState(122);
+			match(ASSIGN);
+			setState(123);
+			rhythmPhrase();
+			setState(124);
+			match(SEMICOLON);
 			}
 		}
 		catch (RecognitionException re) {
@@ -569,61 +724,151 @@ public class Song4Parser extends Parser {
 		return _localctx;
 	}
 
-	public static class TemplatePhraseElementContext extends ParserRuleContext {
-		public TerminalNode CHORD() { return getToken(Song4Parser.CHORD, 0); }
-		public TerminalNode NOTE() { return getToken(Song4Parser.NOTE, 0); }
-		public ParallelNotesContext parallelNotes() {
-			return getRuleContext(ParallelNotesContext.class,0);
+	public static class RhythmPhraseContext extends ParserRuleContext {
+		public TerminalNode LPAREN() { return getToken(Song4Parser.LPAREN, 0); }
+		public List<TerminalNode> NUM() { return getTokens(Song4Parser.NUM); }
+		public TerminalNode NUM(int i) {
+			return getToken(Song4Parser.NUM, i);
 		}
-		public TemplatePhraseElementContext(ParserRuleContext parent, int invokingState) {
+		public TerminalNode RPAREN() { return getToken(Song4Parser.RPAREN, 0); }
+		public TerminalNode TIMES() { return getToken(Song4Parser.TIMES, 0); }
+		public List<RhythmPhraseElementContext> rhythmPhraseElement() {
+			return getRuleContexts(RhythmPhraseElementContext.class);
+		}
+		public RhythmPhraseElementContext rhythmPhraseElement(int i) {
+			return getRuleContext(RhythmPhraseElementContext.class,i);
+		}
+		public RhythmPhraseContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
-		@Override public int getRuleIndex() { return RULE_templatePhraseElement; }
+		@Override public int getRuleIndex() { return RULE_rhythmPhrase; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof Song4ParserListener ) ((Song4ParserListener)listener).enterTemplatePhraseElement(this);
+			if ( listener instanceof Song4ParserListener ) ((Song4ParserListener)listener).enterRhythmPhrase(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof Song4ParserListener ) ((Song4ParserListener)listener).exitTemplatePhraseElement(this);
+			if ( listener instanceof Song4ParserListener ) ((Song4ParserListener)listener).exitRhythmPhrase(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof Song4ParserVisitor ) return ((Song4ParserVisitor<? extends T>)visitor).visitTemplatePhraseElement(this);
+			if ( visitor instanceof Song4ParserVisitor ) return ((Song4ParserVisitor<? extends T>)visitor).visitRhythmPhrase(this);
 			else return visitor.visitChildren(this);
 		}
 	}
 
-	public final TemplatePhraseElementContext templatePhraseElement() throws RecognitionException {
-		TemplatePhraseElementContext _localctx = new TemplatePhraseElementContext(_ctx, getState());
-		enterRule(_localctx, 14, RULE_templatePhraseElement);
+	public final RhythmPhraseContext rhythmPhrase() throws RecognitionException {
+		RhythmPhraseContext _localctx = new RhythmPhraseContext(_ctx, getState());
+		enterRule(_localctx, 18, RULE_rhythmPhrase);
+		int _la;
 		try {
-			setState(88);
+			setState(143);
 			_errHandler.sync(this);
 			switch (_input.LA(1)) {
-			case CHORD:
+			case LPAREN:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(85);
-				match(CHORD);
+				setState(126);
+				match(LPAREN);
+				setState(127);
+				match(NUM);
+				setState(129); 
+				_errHandler.sync(this);
+				_la = _input.LA(1);
+				do {
+					{
+					{
+					setState(128);
+					rhythmPhraseElement();
+					}
+					}
+					setState(131); 
+					_errHandler.sync(this);
+					_la = _input.LA(1);
+				} while ( _la==PLUS || _la==MINUS );
+				setState(133);
+				match(RPAREN);
+				setState(134);
+				match(TIMES);
+				setState(135);
+				match(NUM);
 				}
 				break;
-			case NOTE:
+			case NUM:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(86);
-				match(NOTE);
-				}
-				break;
-			case LBRACE:
-				enterOuterAlt(_localctx, 3);
-				{
-				setState(87);
-				parallelNotes();
+				setState(137);
+				match(NUM);
+				setState(139); 
+				_errHandler.sync(this);
+				_la = _input.LA(1);
+				do {
+					{
+					{
+					setState(138);
+					rhythmPhraseElement();
+					}
+					}
+					setState(141); 
+					_errHandler.sync(this);
+					_la = _input.LA(1);
+				} while ( _la==PLUS || _la==MINUS );
 				}
 				break;
 			default:
 				throw new NoViableAltException(this);
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	public static class RhythmPhraseElementContext extends ParserRuleContext {
+		public TerminalNode PLUS() { return getToken(Song4Parser.PLUS, 0); }
+		public TerminalNode MINUS() { return getToken(Song4Parser.MINUS, 0); }
+		public RhythmPhraseElementContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_rhythmPhraseElement; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof Song4ParserListener ) ((Song4ParserListener)listener).enterRhythmPhraseElement(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof Song4ParserListener ) ((Song4ParserListener)listener).exitRhythmPhraseElement(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof Song4ParserVisitor ) return ((Song4ParserVisitor<? extends T>)visitor).visitRhythmPhraseElement(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+
+	public final RhythmPhraseElementContext rhythmPhraseElement() throws RecognitionException {
+		RhythmPhraseElementContext _localctx = new RhythmPhraseElementContext(_ctx, getState());
+		enterRule(_localctx, 20, RULE_rhythmPhraseElement);
+		int _la;
+		try {
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(145);
+			_la = _input.LA(1);
+			if ( !(_la==PLUS || _la==MINUS) ) {
+			_errHandler.recoverInline(this);
+			}
+			else {
+				if ( _input.LA(1)==Token.EOF ) matchedEOF = true;
+				_errHandler.reportMatch(this);
+				consume();
+			}
 			}
 		}
 		catch (RecognitionException re) {
@@ -667,28 +912,28 @@ public class Song4Parser extends Parser {
 
 	public final ParallelNotesContext parallelNotes() throws RecognitionException {
 		ParallelNotesContext _localctx = new ParallelNotesContext(_ctx, getState());
-		enterRule(_localctx, 16, RULE_parallelNotes);
+		enterRule(_localctx, 22, RULE_parallelNotes);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(90);
+			setState(147);
 			match(LBRACE);
-			setState(92); 
+			setState(149); 
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			do {
 				{
 				{
-				setState(91);
+				setState(148);
 				parallelNotesElement();
 				}
 				}
-				setState(94); 
+				setState(151); 
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			} while ( _la==NOTE );
-			setState(96);
+			setState(153);
 			match(RBRACE);
 			}
 		}
@@ -726,11 +971,11 @@ public class Song4Parser extends Parser {
 
 	public final ParallelNotesElementContext parallelNotesElement() throws RecognitionException {
 		ParallelNotesElementContext _localctx = new ParallelNotesElementContext(_ctx, getState());
-		enterRule(_localctx, 18, RULE_parallelNotesElement);
+		enterRule(_localctx, 24, RULE_parallelNotesElement);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(98);
+			setState(155);
 			match(NOTE);
 			}
 		}
@@ -745,166 +990,97 @@ public class Song4Parser extends Parser {
 		return _localctx;
 	}
 
-	public static class VoicedPhraseContext extends ParserRuleContext {
+	public static class NotePhraseContext extends ParserRuleContext {
 		public TerminalNode LPAREN() { return getToken(Song4Parser.LPAREN, 0); }
 		public TerminalNode RPAREN() { return getToken(Song4Parser.RPAREN, 0); }
-		public TerminalNode VOICEVAR() { return getToken(Song4Parser.VOICEVAR, 0); }
-		public List<VoicedPhraseElementContext> voicedPhraseElement() {
-			return getRuleContexts(VoicedPhraseElementContext.class);
+		public TerminalNode TIMES() { return getToken(Song4Parser.TIMES, 0); }
+		public TerminalNode NUM() { return getToken(Song4Parser.NUM, 0); }
+		public List<NotePhraseElementContext> notePhraseElement() {
+			return getRuleContexts(NotePhraseElementContext.class);
 		}
-		public VoicedPhraseElementContext voicedPhraseElement(int i) {
-			return getRuleContext(VoicedPhraseElementContext.class,i);
+		public NotePhraseElementContext notePhraseElement(int i) {
+			return getRuleContext(NotePhraseElementContext.class,i);
 		}
-		public VoicedPhraseContext(ParserRuleContext parent, int invokingState) {
+		public NotePhraseContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
-		@Override public int getRuleIndex() { return RULE_voicedPhrase; }
+		@Override public int getRuleIndex() { return RULE_notePhrase; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof Song4ParserListener ) ((Song4ParserListener)listener).enterVoicedPhrase(this);
+			if ( listener instanceof Song4ParserListener ) ((Song4ParserListener)listener).enterNotePhrase(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof Song4ParserListener ) ((Song4ParserListener)listener).exitVoicedPhrase(this);
+			if ( listener instanceof Song4ParserListener ) ((Song4ParserListener)listener).exitNotePhrase(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof Song4ParserVisitor ) return ((Song4ParserVisitor<? extends T>)visitor).visitVoicedPhrase(this);
+			if ( visitor instanceof Song4ParserVisitor ) return ((Song4ParserVisitor<? extends T>)visitor).visitNotePhrase(this);
 			else return visitor.visitChildren(this);
 		}
 	}
 
-	public final VoicedPhraseContext voicedPhrase() throws RecognitionException {
-		VoicedPhraseContext _localctx = new VoicedPhraseContext(_ctx, getState());
-		enterRule(_localctx, 20, RULE_voicedPhrase);
+	public final NotePhraseContext notePhrase() throws RecognitionException {
+		NotePhraseContext _localctx = new NotePhraseContext(_ctx, getState());
+		enterRule(_localctx, 26, RULE_notePhrase);
 		int _la;
 		try {
-			enterOuterAlt(_localctx, 1);
-			{
-			setState(100);
-			match(LPAREN);
-			setState(102);
-			_errHandler.sync(this);
-			_la = _input.LA(1);
-			if (_la==VOICEVAR) {
-				{
-				setState(101);
-				match(VOICEVAR);
-				}
-			}
-
-			setState(105); 
-			_errHandler.sync(this);
-			_la = _input.LA(1);
-			do {
-				{
-				{
-				setState(104);
-				voicedPhraseElement();
-				}
-				}
-				setState(107); 
-				_errHandler.sync(this);
-				_la = _input.LA(1);
-			} while ( (((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << CHORD) | (1L << NOTE) | (1L << PHRASETEMPLATEVAR) | (1L << TIMEVAR) | (1L << TIMINGMARKER) | (1L << NUM) | (1L << BARMARKER) | (1L << LBRACE))) != 0) );
-			setState(109);
-			match(RPAREN);
-			}
-		}
-		catch (RecognitionException re) {
-			_localctx.exception = re;
-			_errHandler.reportError(this, re);
-			_errHandler.recover(this, re);
-		}
-		finally {
-			exitRule();
-		}
-		return _localctx;
-	}
-
-	public static class VoicedPhraseElementContext extends ParserRuleContext {
-		public TemplatePhraseContext templatePhrase() {
-			return getRuleContext(TemplatePhraseContext.class,0);
-		}
-		public TerminalNode PHRASETEMPLATEVAR() { return getToken(Song4Parser.PHRASETEMPLATEVAR, 0); }
-		public TimeSetContext timeSet() {
-			return getRuleContext(TimeSetContext.class,0);
-		}
-		public TimeRecallContext timeRecall() {
-			return getRuleContext(TimeRecallContext.class,0);
-		}
-		public TimeBookmarkContext timeBookmark() {
-			return getRuleContext(TimeBookmarkContext.class,0);
-		}
-		public TerminalNode BARMARKER() { return getToken(Song4Parser.BARMARKER, 0); }
-		public VoicedPhraseElementContext(ParserRuleContext parent, int invokingState) {
-			super(parent, invokingState);
-		}
-		@Override public int getRuleIndex() { return RULE_voicedPhraseElement; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof Song4ParserListener ) ((Song4ParserListener)listener).enterVoicedPhraseElement(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof Song4ParserListener ) ((Song4ParserListener)listener).exitVoicedPhraseElement(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof Song4ParserVisitor ) return ((Song4ParserVisitor<? extends T>)visitor).visitVoicedPhraseElement(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-
-	public final VoicedPhraseElementContext voicedPhraseElement() throws RecognitionException {
-		VoicedPhraseElementContext _localctx = new VoicedPhraseElementContext(_ctx, getState());
-		enterRule(_localctx, 22, RULE_voicedPhraseElement);
-		try {
-			setState(117);
+			int _alt;
+			setState(172);
 			_errHandler.sync(this);
 			switch (_input.LA(1)) {
+			case LPAREN:
+				enterOuterAlt(_localctx, 1);
+				{
+				setState(157);
+				match(LPAREN);
+				setState(159); 
+				_errHandler.sync(this);
+				_la = _input.LA(1);
+				do {
+					{
+					{
+					setState(158);
+					notePhraseElement();
+					}
+					}
+					setState(161); 
+					_errHandler.sync(this);
+					_la = _input.LA(1);
+				} while ( (((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << CHORD) | (1L << NOTE) | (1L << LBRACE))) != 0) );
+				setState(163);
+				match(RPAREN);
+				setState(164);
+				match(TIMES);
+				setState(165);
+				match(NUM);
+				}
+				break;
 			case CHORD:
 			case NOTE:
 			case LBRACE:
-				enterOuterAlt(_localctx, 1);
-				{
-				setState(111);
-				templatePhrase();
-				}
-				break;
-			case PHRASETEMPLATEVAR:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(112);
-				match(PHRASETEMPLATEVAR);
-				}
-				break;
-			case NUM:
-				enterOuterAlt(_localctx, 3);
-				{
-				setState(113);
-				timeSet();
-				}
-				break;
-			case TIMINGMARKER:
-				enterOuterAlt(_localctx, 4);
-				{
-				setState(114);
-				timeRecall();
-				}
-				break;
-			case TIMEVAR:
-				enterOuterAlt(_localctx, 5);
-				{
-				setState(115);
-				timeBookmark();
-				}
-				break;
-			case BARMARKER:
-				enterOuterAlt(_localctx, 6);
-				{
-				setState(116);
-				match(BARMARKER);
+				setState(168); 
+				_errHandler.sync(this);
+				_alt = 1;
+				do {
+					switch (_alt) {
+					case 1:
+						{
+						{
+						setState(167);
+						notePhraseElement();
+						}
+						}
+						break;
+					default:
+						throw new NoViableAltException(this);
+					}
+					setState(170); 
+					_errHandler.sync(this);
+					_alt = getInterpreter().adaptivePredict(_input,14,_ctx);
+				} while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER );
 				}
 				break;
 			default:
@@ -922,8 +1098,518 @@ public class Song4Parser extends Parser {
 		return _localctx;
 	}
 
+	public static class NotePhraseElementContext extends ParserRuleContext {
+		public TerminalNode CHORD() { return getToken(Song4Parser.CHORD, 0); }
+		public TerminalNode NOTE() { return getToken(Song4Parser.NOTE, 0); }
+		public ParallelNotesContext parallelNotes() {
+			return getRuleContext(ParallelNotesContext.class,0);
+		}
+		public NotePhraseElementContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_notePhraseElement; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof Song4ParserListener ) ((Song4ParserListener)listener).enterNotePhraseElement(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof Song4ParserListener ) ((Song4ParserListener)listener).exitNotePhraseElement(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof Song4ParserVisitor ) return ((Song4ParserVisitor<? extends T>)visitor).visitNotePhraseElement(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+
+	public final NotePhraseElementContext notePhraseElement() throws RecognitionException {
+		NotePhraseElementContext _localctx = new NotePhraseElementContext(_ctx, getState());
+		enterRule(_localctx, 28, RULE_notePhraseElement);
+		try {
+			setState(177);
+			_errHandler.sync(this);
+			switch (_input.LA(1)) {
+			case CHORD:
+				enterOuterAlt(_localctx, 1);
+				{
+				setState(174);
+				match(CHORD);
+				}
+				break;
+			case NOTE:
+				enterOuterAlt(_localctx, 2);
+				{
+				setState(175);
+				match(NOTE);
+				}
+				break;
+			case LBRACE:
+				enterOuterAlt(_localctx, 3);
+				{
+				setState(176);
+				parallelNotes();
+				}
+				break;
+			default:
+				throw new NoViableAltException(this);
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	public static class VoicedNotePhraseContext extends ParserRuleContext {
+		public TerminalNode LPAREN() { return getToken(Song4Parser.LPAREN, 0); }
+		public TerminalNode RPAREN() { return getToken(Song4Parser.RPAREN, 0); }
+		public TerminalNode VAR() { return getToken(Song4Parser.VAR, 0); }
+		public List<VoicedNotePhraseElementContext> voicedNotePhraseElement() {
+			return getRuleContexts(VoicedNotePhraseElementContext.class);
+		}
+		public VoicedNotePhraseElementContext voicedNotePhraseElement(int i) {
+			return getRuleContext(VoicedNotePhraseElementContext.class,i);
+		}
+		public NotePhraseContext notePhrase() {
+			return getRuleContext(NotePhraseContext.class,0);
+		}
+		public VoicedNotePhraseContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_voicedNotePhrase; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof Song4ParserListener ) ((Song4ParserListener)listener).enterVoicedNotePhrase(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof Song4ParserListener ) ((Song4ParserListener)listener).exitVoicedNotePhrase(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof Song4ParserVisitor ) return ((Song4ParserVisitor<? extends T>)visitor).visitVoicedNotePhrase(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+
+	public final VoicedNotePhraseContext voicedNotePhrase() throws RecognitionException {
+		VoicedNotePhraseContext _localctx = new VoicedNotePhraseContext(_ctx, getState());
+		enterRule(_localctx, 30, RULE_voicedNotePhrase);
+		int _la;
+		try {
+			setState(191);
+			_errHandler.sync(this);
+			switch ( getInterpreter().adaptivePredict(_input,19,_ctx) ) {
+			case 1:
+				enterOuterAlt(_localctx, 1);
+				{
+				{
+				setState(179);
+				match(LPAREN);
+				setState(181);
+				_errHandler.sync(this);
+				switch ( getInterpreter().adaptivePredict(_input,17,_ctx) ) {
+				case 1:
+					{
+					setState(180);
+					match(VAR);
+					}
+					break;
+				}
+				setState(184); 
+				_errHandler.sync(this);
+				_la = _input.LA(1);
+				do {
+					{
+					{
+					setState(183);
+					voicedNotePhraseElement();
+					}
+					}
+					setState(186); 
+					_errHandler.sync(this);
+					_la = _input.LA(1);
+				} while ( (((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << MARKTIME) | (1L << RECALLTIME) | (1L << VAR) | (1L << CHORD) | (1L << NOTE) | (1L << BARMARKER) | (1L << LPAREN) | (1L << LBRACE) | (1L << NUM))) != 0) );
+				setState(188);
+				match(RPAREN);
+				}
+				}
+				break;
+			case 2:
+				enterOuterAlt(_localctx, 2);
+				{
+				setState(190);
+				notePhrase();
+				}
+				break;
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	public static class VoicedNotePhraseElementContext extends ParserRuleContext {
+		public NotePhraseContext notePhrase() {
+			return getRuleContext(NotePhraseContext.class,0);
+		}
+		public TerminalNode VAR() { return getToken(Song4Parser.VAR, 0); }
+		public RepeatedVarContext repeatedVar() {
+			return getRuleContext(RepeatedVarContext.class,0);
+		}
+		public TimeSetContext timeSet() {
+			return getRuleContext(TimeSetContext.class,0);
+		}
+		public TimeRecallContext timeRecall() {
+			return getRuleContext(TimeRecallContext.class,0);
+		}
+		public TimeBookmarkContext timeBookmark() {
+			return getRuleContext(TimeBookmarkContext.class,0);
+		}
+		public TerminalNode BARMARKER() { return getToken(Song4Parser.BARMARKER, 0); }
+		public VoicedNotePhraseElementContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_voicedNotePhraseElement; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof Song4ParserListener ) ((Song4ParserListener)listener).enterVoicedNotePhraseElement(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof Song4ParserListener ) ((Song4ParserListener)listener).exitVoicedNotePhraseElement(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof Song4ParserVisitor ) return ((Song4ParserVisitor<? extends T>)visitor).visitVoicedNotePhraseElement(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+
+	public final VoicedNotePhraseElementContext voicedNotePhraseElement() throws RecognitionException {
+		VoicedNotePhraseElementContext _localctx = new VoicedNotePhraseElementContext(_ctx, getState());
+		enterRule(_localctx, 32, RULE_voicedNotePhraseElement);
+		try {
+			setState(200);
+			_errHandler.sync(this);
+			switch ( getInterpreter().adaptivePredict(_input,20,_ctx) ) {
+			case 1:
+				enterOuterAlt(_localctx, 1);
+				{
+				setState(193);
+				notePhrase();
+				}
+				break;
+			case 2:
+				enterOuterAlt(_localctx, 2);
+				{
+				setState(194);
+				match(VAR);
+				}
+				break;
+			case 3:
+				enterOuterAlt(_localctx, 3);
+				{
+				setState(195);
+				repeatedVar();
+				}
+				break;
+			case 4:
+				enterOuterAlt(_localctx, 4);
+				{
+				setState(196);
+				timeSet();
+				}
+				break;
+			case 5:
+				enterOuterAlt(_localctx, 5);
+				{
+				setState(197);
+				timeRecall();
+				}
+				break;
+			case 6:
+				enterOuterAlt(_localctx, 6);
+				{
+				setState(198);
+				timeBookmark();
+				}
+				break;
+			case 7:
+				enterOuterAlt(_localctx, 7);
+				{
+				setState(199);
+				match(BARMARKER);
+				}
+				break;
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	public static class RepeatedVarContext extends ParserRuleContext {
+		public TerminalNode VAR() { return getToken(Song4Parser.VAR, 0); }
+		public TerminalNode TIMES() { return getToken(Song4Parser.TIMES, 0); }
+		public TerminalNode NUM() { return getToken(Song4Parser.NUM, 0); }
+		public RepeatedVarContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_repeatedVar; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof Song4ParserListener ) ((Song4ParserListener)listener).enterRepeatedVar(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof Song4ParserListener ) ((Song4ParserListener)listener).exitRepeatedVar(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof Song4ParserVisitor ) return ((Song4ParserVisitor<? extends T>)visitor).visitRepeatedVar(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+
+	public final RepeatedVarContext repeatedVar() throws RecognitionException {
+		RepeatedVarContext _localctx = new RepeatedVarContext(_ctx, getState());
+		enterRule(_localctx, 34, RULE_repeatedVar);
+		try {
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(202);
+			match(VAR);
+			setState(203);
+			match(TIMES);
+			setState(204);
+			match(NUM);
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	public static class VoicedRhythmPhraseContext extends ParserRuleContext {
+		public TerminalNode LPAREN() { return getToken(Song4Parser.LPAREN, 0); }
+		public TerminalNode RPAREN() { return getToken(Song4Parser.RPAREN, 0); }
+		public TerminalNode VAR() { return getToken(Song4Parser.VAR, 0); }
+		public List<VoicedRhythmPhraseElementContext> voicedRhythmPhraseElement() {
+			return getRuleContexts(VoicedRhythmPhraseElementContext.class);
+		}
+		public VoicedRhythmPhraseElementContext voicedRhythmPhraseElement(int i) {
+			return getRuleContext(VoicedRhythmPhraseElementContext.class,i);
+		}
+		public RhythmPhraseContext rhythmPhrase() {
+			return getRuleContext(RhythmPhraseContext.class,0);
+		}
+		public VoicedRhythmPhraseContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_voicedRhythmPhrase; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof Song4ParserListener ) ((Song4ParserListener)listener).enterVoicedRhythmPhrase(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof Song4ParserListener ) ((Song4ParserListener)listener).exitVoicedRhythmPhrase(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof Song4ParserVisitor ) return ((Song4ParserVisitor<? extends T>)visitor).visitVoicedRhythmPhrase(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+
+	public final VoicedRhythmPhraseContext voicedRhythmPhrase() throws RecognitionException {
+		VoicedRhythmPhraseContext _localctx = new VoicedRhythmPhraseContext(_ctx, getState());
+		enterRule(_localctx, 36, RULE_voicedRhythmPhrase);
+		int _la;
+		try {
+			setState(218);
+			_errHandler.sync(this);
+			switch ( getInterpreter().adaptivePredict(_input,23,_ctx) ) {
+			case 1:
+				enterOuterAlt(_localctx, 1);
+				{
+				{
+				setState(206);
+				match(LPAREN);
+				setState(208);
+				_errHandler.sync(this);
+				switch ( getInterpreter().adaptivePredict(_input,21,_ctx) ) {
+				case 1:
+					{
+					setState(207);
+					match(VAR);
+					}
+					break;
+				}
+				setState(211); 
+				_errHandler.sync(this);
+				_la = _input.LA(1);
+				do {
+					{
+					{
+					setState(210);
+					voicedRhythmPhraseElement();
+					}
+					}
+					setState(213); 
+					_errHandler.sync(this);
+					_la = _input.LA(1);
+				} while ( (((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << MARKTIME) | (1L << RECALLTIME) | (1L << VAR) | (1L << BARMARKER) | (1L << LPAREN) | (1L << NUM))) != 0) );
+				setState(215);
+				match(RPAREN);
+				}
+				}
+				break;
+			case 2:
+				enterOuterAlt(_localctx, 2);
+				{
+				setState(217);
+				rhythmPhrase();
+				}
+				break;
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	public static class VoicedRhythmPhraseElementContext extends ParserRuleContext {
+		public RhythmPhraseContext rhythmPhrase() {
+			return getRuleContext(RhythmPhraseContext.class,0);
+		}
+		public TerminalNode VAR() { return getToken(Song4Parser.VAR, 0); }
+		public TimeSetContext timeSet() {
+			return getRuleContext(TimeSetContext.class,0);
+		}
+		public TimeRecallContext timeRecall() {
+			return getRuleContext(TimeRecallContext.class,0);
+		}
+		public TimeBookmarkContext timeBookmark() {
+			return getRuleContext(TimeBookmarkContext.class,0);
+		}
+		public TerminalNode BARMARKER() { return getToken(Song4Parser.BARMARKER, 0); }
+		public VoicedRhythmPhraseElementContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_voicedRhythmPhraseElement; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof Song4ParserListener ) ((Song4ParserListener)listener).enterVoicedRhythmPhraseElement(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof Song4ParserListener ) ((Song4ParserListener)listener).exitVoicedRhythmPhraseElement(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof Song4ParserVisitor ) return ((Song4ParserVisitor<? extends T>)visitor).visitVoicedRhythmPhraseElement(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+
+	public final VoicedRhythmPhraseElementContext voicedRhythmPhraseElement() throws RecognitionException {
+		VoicedRhythmPhraseElementContext _localctx = new VoicedRhythmPhraseElementContext(_ctx, getState());
+		enterRule(_localctx, 38, RULE_voicedRhythmPhraseElement);
+		try {
+			setState(226);
+			_errHandler.sync(this);
+			switch ( getInterpreter().adaptivePredict(_input,24,_ctx) ) {
+			case 1:
+				enterOuterAlt(_localctx, 1);
+				{
+				setState(220);
+				rhythmPhrase();
+				}
+				break;
+			case 2:
+				enterOuterAlt(_localctx, 2);
+				{
+				setState(221);
+				match(VAR);
+				}
+				break;
+			case 3:
+				enterOuterAlt(_localctx, 3);
+				{
+				setState(222);
+				timeSet();
+				}
+				break;
+			case 4:
+				enterOuterAlt(_localctx, 4);
+				{
+				setState(223);
+				timeRecall();
+				}
+				break;
+			case 5:
+				enterOuterAlt(_localctx, 5);
+				{
+				setState(224);
+				timeBookmark();
+				}
+				break;
+			case 6:
+				enterOuterAlt(_localctx, 6);
+				{
+				setState(225);
+				match(BARMARKER);
+				}
+				break;
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
 	public static class TimeBookmarkContext extends ParserRuleContext {
-		public TerminalNode TIMEVAR() { return getToken(Song4Parser.TIMEVAR, 0); }
+		public TerminalNode MARKTIME() { return getToken(Song4Parser.MARKTIME, 0); }
+		public TerminalNode COLON() { return getToken(Song4Parser.COLON, 0); }
+		public TerminalNode VAR() { return getToken(Song4Parser.VAR, 0); }
 		public TimeBookmarkContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -945,12 +1631,16 @@ public class Song4Parser extends Parser {
 
 	public final TimeBookmarkContext timeBookmark() throws RecognitionException {
 		TimeBookmarkContext _localctx = new TimeBookmarkContext(_ctx, getState());
-		enterRule(_localctx, 24, RULE_timeBookmark);
+		enterRule(_localctx, 40, RULE_timeBookmark);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(119);
-			match(TIMEVAR);
+			setState(228);
+			match(MARKTIME);
+			setState(229);
+			match(COLON);
+			setState(230);
+			match(VAR);
 			}
 		}
 		catch (RecognitionException re) {
@@ -965,9 +1655,9 @@ public class Song4Parser extends Parser {
 	}
 
 	public static class TimeRecallContext extends ParserRuleContext {
-		public TerminalNode TIMINGMARKER() { return getToken(Song4Parser.TIMINGMARKER, 0); }
+		public TerminalNode RECALLTIME() { return getToken(Song4Parser.RECALLTIME, 0); }
 		public TerminalNode COLON() { return getToken(Song4Parser.COLON, 0); }
-		public TerminalNode TIMEVAR() { return getToken(Song4Parser.TIMEVAR, 0); }
+		public TerminalNode VAR() { return getToken(Song4Parser.VAR, 0); }
 		public TimeRecallContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -989,16 +1679,16 @@ public class Song4Parser extends Parser {
 
 	public final TimeRecallContext timeRecall() throws RecognitionException {
 		TimeRecallContext _localctx = new TimeRecallContext(_ctx, getState());
-		enterRule(_localctx, 26, RULE_timeRecall);
+		enterRule(_localctx, 42, RULE_timeRecall);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(121);
-			match(TIMINGMARKER);
-			setState(122);
+			setState(232);
+			match(RECALLTIME);
+			setState(233);
 			match(COLON);
-			setState(123);
-			match(TIMEVAR);
+			setState(234);
+			match(VAR);
 			}
 		}
 		catch (RecognitionException re) {
@@ -1039,15 +1729,15 @@ public class Song4Parser extends Parser {
 
 	public final TimeSetContext timeSet() throws RecognitionException {
 		TimeSetContext _localctx = new TimeSetContext(_ctx, getState());
-		enterRule(_localctx, 28, RULE_timeSet);
+		enterRule(_localctx, 44, RULE_timeSet);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(125);
+			setState(236);
 			match(NUM);
-			setState(126);
+			setState(237);
 			match(COLON);
-			setState(127);
+			setState(238);
 			match(NUM);
 			}
 		}
@@ -1063,38 +1753,86 @@ public class Song4Parser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\35\u0084\4\2\t\2"+
-		"\4\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b\4\t\t\t\4\n\t\n\4\13"+
-		"\t\13\4\f\t\f\4\r\t\r\4\16\t\16\4\17\t\17\4\20\t\20\3\2\5\2\"\n\2\3\2"+
-		"\5\2%\n\2\3\2\5\2(\n\2\3\2\7\2+\n\2\f\2\16\2.\13\2\3\2\7\2\61\n\2\f\2"+
-		"\16\2\64\13\2\3\2\6\2\67\n\2\r\2\16\28\3\3\3\3\3\3\3\3\3\4\3\4\3\4\3\4"+
-		"\3\5\3\5\3\5\3\5\3\5\3\5\3\6\3\6\3\6\3\6\3\6\3\7\3\7\3\7\3\7\3\7\3\b\6"+
-		"\bT\n\b\r\b\16\bU\3\t\3\t\3\t\5\t[\n\t\3\n\3\n\6\n_\n\n\r\n\16\n`\3\n"+
-		"\3\n\3\13\3\13\3\f\3\f\5\fi\n\f\3\f\6\fl\n\f\r\f\16\fm\3\f\3\f\3\r\3\r"+
-		"\3\r\3\r\3\r\3\r\5\rx\n\r\3\16\3\16\3\17\3\17\3\17\3\17\3\20\3\20\3\20"+
-		"\3\20\3\20\2\2\21\2\4\6\b\n\f\16\20\22\24\26\30\32\34\36\2\2\2\u0085\2"+
-		"!\3\2\2\2\4:\3\2\2\2\6>\3\2\2\2\bB\3\2\2\2\nH\3\2\2\2\fM\3\2\2\2\16S\3"+
-		"\2\2\2\20Z\3\2\2\2\22\\\3\2\2\2\24d\3\2\2\2\26f\3\2\2\2\30w\3\2\2\2\32"+
-		"y\3\2\2\2\34{\3\2\2\2\36\177\3\2\2\2 \"\5\4\3\2! \3\2\2\2!\"\3\2\2\2\""+
-		"$\3\2\2\2#%\5\6\4\2$#\3\2\2\2$%\3\2\2\2%\'\3\2\2\2&(\5\b\5\2\'&\3\2\2"+
-		"\2\'(\3\2\2\2(,\3\2\2\2)+\5\n\6\2*)\3\2\2\2+.\3\2\2\2,*\3\2\2\2,-\3\2"+
-		"\2\2-\62\3\2\2\2.,\3\2\2\2/\61\5\f\7\2\60/\3\2\2\2\61\64\3\2\2\2\62\60"+
-		"\3\2\2\2\62\63\3\2\2\2\63\66\3\2\2\2\64\62\3\2\2\2\65\67\5\26\f\2\66\65"+
-		"\3\2\2\2\678\3\2\2\28\66\3\2\2\289\3\2\2\29\3\3\2\2\2:;\7\6\2\2;<\7\16"+
-		"\2\2<=\7\21\2\2=\5\3\2\2\2>?\7\7\2\2?@\7\3\2\2@A\7\21\2\2A\7\3\2\2\2B"+
-		"C\7\b\2\2CD\7\16\2\2DE\7\25\2\2EF\7\16\2\2FG\7\21\2\2G\t\3\2\2\2HI\7\t"+
-		"\2\2IJ\7\32\2\2JK\7\r\2\2KL\7\21\2\2L\13\3\2\2\2MN\7\n\2\2NO\7\32\2\2"+
-		"OP\5\16\b\2PQ\7\21\2\2Q\r\3\2\2\2RT\5\20\t\2SR\3\2\2\2TU\3\2\2\2US\3\2"+
-		"\2\2UV\3\2\2\2V\17\3\2\2\2W[\7\4\2\2X[\7\5\2\2Y[\5\22\n\2ZW\3\2\2\2ZX"+
-		"\3\2\2\2ZY\3\2\2\2[\21\3\2\2\2\\^\7\30\2\2]_\5\24\13\2^]\3\2\2\2_`\3\2"+
-		"\2\2`^\3\2\2\2`a\3\2\2\2ab\3\2\2\2bc\7\31\2\2c\23\3\2\2\2de\7\5\2\2e\25"+
-		"\3\2\2\2fh\7\23\2\2gi\7\t\2\2hg\3\2\2\2hi\3\2\2\2ik\3\2\2\2jl\5\30\r\2"+
-		"kj\3\2\2\2lm\3\2\2\2mk\3\2\2\2mn\3\2\2\2no\3\2\2\2op\7\24\2\2p\27\3\2"+
-		"\2\2qx\5\16\b\2rx\7\n\2\2sx\5\36\20\2tx\5\34\17\2ux\5\32\16\2vx\7\20\2"+
-		"\2wq\3\2\2\2wr\3\2\2\2ws\3\2\2\2wt\3\2\2\2wu\3\2\2\2wv\3\2\2\2x\31\3\2"+
-		"\2\2yz\7\13\2\2z\33\3\2\2\2{|\7\f\2\2|}\7\22\2\2}~\7\13\2\2~\35\3\2\2"+
-		"\2\177\u0080\7\16\2\2\u0080\u0081\7\22\2\2\u0081\u0082\7\16\2\2\u0082"+
-		"\37\3\2\2\2\16!$\',\628UZ`hmw";
+		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3#\u00f3\4\2\t\2\4"+
+		"\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b\4\t\t\t\4\n\t\n\4\13\t"+
+		"\13\4\f\t\f\4\r\t\r\4\16\t\16\4\17\t\17\4\20\t\20\4\21\t\21\4\22\t\22"+
+		"\4\23\t\23\4\24\t\24\4\25\t\25\4\26\t\26\4\27\t\27\4\30\t\30\3\2\5\2\62"+
+		"\n\2\3\2\5\2\65\n\2\3\2\5\28\n\2\3\2\7\2;\n\2\f\2\16\2>\13\2\3\2\7\2A"+
+		"\n\2\f\2\16\2D\13\2\3\2\7\2G\n\2\f\2\16\2J\13\2\3\2\7\2M\n\2\f\2\16\2"+
+		"P\13\2\3\2\6\2S\n\2\r\2\16\2T\3\3\3\3\5\3Y\n\3\3\4\3\4\3\4\3\4\3\5\3\5"+
+		"\3\5\3\5\3\6\3\6\3\6\3\6\3\6\3\6\3\7\3\7\3\7\3\7\3\7\3\7\3\b\3\b\3\b\3"+
+		"\b\3\b\3\b\3\t\3\t\3\t\3\t\3\t\3\t\3\n\3\n\3\n\3\n\3\n\3\n\3\13\3\13\3"+
+		"\13\6\13\u0084\n\13\r\13\16\13\u0085\3\13\3\13\3\13\3\13\3\13\3\13\6\13"+
+		"\u008e\n\13\r\13\16\13\u008f\5\13\u0092\n\13\3\f\3\f\3\r\3\r\6\r\u0098"+
+		"\n\r\r\r\16\r\u0099\3\r\3\r\3\16\3\16\3\17\3\17\6\17\u00a2\n\17\r\17\16"+
+		"\17\u00a3\3\17\3\17\3\17\3\17\3\17\6\17\u00ab\n\17\r\17\16\17\u00ac\5"+
+		"\17\u00af\n\17\3\20\3\20\3\20\5\20\u00b4\n\20\3\21\3\21\5\21\u00b8\n\21"+
+		"\3\21\6\21\u00bb\n\21\r\21\16\21\u00bc\3\21\3\21\3\21\5\21\u00c2\n\21"+
+		"\3\22\3\22\3\22\3\22\3\22\3\22\3\22\5\22\u00cb\n\22\3\23\3\23\3\23\3\23"+
+		"\3\24\3\24\5\24\u00d3\n\24\3\24\6\24\u00d6\n\24\r\24\16\24\u00d7\3\24"+
+		"\3\24\3\24\5\24\u00dd\n\24\3\25\3\25\3\25\3\25\3\25\3\25\5\25\u00e5\n"+
+		"\25\3\26\3\26\3\26\3\26\3\27\3\27\3\27\3\27\3\30\3\30\3\30\3\30\3\30\2"+
+		"\2\31\2\4\6\b\n\f\16\20\22\24\26\30\32\34\36 \"$&(*,.\2\3\3\2\34\35\2"+
+		"\u00fe\2\61\3\2\2\2\4X\3\2\2\2\6Z\3\2\2\2\b^\3\2\2\2\nb\3\2\2\2\fh\3\2"+
+		"\2\2\16n\3\2\2\2\20t\3\2\2\2\22z\3\2\2\2\24\u0091\3\2\2\2\26\u0093\3\2"+
+		"\2\2\30\u0095\3\2\2\2\32\u009d\3\2\2\2\34\u00ae\3\2\2\2\36\u00b3\3\2\2"+
+		"\2 \u00c1\3\2\2\2\"\u00ca\3\2\2\2$\u00cc\3\2\2\2&\u00dc\3\2\2\2(\u00e4"+
+		"\3\2\2\2*\u00e6\3\2\2\2,\u00ea\3\2\2\2.\u00ee\3\2\2\2\60\62\5\6\4\2\61"+
+		"\60\3\2\2\2\61\62\3\2\2\2\62\64\3\2\2\2\63\65\5\b\5\2\64\63\3\2\2\2\64"+
+		"\65\3\2\2\2\65\67\3\2\2\2\668\5\n\6\2\67\66\3\2\2\2\678\3\2\2\28<\3\2"+
+		"\2\29;\5\f\7\2:9\3\2\2\2;>\3\2\2\2<:\3\2\2\2<=\3\2\2\2=B\3\2\2\2><\3\2"+
+		"\2\2?A\5\16\b\2@?\3\2\2\2AD\3\2\2\2B@\3\2\2\2BC\3\2\2\2CH\3\2\2\2DB\3"+
+		"\2\2\2EG\5\20\t\2FE\3\2\2\2GJ\3\2\2\2HF\3\2\2\2HI\3\2\2\2IN\3\2\2\2JH"+
+		"\3\2\2\2KM\5\22\n\2LK\3\2\2\2MP\3\2\2\2NL\3\2\2\2NO\3\2\2\2OR\3\2\2\2"+
+		"PN\3\2\2\2QS\5\4\3\2RQ\3\2\2\2ST\3\2\2\2TR\3\2\2\2TU\3\2\2\2U\3\3\2\2"+
+		"\2VY\5 \21\2WY\5&\24\2XV\3\2\2\2XW\3\2\2\2Y\5\3\2\2\2Z[\7\3\2\2[\\\7\37"+
+		"\2\2\\]\7\21\2\2]\7\3\2\2\2^_\7\4\2\2_`\7\r\2\2`a\7\21\2\2a\t\3\2\2\2"+
+		"bc\7\5\2\2cd\7\37\2\2de\7\25\2\2ef\7\37\2\2fg\7\21\2\2g\13\3\2\2\2hi\7"+
+		"\6\2\2ij\7\f\2\2jk\7\32\2\2kl\7\36\2\2lm\7\21\2\2m\r\3\2\2\2no\7\7\2\2"+
+		"op\7\f\2\2pq\7\32\2\2qr\7\36\2\2rs\7\21\2\2s\17\3\2\2\2tu\7\b\2\2uv\7"+
+		"\f\2\2vw\7\32\2\2wx\5\34\17\2xy\7\21\2\2y\21\3\2\2\2z{\7\t\2\2{|\7\f\2"+
+		"\2|}\7\32\2\2}~\5\24\13\2~\177\7\21\2\2\177\23\3\2\2\2\u0080\u0081\7\23"+
+		"\2\2\u0081\u0083\7\37\2\2\u0082\u0084\5\26\f\2\u0083\u0082\3\2\2\2\u0084"+
+		"\u0085\3\2\2\2\u0085\u0083\3\2\2\2\u0085\u0086\3\2\2\2\u0086\u0087\3\2"+
+		"\2\2\u0087\u0088\7\24\2\2\u0088\u0089\7\33\2\2\u0089\u008a\7\37\2\2\u008a"+
+		"\u0092\3\2\2\2\u008b\u008d\7\37\2\2\u008c\u008e\5\26\f\2\u008d\u008c\3"+
+		"\2\2\2\u008e\u008f\3\2\2\2\u008f\u008d\3\2\2\2\u008f\u0090\3\2\2\2\u0090"+
+		"\u0092\3\2\2\2\u0091\u0080\3\2\2\2\u0091\u008b\3\2\2\2\u0092\25\3\2\2"+
+		"\2\u0093\u0094\t\2\2\2\u0094\27\3\2\2\2\u0095\u0097\7\30\2\2\u0096\u0098"+
+		"\5\32\16\2\u0097\u0096\3\2\2\2\u0098\u0099\3\2\2\2\u0099\u0097\3\2\2\2"+
+		"\u0099\u009a\3\2\2\2\u009a\u009b\3\2\2\2\u009b\u009c\7\31\2\2\u009c\31"+
+		"\3\2\2\2\u009d\u009e\7\17\2\2\u009e\33\3\2\2\2\u009f\u00a1\7\23\2\2\u00a0"+
+		"\u00a2\5\36\20\2\u00a1\u00a0\3\2\2\2\u00a2\u00a3\3\2\2\2\u00a3\u00a1\3"+
+		"\2\2\2\u00a3\u00a4\3\2\2\2\u00a4\u00a5\3\2\2\2\u00a5\u00a6\7\24\2\2\u00a6"+
+		"\u00a7\7\33\2\2\u00a7\u00a8\7\37\2\2\u00a8\u00af\3\2\2\2\u00a9\u00ab\5"+
+		"\36\20\2\u00aa\u00a9\3\2\2\2\u00ab\u00ac\3\2\2\2\u00ac\u00aa\3\2\2\2\u00ac"+
+		"\u00ad\3\2\2\2\u00ad\u00af\3\2\2\2\u00ae\u009f\3\2\2\2\u00ae\u00aa\3\2"+
+		"\2\2\u00af\35\3\2\2\2\u00b0\u00b4\7\16\2\2\u00b1\u00b4\7\17\2\2\u00b2"+
+		"\u00b4\5\30\r\2\u00b3\u00b0\3\2\2\2\u00b3\u00b1\3\2\2\2\u00b3\u00b2\3"+
+		"\2\2\2\u00b4\37\3\2\2\2\u00b5\u00b7\7\23\2\2\u00b6\u00b8\7\f\2\2\u00b7"+
+		"\u00b6\3\2\2\2\u00b7\u00b8\3\2\2\2\u00b8\u00ba\3\2\2\2\u00b9\u00bb\5\""+
+		"\22\2\u00ba\u00b9\3\2\2\2\u00bb\u00bc\3\2\2\2\u00bc\u00ba\3\2\2\2\u00bc"+
+		"\u00bd\3\2\2\2\u00bd\u00be\3\2\2\2\u00be\u00bf\7\24\2\2\u00bf\u00c2\3"+
+		"\2\2\2\u00c0\u00c2\5\34\17\2\u00c1\u00b5\3\2\2\2\u00c1\u00c0\3\2\2\2\u00c2"+
+		"!\3\2\2\2\u00c3\u00cb\5\34\17\2\u00c4\u00cb\7\f\2\2\u00c5\u00cb\5$\23"+
+		"\2\u00c6\u00cb\5.\30\2\u00c7\u00cb\5,\27\2\u00c8\u00cb\5*\26\2\u00c9\u00cb"+
+		"\7\20\2\2\u00ca\u00c3\3\2\2\2\u00ca\u00c4\3\2\2\2\u00ca\u00c5\3\2\2\2"+
+		"\u00ca\u00c6\3\2\2\2\u00ca\u00c7\3\2\2\2\u00ca\u00c8\3\2\2\2\u00ca\u00c9"+
+		"\3\2\2\2\u00cb#\3\2\2\2\u00cc\u00cd\7\f\2\2\u00cd\u00ce\7\33\2\2\u00ce"+
+		"\u00cf\7\37\2\2\u00cf%\3\2\2\2\u00d0\u00d2\7\23\2\2\u00d1\u00d3\7\f\2"+
+		"\2\u00d2\u00d1\3\2\2\2\u00d2\u00d3\3\2\2\2\u00d3\u00d5\3\2\2\2\u00d4\u00d6"+
+		"\5(\25\2\u00d5\u00d4\3\2\2\2\u00d6\u00d7\3\2\2\2\u00d7\u00d5\3\2\2\2\u00d7"+
+		"\u00d8\3\2\2\2\u00d8\u00d9\3\2\2\2\u00d9\u00da\7\24\2\2\u00da\u00dd\3"+
+		"\2\2\2\u00db\u00dd\5\24\13\2\u00dc\u00d0\3\2\2\2\u00dc\u00db\3\2\2\2\u00dd"+
+		"\'\3\2\2\2\u00de\u00e5\5\24\13\2\u00df\u00e5\7\f\2\2\u00e0\u00e5\5.\30"+
+		"\2\u00e1\u00e5\5,\27\2\u00e2\u00e5\5*\26\2\u00e3\u00e5\7\20\2\2\u00e4"+
+		"\u00de\3\2\2\2\u00e4\u00df\3\2\2\2\u00e4\u00e0\3\2\2\2\u00e4\u00e1\3\2"+
+		"\2\2\u00e4\u00e2\3\2\2\2\u00e4\u00e3\3\2\2\2\u00e5)\3\2\2\2\u00e6\u00e7"+
+		"\7\n\2\2\u00e7\u00e8\7\22\2\2\u00e8\u00e9\7\f\2\2\u00e9+\3\2\2\2\u00ea"+
+		"\u00eb\7\13\2\2\u00eb\u00ec\7\22\2\2\u00ec\u00ed\7\f\2\2\u00ed-\3\2\2"+
+		"\2\u00ee\u00ef\7\37\2\2\u00ef\u00f0\7\22\2\2\u00f0\u00f1\7\37\2\2\u00f1"+
+		"/\3\2\2\2\33\61\64\67<BHNTX\u0085\u008f\u0091\u0099\u00a3\u00ac\u00ae"+
+		"\u00b3\u00b7\u00bc\u00c1\u00ca\u00d2\u00d7\u00dc\u00e4";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {

@@ -22,16 +22,26 @@ public class SongToMidi {
 		Sequence seq = new Sequence(Sequence.PPQ, DEFAULT_PPQ);
 		
 		int bpm = song.getTempo().getBpm();
+		TickCalculator tc = new TickCalculator(DEFAULT_PPQ, song.getTimeSig(), song.getTempo());
 		
 		for (String name : song.getTrackNames()) {
 			MMTrack mmtrack = song.getTrack(name);
 			Track track = seq.createTrack();
 			track.add(createTempoEvent(bpm));
-			track.add(createProgramChange(mmtrack.getMidiInstrument(), 0, mmtrack.getMidiChannel()));
-			
-			TickCalculator tc = new TickCalculator(DEFAULT_PPQ, song.getTimeSig(), song.getTempo());
+			if (!mmtrack.isPercussionTrack()) {
+				track.add(createProgramChange(mmtrack.getMidiInstrument(), 0, mmtrack.getMidiChannel()));
+			}
 			
 			fillTrack(track, mmtrack, bpm, song, tc);
+		}
+		MMRhythmTrack rtrack = song.getPercussionTrack();
+		int numRhythmVoices = rtrack.getTracks().size();
+		if (numRhythmVoices > 0) {
+			Track track = seq.createTrack();
+			for (MMTrack mmtrack: rtrack.getTracks()) {
+				track.add(createTempoEvent(bpm));
+				fillTrack(track, mmtrack, bpm, song, tc);
+			}
 		}
 		return seq;
 	}
@@ -86,7 +96,7 @@ public class SongToMidi {
 		ShortMessage myMsg = new ShortMessage();
 		// (velocity = 93)on channel 0 (zero-based).
 		myMsg.setMessage(ShortMessage.NOTE_ON,  channel, noteNum, 93);
-		System.out.println("Note on " + noteNum + "  tick=" + tick);
+		System.out.println("Note on " + noteNum + "  tick=" + tick + " channel=" + channel);
 		return new MidiEvent(myMsg, tick);
 	}
 
@@ -96,6 +106,7 @@ public class SongToMidi {
 		// Play the note Middle C (60) moderately loud
 		// (velocity = 93)on channel 0 (zero-based).
 		myMsg.setMessage(ShortMessage.NOTE_OFF, channel, noteNum, 93);
+		System.out.println("Note off " + noteNum + "  tick=" + tick  + " channel=" + channel);
 		return new MidiEvent(myMsg, tick);
 	}
 	

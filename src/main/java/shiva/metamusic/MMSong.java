@@ -2,7 +2,7 @@ package shiva.metamusic;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -14,7 +14,8 @@ public class MMSong {
 	MMTempo tempo;
 	MMKeySig keySig;
 	MMTimeSig timeSig;
-	Map<String, MMTrack> tracksByName = new HashMap<>();
+	Map<String, MMTrack> tracksByName = new LinkedHashMap<>();
+	MMRhythmTrack percussionTrack;
 	
 	private List<Integer> voiceChannels = new ArrayList<>(Arrays.asList(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 12, 13, 14, 15));
 	
@@ -34,6 +35,11 @@ public class MMSong {
 		return tempo;
 	}
 
+	public void setTempo(MMTempo mmt) {
+		this.tempo = mmt;
+		
+	}
+	
 	public MMKeySig getKeySig() {
 		return keySig;
 	}
@@ -66,6 +72,25 @@ public class MMSong {
 		return tracksByName.get(name);
 	}
 	
+	public MMRhythmTrack getPercussionTrack() {
+		if (percussionTrack == null) {
+			percussionTrack = new MMRhythmTrack();
+		}
+		return percussionTrack;
+	}
+	
+	public MMTrack getDefaultTrack() {
+		for (MMTrack t : tracksByName.values()) {
+			if (t.getMidiInstrument() == 0) {
+				return t;
+			}
+		}
+		int channel = voiceChannels.remove(0);
+		MMTrack mmtrack = new MMTrack("Default,-Piano", "Piano", channel);
+		addTrack(mmtrack);
+		return mmtrack;
+	}
+	
 	public List<String> getTrackNames() {
 		return new ArrayList<>(tracksByName.keySet());
 	}
@@ -86,6 +111,12 @@ public class MMSong {
 		}
 		return sb.toString();
 	}
+
+	
+
+	
+
+	
 
 	
 	

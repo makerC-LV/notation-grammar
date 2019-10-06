@@ -80,7 +80,7 @@ public class MMNote extends MMTrackItem {
 	}
 
 	public static int calculateMidiNum(MMNote mmnote, MMKeySig keySig) {
-		return mmnote.note.getValue();
+		return MMNoteAdjuster.getMidiNote(mmnote, keySig);
 	}
 
 	

@@ -10,38 +10,35 @@ lexer grammar Song4Lexer;
   public static final LexerLookup LOOKUP = LexerLookup.INSTANCE;
 }
 
+
+
+TEMPO : 'tempo' ;
+
+KEY : 'key' ;
+
+TIME : 'time' ;
+
+VOICE : 'voice' ;
+
+DRUM : 'drum' ;
+
+NOTES : 'notes' ;
+
+RHYTHM : 'rhythm' ;
+
+MARKTIME: 'marktime' ;
+
+RECALLTIME: 'recalltime' ;
+
+VAR : '$' IDCHAR+ ;
+
+
+
 KEYSIG: {LOOKUP.contains(KEYSIG, _input)}? . ;
 
 CHORD : {LOOKUP.contains(CHORD, _input)}? . ;
 
 NOTE : {LOOKUP.contains(NOTE, _input)}? . ;
-
-TEMPOMARKER : 'tempo' ;
-
-KEYMARKER : 'key' ;
-
-TIMEMARKER: 'time' ;
-
-VOICEVAR : 'V' IDCHAR+ ;
-
-PHRASETEMPLATEVAR : 'P' IDCHAR+ ;
-
-TIMEVAR : 'T' IDCHAR+ ;
-
-TIMINGMARKER : 'S' ;
-
-//INSTRUMENT : 'I' INSTRUMENTNAME ;
-
-INSTRUMENTNAME : ALPHABET IDCHAR* ;
-
-
-NUM: DIGIT+ ;
-
-DIGIT : [0-9] ;
-
-fragment ALPHABET : [A-Za-z] ;
-
-fragment IDCHAR : [A-Za-z0-9_] ;
 
 BARMARKER : '|' ;
 
@@ -64,6 +61,25 @@ LBRACE : '{' ;
 RBRACE : '}' ;
 
 ASSIGN : '=' ;
+
+TIMES : 'X' ;
+
+PLUS: '+' ;
+
+MINUS: '-' ;
+
+INSTRUMENTNAME : ALPHABET IDCHAR* ;
+
+
+NUM: DIGIT+ ;
+
+DIGIT : [0-9] ;
+
+fragment ALPHABET : [A-Za-z] ;
+
+fragment IDCHAR : [A-Za-z0-9_] ;
+
+
 
 WS : [ \n\r\t]+ -> skip;
 

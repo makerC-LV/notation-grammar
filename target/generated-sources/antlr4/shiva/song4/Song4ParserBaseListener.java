@@ -31,6 +31,18 @@ public class Song4ParserBaseListener implements Song4ParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterPhrase(Song4Parser.PhraseContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitPhrase(Song4Parser.PhraseContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterTempo(Song4Parser.TempoContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -79,6 +91,18 @@ public class Song4ParserBaseListener implements Song4ParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterRhythmVoiceDef(Song4Parser.RhythmVoiceDefContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitRhythmVoiceDef(Song4Parser.RhythmVoiceDefContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterPhraseDef(Song4Parser.PhraseDefContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -91,25 +115,37 @@ public class Song4ParserBaseListener implements Song4ParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterTemplatePhrase(Song4Parser.TemplatePhraseContext ctx) { }
+	@Override public void enterRhythmPhraseDef(Song4Parser.RhythmPhraseDefContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitTemplatePhrase(Song4Parser.TemplatePhraseContext ctx) { }
+	@Override public void exitRhythmPhraseDef(Song4Parser.RhythmPhraseDefContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterTemplatePhraseElement(Song4Parser.TemplatePhraseElementContext ctx) { }
+	@Override public void enterRhythmPhrase(Song4Parser.RhythmPhraseContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitTemplatePhraseElement(Song4Parser.TemplatePhraseElementContext ctx) { }
+	@Override public void exitRhythmPhrase(Song4Parser.RhythmPhraseContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterRhythmPhraseElement(Song4Parser.RhythmPhraseElementContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitRhythmPhraseElement(Song4Parser.RhythmPhraseElementContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -139,25 +175,85 @@ public class Song4ParserBaseListener implements Song4ParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterVoicedPhrase(Song4Parser.VoicedPhraseContext ctx) { }
+	@Override public void enterNotePhrase(Song4Parser.NotePhraseContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitVoicedPhrase(Song4Parser.VoicedPhraseContext ctx) { }
+	@Override public void exitNotePhrase(Song4Parser.NotePhraseContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterVoicedPhraseElement(Song4Parser.VoicedPhraseElementContext ctx) { }
+	@Override public void enterNotePhraseElement(Song4Parser.NotePhraseElementContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitVoicedPhraseElement(Song4Parser.VoicedPhraseElementContext ctx) { }
+	@Override public void exitNotePhraseElement(Song4Parser.NotePhraseElementContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterVoicedNotePhrase(Song4Parser.VoicedNotePhraseContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitVoicedNotePhrase(Song4Parser.VoicedNotePhraseContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterVoicedNotePhraseElement(Song4Parser.VoicedNotePhraseElementContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitVoicedNotePhraseElement(Song4Parser.VoicedNotePhraseElementContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterRepeatedVar(Song4Parser.RepeatedVarContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitRepeatedVar(Song4Parser.RepeatedVarContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterVoicedRhythmPhrase(Song4Parser.VoicedRhythmPhraseContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitVoicedRhythmPhrase(Song4Parser.VoicedRhythmPhraseContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterVoicedRhythmPhraseElement(Song4Parser.VoicedRhythmPhraseElementContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitVoicedRhythmPhraseElement(Song4Parser.VoicedRhythmPhraseElementContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
