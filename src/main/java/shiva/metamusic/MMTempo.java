@@ -16,4 +16,8 @@ public class MMTempo {
 
 
 	public static MMTempo DEFAULT_TEMPO = new MMTempo(120);
+
+	public String toSong4() {
+		return "tempo " + bpm + " ;";
+	}
 }

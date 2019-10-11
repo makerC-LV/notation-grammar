@@ -71,7 +71,7 @@ public enum LexerLookup {
       contains = ahead(term, input);
 
       if (contains) {
-        System.out.printf("contains '%s' ('%s')\n", term, ruleNames[tokenId - 1]);
+//        System.out.printf("contains '%s' ('%s')\n", term, ruleNames[tokenId - 1]);
         break;
       }
     }

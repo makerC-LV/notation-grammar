@@ -32,12 +32,16 @@ public class GenerateNoteChordTokens {
 	private static String dot = ".";
 	
 	private static Map<String, MMNote> noteMap = new HashMap<>();
+	private static Map<String, MMNote> noteNameMap = new HashMap<>();
 	private static Map<String, MMChord> chordMap = new HashMap<>();
+	private static Map<String, MMChord> chordTypeMap = new HashMap<>();
 	private static Map<String, MMKeySig> keySigMap = new HashMap<>();
 	
 	static {
 		fillNoteMap();
+		fillNoteNameMap();
 		fillChordMap();
+		fillChordTypeMap();
 		fillKeySigMap();
 		
 	}
@@ -62,6 +66,27 @@ public class GenerateNoteChordTokens {
 		}
 		return keySigMap.get(text.toUpperCase());
 	}
+	
+	private static void fillNoteNameMap() {
+		for (String note: noteArray) {
+			for (String accidental: noteAccidentals) {
+				StringBuilder sb = new StringBuilder();
+				sb.append(note);
+
+				if (!accidental.equals(" ")) {
+					sb.append(accidental);
+				}
+
+				MMNote mmnote = constructNote(note, "5", accidental, "q");
+
+				noteNameMap.put(sb.toString().toUpperCase(), mmnote);
+
+
+			}
+		}
+		System.out.println("NoteNames : " + noteNameMap.size());
+	}
+
 	
 	private static void fillNoteMap() {
 		for (String note: noteArray) {
@@ -117,6 +142,7 @@ public class GenerateNoteChordTokens {
 	}
 
 
+
 	private static void fillChordMap() {
 		for (String note: noteArray) {
 			for (String octave :  octaveStrings) {
@@ -149,6 +175,23 @@ public class GenerateNoteChordTokens {
 	}
 
 
+	private static void fillChordTypeMap() {
+
+		for (String chordType: Chord.chordMap.keySet()) {
+
+			StringBuilder sb = new StringBuilder();
+
+			sb.append(chordType);
+
+
+			MMChord mmchord = constructChord("C", "5", " ", chordType, "q");
+
+
+			chordTypeMap.put(sb.toString().toUpperCase().toUpperCase(), mmchord);
+		}
+		System.out.println("ChordTypes : " + chordTypeMap.size());
+	}
+	
 	private static MMChord constructChord(String note, String octave, String accidental, String chordType,
 			String duration) {
 		if (" ".equals(octave)) {
@@ -249,7 +292,15 @@ public class GenerateNoteChordTokens {
 		return new ArrayList<>(noteMap.keySet());
 	}
 	
+	public static List<String> getNoteNameStrings() {
+		return new ArrayList<>(noteNameMap.keySet());
+	}
+	
 	public static List<String> getChordStrings() {
 		return new ArrayList<>( chordMap.keySet());
+	}
+	
+	public static List<String> getChordTypeStrings() {
+		return new ArrayList<>( chordTypeMap.keySet());
 	}
 }

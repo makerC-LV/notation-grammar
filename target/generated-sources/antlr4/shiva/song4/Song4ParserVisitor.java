@@ -20,11 +20,77 @@ public interface Song4ParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitSong(Song4Parser.SongContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link Song4Parser#phrase}.
+	 * Visit a parse tree produced by {@link Song4Parser#songElement}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitPhrase(Song4Parser.PhraseContext ctx);
+	T visitSongElement(Song4Parser.SongElementContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link Song4Parser#playCommand}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitPlayCommand(Song4Parser.PlayCommandContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link Song4Parser#playable}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitPlayable(Song4Parser.PlayableContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link Song4Parser#varDef}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitVarDef(Song4Parser.VarDefContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link Song4Parser#assignable}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitAssignable(Song4Parser.AssignableContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link Song4Parser#voice}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitVoice(Song4Parser.VoiceContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link Song4Parser#notes}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitNotes(Song4Parser.NotesContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link Song4Parser#notesElement}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitNotesElement(Song4Parser.NotesElementContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link Song4Parser#groupedNotes}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitGroupedNotes(Song4Parser.GroupedNotesContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link Song4Parser#rhythm}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitRhythm(Song4Parser.RhythmContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link Song4Parser#rhythmElement}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitRhythmElement(Song4Parser.RhythmElementContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link Song4Parser#groupedRhythm}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitGroupedRhythm(Song4Parser.GroupedRhythmContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link Song4Parser#tempo}.
 	 * @param ctx the parse tree
@@ -44,42 +110,6 @@ public interface Song4ParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitTimesig(Song4Parser.TimesigContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link Song4Parser#voiceDef}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitVoiceDef(Song4Parser.VoiceDefContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link Song4Parser#rhythmVoiceDef}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitRhythmVoiceDef(Song4Parser.RhythmVoiceDefContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link Song4Parser#phraseDef}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitPhraseDef(Song4Parser.PhraseDefContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link Song4Parser#rhythmPhraseDef}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitRhythmPhraseDef(Song4Parser.RhythmPhraseDefContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link Song4Parser#rhythmPhrase}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitRhythmPhrase(Song4Parser.RhythmPhraseContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link Song4Parser#rhythmPhraseElement}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitRhythmPhraseElement(Song4Parser.RhythmPhraseElementContext ctx);
-	/**
 	 * Visit a parse tree produced by {@link Song4Parser#parallelNotes}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -91,48 +121,6 @@ public interface Song4ParserVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitParallelNotesElement(Song4Parser.ParallelNotesElementContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link Song4Parser#notePhrase}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitNotePhrase(Song4Parser.NotePhraseContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link Song4Parser#notePhraseElement}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitNotePhraseElement(Song4Parser.NotePhraseElementContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link Song4Parser#voicedNotePhrase}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitVoicedNotePhrase(Song4Parser.VoicedNotePhraseContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link Song4Parser#voicedNotePhraseElement}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitVoicedNotePhraseElement(Song4Parser.VoicedNotePhraseElementContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link Song4Parser#repeatedVar}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitRepeatedVar(Song4Parser.RepeatedVarContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link Song4Parser#voicedRhythmPhrase}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitVoicedRhythmPhrase(Song4Parser.VoicedRhythmPhraseContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link Song4Parser#voicedRhythmPhraseElement}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitVoicedRhythmPhraseElement(Song4Parser.VoicedRhythmPhraseElementContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link Song4Parser#timeBookmark}.
 	 * @param ctx the parse tree

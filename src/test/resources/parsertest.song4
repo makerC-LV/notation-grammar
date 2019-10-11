@@ -1,0 +1,7 @@
+
+tempo 120 ;
+key Cbminor ;
+time 4/4 ;
+play c d ;
+$a = a b;
+play $a ;

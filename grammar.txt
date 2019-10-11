@@ -12,5 +12,38 @@ templatephrasedef = name = templatephrase ;
 
 voicedpart = (voicename (templatephrase | templatephrasevar | timing)+ )
 
+-------------------
+noteSequence - notes with no voice (sequential) 
++def
+
+voicePhrase - notes with one voice (sequential)
++def
+
+voicedPart - multiple parallel voicephrases 
++def
+
+rhythmSequence - rhythm with no voice (sequential)
++ def
+
+rhythmPhrase - rhythm with one voice(sequential)
++ def
+
+rhythmPart - multiple parallel rhythmPhrases
++def 
+
+play - any of the voiced or unvoiced options 
+
+
+def var = notesequence | rhythmsequence | rhythmpart | var
+
+noteSequence (with or without voice)
+
+rhythmSequence (with or without note)
+
+rhythmPart multiple sequences with different notes 
+
+play notesequence with or without a voice - if there is a voice it overrides internal voices.
+
+play rhythmpart
 
 

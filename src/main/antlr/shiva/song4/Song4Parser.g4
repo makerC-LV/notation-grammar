@@ -7,9 +7,37 @@ options {   tokenVocab = Song4Lexer; }
     import java.util.HashMap;
 }
 
-song : tempo? keysig? timesig? voiceDef* rhythmVoiceDef* phraseDef* rhythmPhraseDef* phrase+ ;
+song : tempo? keysig? timesig? songElement+ ;
 
-phrase: voicedNotePhrase | voicedRhythmPhrase ;
+songElement : varDef | playCommand ;
+
+playCommand : PLAY playable+ SEMICOLON;
+
+playable: notes | rhythm | timeBookmark | timeRecall | timeSet | VAR ;
+
+varDef : VAR ASSIGN assignable SEMICOLON;
+
+assignable : voice | notes | rhythm ;
+
+voice : INSTRUMENTNAME | DRUMNAME ;
+
+notes:  notesElement+ ;
+
+notesElement : NOTE | CHORD | BARMARKER | parallelNotes | VOICE VAR
+	| groupedNotes ;
+
+groupedNotes: LPAREN notes RPAREN (TIMES NUM)? ;
+
+rhythm : rhythmElement+ ;
+
+rhythmElement :  PLUS | MINUS | BARMARKER | DRUM VAR | NUM
+	| groupedRhythm  ;
+
+groupedRhythm : LPAREN rhythm RPAREN (TIMES NUM)? ;
+
+
+
+
 
 tempo : TEMPO NUM SEMICOLON ;
 
@@ -17,51 +45,12 @@ keysig : KEY KEYSIG SEMICOLON ;
 
 timesig : TIME NUM SLASH NUM SEMICOLON ;
 
-voiceDef : VOICE VAR ASSIGN INSTRUMENTNAME SEMICOLON ;
 
-rhythmVoiceDef : DRUM VAR ASSIGN INSTRUMENTNAME SEMICOLON ;
-
-phraseDef : NOTES VAR ASSIGN notePhrase SEMICOLON ;
-
-rhythmPhraseDef : RHYTHM VAR ASSIGN rhythmPhrase SEMICOLON ;
-
-
-
-rhythmPhrase : LPAREN NUM rhythmPhraseElement+ RPAREN TIMES NUM
-	| NUM rhythmPhraseElement+ ;
-
-rhythmPhraseElement: PLUS | MINUS ;
 
 parallelNotes: LBRACE parallelNotesElement+ RBRACE ;
 
 parallelNotesElement : NOTE ;
-
-//-------
-/* 
-notePhrase : notePhraseElement+ ;
-
-
-notePhraseElement : CHORD | NOTE | parallelNotes | repeatedNotePhrase ;
-
-repeatedNotePhrase : LPAREN notePhraseElement+ RPAREN (TIMES NUM)? ;
-*/
-// -------
  
-notePhrase : LPAREN notePhraseElement+ RPAREN TIMES NUM
-	| notePhraseElement+ ;
-
-notePhraseElement : CHORD | NOTE | parallelNotes ;
-
-
-voicedNotePhrase : (LPAREN VAR?  voicedNotePhraseElement+ RPAREN) | notePhrase ;
-
-voicedNotePhraseElement : notePhrase | VAR | repeatedVar | timeSet | timeRecall | timeBookmark | BARMARKER ;
-
-repeatedVar : VAR TIMES NUM ;
-
-voicedRhythmPhrase : (LPAREN VAR?  voicedRhythmPhraseElement+ RPAREN) | rhythmPhrase ;
-
-voicedRhythmPhraseElement : rhythmPhrase | VAR | timeSet | timeRecall | timeBookmark | BARMARKER ;
 
 timeBookmark : MARKTIME COLON VAR  ;
 
@@ -69,4 +58,4 @@ timeRecall : RECALLTIME COLON VAR ;
 
 timeSet : NUM COLON NUM ;
 
-//timeSet : BARCOUNT PULSECOUNT ;
+

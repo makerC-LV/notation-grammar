@@ -21,15 +21,125 @@ public interface Song4ParserListener extends ParseTreeListener {
 	 */
 	void exitSong(Song4Parser.SongContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link Song4Parser#phrase}.
+	 * Enter a parse tree produced by {@link Song4Parser#songElement}.
 	 * @param ctx the parse tree
 	 */
-	void enterPhrase(Song4Parser.PhraseContext ctx);
+	void enterSongElement(Song4Parser.SongElementContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link Song4Parser#phrase}.
+	 * Exit a parse tree produced by {@link Song4Parser#songElement}.
 	 * @param ctx the parse tree
 	 */
-	void exitPhrase(Song4Parser.PhraseContext ctx);
+	void exitSongElement(Song4Parser.SongElementContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link Song4Parser#playCommand}.
+	 * @param ctx the parse tree
+	 */
+	void enterPlayCommand(Song4Parser.PlayCommandContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link Song4Parser#playCommand}.
+	 * @param ctx the parse tree
+	 */
+	void exitPlayCommand(Song4Parser.PlayCommandContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link Song4Parser#playable}.
+	 * @param ctx the parse tree
+	 */
+	void enterPlayable(Song4Parser.PlayableContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link Song4Parser#playable}.
+	 * @param ctx the parse tree
+	 */
+	void exitPlayable(Song4Parser.PlayableContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link Song4Parser#varDef}.
+	 * @param ctx the parse tree
+	 */
+	void enterVarDef(Song4Parser.VarDefContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link Song4Parser#varDef}.
+	 * @param ctx the parse tree
+	 */
+	void exitVarDef(Song4Parser.VarDefContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link Song4Parser#assignable}.
+	 * @param ctx the parse tree
+	 */
+	void enterAssignable(Song4Parser.AssignableContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link Song4Parser#assignable}.
+	 * @param ctx the parse tree
+	 */
+	void exitAssignable(Song4Parser.AssignableContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link Song4Parser#voice}.
+	 * @param ctx the parse tree
+	 */
+	void enterVoice(Song4Parser.VoiceContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link Song4Parser#voice}.
+	 * @param ctx the parse tree
+	 */
+	void exitVoice(Song4Parser.VoiceContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link Song4Parser#notes}.
+	 * @param ctx the parse tree
+	 */
+	void enterNotes(Song4Parser.NotesContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link Song4Parser#notes}.
+	 * @param ctx the parse tree
+	 */
+	void exitNotes(Song4Parser.NotesContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link Song4Parser#notesElement}.
+	 * @param ctx the parse tree
+	 */
+	void enterNotesElement(Song4Parser.NotesElementContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link Song4Parser#notesElement}.
+	 * @param ctx the parse tree
+	 */
+	void exitNotesElement(Song4Parser.NotesElementContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link Song4Parser#groupedNotes}.
+	 * @param ctx the parse tree
+	 */
+	void enterGroupedNotes(Song4Parser.GroupedNotesContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link Song4Parser#groupedNotes}.
+	 * @param ctx the parse tree
+	 */
+	void exitGroupedNotes(Song4Parser.GroupedNotesContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link Song4Parser#rhythm}.
+	 * @param ctx the parse tree
+	 */
+	void enterRhythm(Song4Parser.RhythmContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link Song4Parser#rhythm}.
+	 * @param ctx the parse tree
+	 */
+	void exitRhythm(Song4Parser.RhythmContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link Song4Parser#rhythmElement}.
+	 * @param ctx the parse tree
+	 */
+	void enterRhythmElement(Song4Parser.RhythmElementContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link Song4Parser#rhythmElement}.
+	 * @param ctx the parse tree
+	 */
+	void exitRhythmElement(Song4Parser.RhythmElementContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link Song4Parser#groupedRhythm}.
+	 * @param ctx the parse tree
+	 */
+	void enterGroupedRhythm(Song4Parser.GroupedRhythmContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link Song4Parser#groupedRhythm}.
+	 * @param ctx the parse tree
+	 */
+	void exitGroupedRhythm(Song4Parser.GroupedRhythmContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link Song4Parser#tempo}.
 	 * @param ctx the parse tree
@@ -61,66 +171,6 @@ public interface Song4ParserListener extends ParseTreeListener {
 	 */
 	void exitTimesig(Song4Parser.TimesigContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link Song4Parser#voiceDef}.
-	 * @param ctx the parse tree
-	 */
-	void enterVoiceDef(Song4Parser.VoiceDefContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link Song4Parser#voiceDef}.
-	 * @param ctx the parse tree
-	 */
-	void exitVoiceDef(Song4Parser.VoiceDefContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link Song4Parser#rhythmVoiceDef}.
-	 * @param ctx the parse tree
-	 */
-	void enterRhythmVoiceDef(Song4Parser.RhythmVoiceDefContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link Song4Parser#rhythmVoiceDef}.
-	 * @param ctx the parse tree
-	 */
-	void exitRhythmVoiceDef(Song4Parser.RhythmVoiceDefContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link Song4Parser#phraseDef}.
-	 * @param ctx the parse tree
-	 */
-	void enterPhraseDef(Song4Parser.PhraseDefContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link Song4Parser#phraseDef}.
-	 * @param ctx the parse tree
-	 */
-	void exitPhraseDef(Song4Parser.PhraseDefContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link Song4Parser#rhythmPhraseDef}.
-	 * @param ctx the parse tree
-	 */
-	void enterRhythmPhraseDef(Song4Parser.RhythmPhraseDefContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link Song4Parser#rhythmPhraseDef}.
-	 * @param ctx the parse tree
-	 */
-	void exitRhythmPhraseDef(Song4Parser.RhythmPhraseDefContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link Song4Parser#rhythmPhrase}.
-	 * @param ctx the parse tree
-	 */
-	void enterRhythmPhrase(Song4Parser.RhythmPhraseContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link Song4Parser#rhythmPhrase}.
-	 * @param ctx the parse tree
-	 */
-	void exitRhythmPhrase(Song4Parser.RhythmPhraseContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link Song4Parser#rhythmPhraseElement}.
-	 * @param ctx the parse tree
-	 */
-	void enterRhythmPhraseElement(Song4Parser.RhythmPhraseElementContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link Song4Parser#rhythmPhraseElement}.
-	 * @param ctx the parse tree
-	 */
-	void exitRhythmPhraseElement(Song4Parser.RhythmPhraseElementContext ctx);
-	/**
 	 * Enter a parse tree produced by {@link Song4Parser#parallelNotes}.
 	 * @param ctx the parse tree
 	 */
@@ -140,76 +190,6 @@ public interface Song4ParserListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitParallelNotesElement(Song4Parser.ParallelNotesElementContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link Song4Parser#notePhrase}.
-	 * @param ctx the parse tree
-	 */
-	void enterNotePhrase(Song4Parser.NotePhraseContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link Song4Parser#notePhrase}.
-	 * @param ctx the parse tree
-	 */
-	void exitNotePhrase(Song4Parser.NotePhraseContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link Song4Parser#notePhraseElement}.
-	 * @param ctx the parse tree
-	 */
-	void enterNotePhraseElement(Song4Parser.NotePhraseElementContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link Song4Parser#notePhraseElement}.
-	 * @param ctx the parse tree
-	 */
-	void exitNotePhraseElement(Song4Parser.NotePhraseElementContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link Song4Parser#voicedNotePhrase}.
-	 * @param ctx the parse tree
-	 */
-	void enterVoicedNotePhrase(Song4Parser.VoicedNotePhraseContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link Song4Parser#voicedNotePhrase}.
-	 * @param ctx the parse tree
-	 */
-	void exitVoicedNotePhrase(Song4Parser.VoicedNotePhraseContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link Song4Parser#voicedNotePhraseElement}.
-	 * @param ctx the parse tree
-	 */
-	void enterVoicedNotePhraseElement(Song4Parser.VoicedNotePhraseElementContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link Song4Parser#voicedNotePhraseElement}.
-	 * @param ctx the parse tree
-	 */
-	void exitVoicedNotePhraseElement(Song4Parser.VoicedNotePhraseElementContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link Song4Parser#repeatedVar}.
-	 * @param ctx the parse tree
-	 */
-	void enterRepeatedVar(Song4Parser.RepeatedVarContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link Song4Parser#repeatedVar}.
-	 * @param ctx the parse tree
-	 */
-	void exitRepeatedVar(Song4Parser.RepeatedVarContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link Song4Parser#voicedRhythmPhrase}.
-	 * @param ctx the parse tree
-	 */
-	void enterVoicedRhythmPhrase(Song4Parser.VoicedRhythmPhraseContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link Song4Parser#voicedRhythmPhrase}.
-	 * @param ctx the parse tree
-	 */
-	void exitVoicedRhythmPhrase(Song4Parser.VoicedRhythmPhraseContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link Song4Parser#voicedRhythmPhraseElement}.
-	 * @param ctx the parse tree
-	 */
-	void enterVoicedRhythmPhraseElement(Song4Parser.VoicedRhythmPhraseElementContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link Song4Parser#voicedRhythmPhraseElement}.
-	 * @param ctx the parse tree
-	 */
-	void exitVoicedRhythmPhraseElement(Song4Parser.VoicedRhythmPhraseElementContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link Song4Parser#timeBookmark}.
 	 * @param ctx the parse tree

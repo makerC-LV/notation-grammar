@@ -3,12 +3,12 @@ package shiva.metamusic;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MMParallelNotes extends MMTrackItem {
+public class ParallelNotes extends ElementWithDuration implements ICopiable, INotesElement {
 
 	List<MMNote> notes = new ArrayList<>();
 	
-	public MMParallelNotes(MMDuration time) {
-		super(MMItemType.PARALLELNOTES, time);
+	public ParallelNotes(MMDuration time) {
+		super(time);
 		
 	}
 	
@@ -28,8 +28,8 @@ public class MMParallelNotes extends MMTrackItem {
 	}
 
 	@Override
-	public MMTrackItem copy() {
-		MMParallelNotes newNotes = new MMParallelNotes(time);
+	public ICopiable copy() {
+		ParallelNotes newNotes = new ParallelNotes(time);
 		for (MMNote n : notes) {
 			MMNote newNote = (MMNote) n.copy();
 			newNotes.addNote(newNote); 
@@ -39,6 +39,24 @@ public class MMParallelNotes extends MMTrackItem {
 
 	public List<MMNote> getNotes() {
 		return notes;
+	}
+
+	@Override
+	public Type getNotesElementType() {
+		return Type.PARALLELNOTES;
+	}
+
+	@Override
+	public String toSong4() {
+		StringBuilder sb = new StringBuilder();
+		sb.append("{ ");
+		for (MMNote n : notes) {
+			sb.append(n.toSong4());
+			sb.append(" ");
+		}
+		
+		sb.append("}");
+		return sb.toString();
 	}
 
 }

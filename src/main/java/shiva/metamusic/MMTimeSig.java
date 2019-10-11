@@ -29,4 +29,8 @@ public class MMTimeSig {
 	public int getPulsesPerMeasure() {
 		return getPulsesForBeat() * getBeatsPerMeasure();
 	}
+
+	public String toSong4() {
+		return "time " + time.getBeatsPerMeasure() + "/" + time.getDurationForBeat() + " ;" ;
+	}
 }

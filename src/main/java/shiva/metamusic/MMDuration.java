@@ -63,14 +63,32 @@ public class MMDuration implements Comparable<MMDuration> {
 			return WHOLE;
 		}
 		switch (durationS.toLowerCase()) {
-		case "w": return WHOLE;
-		case "h": return HALF;
+		
+		case "":
+		case "w": 
+		case "W": return WHOLE;
+		
+		case "h":
+		case "H": return HALF;
+		
 		case "q": return QUARTER;
-		case "i": return EIGHTH;
-		case "s": return SIXTEENTH;
-		case "t": return THIRTYSECOND;
-		case "x": return SIXTYFOURTH;
-		case "o": return ONETWENTYEIGHTH;
+		case "Q": return QUARTER;
+		
+		case "i": 
+		case "I": return EIGHTH;
+		
+		case "s": 
+		case "S": return SIXTEENTH;
+		
+		case "t": 
+		case "T": return THIRTYSECOND;
+		
+		case "x": 
+		case "X": return SIXTYFOURTH;
+		
+		case "o": 
+		case "O": return ONETWENTYEIGHTH;
+		
 		default: throw new RuntimeException("Unknown duration string: " + durationS);
 		}
 	}

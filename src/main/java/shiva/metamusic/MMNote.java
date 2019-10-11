@@ -2,7 +2,7 @@ package shiva.metamusic;
 
 import org.jfugue.theory.Note;
 
-public class MMNote extends MMTrackItem {
+public class MMNote extends ElementWithDuration implements ICopiable, INotesElement {
 
 	public static final int DEFAULT_OCTAVE = 5;
 	
@@ -15,14 +15,14 @@ public class MMNote extends MMTrackItem {
 	}
 
 	public MMNote(MMDuration time, Note note, MMDuration duration) {
-		super(MMTrackItem.MMItemType.NOTE, time);
+		super(time);
 		this.note = note;
 		this.midiVelocity = 64;
 		this.duration = duration;
 	}
 	
 	@Override
-	public MMTrackItem copy() {
+	public ICopiable copy() {
 		return new MMNote(time, note, duration);
 	}
 	
@@ -81,6 +81,16 @@ public class MMNote extends MMTrackItem {
 
 	public static int calculateMidiNum(MMNote mmnote, MMKeySig keySig) {
 		return MMNoteAdjuster.getMidiNote(mmnote, keySig);
+	}
+
+	@Override
+	public Type getNotesElementType() {
+		return Type.NOTE;
+	}
+
+	@Override
+	public String toSong4() {
+		return note.toString() + " ";
 	}
 
 	

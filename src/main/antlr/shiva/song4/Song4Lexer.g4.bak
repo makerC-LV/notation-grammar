@@ -7,12 +7,9 @@ lexer grammar Song4Lexer;
 }
 
 @members {
-  //public static final LexerLookup LOOKUP = LexerLookup.INSTANCE;
+  public static final LexerLookup LOOKUP = LexerLookup.INSTANCE;
 }
 
-tokens {
-  CHORD, NOTE, KEYSIG, INSTRUMENTNAME, DRUMNAME
-}
 // Keywords
 
 TEMPO : 'tempo' ;
@@ -25,11 +22,9 @@ VOICE : 'voice' ;
 
 DRUM : 'drum' ;
 
-PLAY : 'play' ;
+NOTES : 'notes' ;
 
-//NOTES : 'notes' ;
-//
-//RHYTHM : 'rhythm' ;
+RHYTHM : 'rhythm' ;
 
 MARKTIME: 'marktime' ;
 
@@ -38,7 +33,25 @@ RECALLTIME: 'recalltime' ;
 VAR : '$' IDCHAR+ ;
 
 
+KEYSIG: {LOOKUP.contains(KEYSIG, _input)}? . ;
 
+//CHORD : {LOOKUP.contains(CHORD, _input)}? . ;
+
+//NOTE : {LOOKUP.contains(NOTE, _input)}? . ;
+
+CHORD: NOTENAME NUM? DURATION? CHORDTYPE;
+
+NOTE: NOTENAME NUM? DURATION? ;
+
+CHORDNAME : {LOOKUP.contains(CHORDNAME, _input)}? . ;
+
+CHORDTYPE : {LOOKUP.contains(CHORDTYPE, _input)}? . ;
+
+NOTENAME : {LOOKUP.contains(NOTENAME, _input)}? .  ;
+
+
+
+fragment DURATION: [whqistxo] ;
 
 // 
 BARMARKER : '|' ;
@@ -69,6 +82,8 @@ PLUS: '+' ;
 
 MINUS: '-' ;
 
+INSTRUMENTNAME : ALPHABET IDCHAR* ;
+
 
 NUM: DIGIT+ ;
 
@@ -77,7 +92,6 @@ DIGIT : [0-9] ;
 fragment ALPHABET : [A-Za-z] ;
 
 fragment IDCHAR : [A-Za-z0-9_] ;
-
 
 
 
@@ -90,17 +104,3 @@ COMMENT
 LINE_COMMENT
     : '//' ~[\r\n]* -> skip
 ;
-
-WORD : [a-zA-Z0-9#%_]+
-{ 
-	Song4SpecialTokenParser.SpecialToken token = Song4SpecialTokenParser.getSpecialToken(getText());
-	if ( token != null) {
-		setType(token.tokenId);
-	}
-}
-;
-
-
-
-	
-	
