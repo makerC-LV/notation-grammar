@@ -2,6 +2,8 @@ package shiva.metamusic;
 
 import org.jfugue.theory.TimeSignature;
 
+import shiva.metamusic.util.Util;
+
 public class MMTimeSig {
 
 	TimeSignature time;

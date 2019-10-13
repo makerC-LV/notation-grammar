@@ -196,7 +196,7 @@ public class Song4Parser extends Parser {
 				setState(54); 
 				_errHandler.sync(this);
 				_la = _input.LA(1);
-			} while ( _la==PLAY || _la==VAR );
+			} while ( (((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << CHORD) | (1L << NOTE) | (1L << VOICE) | (1L << DRUM) | (1L << MARKTIME) | (1L << RECALLTIME) | (1L << VAR) | (1L << BARMARKER) | (1L << LPAREN) | (1L << LBRACE) | (1L << PLUS) | (1L << MINUS) | (1L << NUM))) != 0) );
 			}
 		}
 		catch (RecognitionException re) {
@@ -242,23 +242,21 @@ public class Song4Parser extends Parser {
 		try {
 			setState(58);
 			_errHandler.sync(this);
-			switch (_input.LA(1)) {
-			case VAR:
+			switch ( getInterpreter().adaptivePredict(_input,4,_ctx) ) {
+			case 1:
 				enterOuterAlt(_localctx, 1);
 				{
 				setState(56);
 				varDef();
 				}
 				break;
-			case PLAY:
+			case 2:
 				enterOuterAlt(_localctx, 2);
 				{
 				setState(57);
 				playCommand();
 				}
 				break;
-			default:
-				throw new NoViableAltException(this);
 			}
 		}
 		catch (RecognitionException re) {
@@ -273,8 +271,6 @@ public class Song4Parser extends Parser {
 	}
 
 	public static class PlayCommandContext extends ParserRuleContext {
-		public TerminalNode PLAY() { return getToken(Song4Parser.PLAY, 0); }
-		public TerminalNode SEMICOLON() { return getToken(Song4Parser.SEMICOLON, 0); }
 		public List<PlayableContext> playable() {
 			return getRuleContexts(PlayableContext.class);
 		}
@@ -303,28 +299,30 @@ public class Song4Parser extends Parser {
 	public final PlayCommandContext playCommand() throws RecognitionException {
 		PlayCommandContext _localctx = new PlayCommandContext(_ctx, getState());
 		enterRule(_localctx, 4, RULE_playCommand);
-		int _la;
 		try {
+			int _alt;
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(60);
-			match(PLAY);
-			setState(62); 
+			setState(61); 
 			_errHandler.sync(this);
-			_la = _input.LA(1);
+			_alt = 1;
 			do {
-				{
-				{
-				setState(61);
-				playable();
+				switch (_alt) {
+				case 1:
+					{
+					{
+					setState(60);
+					playable();
+					}
+					}
+					break;
+				default:
+					throw new NoViableAltException(this);
 				}
-				}
-				setState(64); 
+				setState(63); 
 				_errHandler.sync(this);
-				_la = _input.LA(1);
-			} while ( (((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << CHORD) | (1L << NOTE) | (1L << VOICE) | (1L << DRUM) | (1L << MARKTIME) | (1L << RECALLTIME) | (1L << VAR) | (1L << BARMARKER) | (1L << LPAREN) | (1L << LBRACE) | (1L << PLUS) | (1L << MINUS) | (1L << NUM))) != 0) );
-			setState(66);
-			match(SEMICOLON);
+				_alt = getInterpreter().adaptivePredict(_input,5,_ctx);
+			} while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER );
 			}
 		}
 		catch (RecognitionException re) {
@@ -378,48 +376,48 @@ public class Song4Parser extends Parser {
 		PlayableContext _localctx = new PlayableContext(_ctx, getState());
 		enterRule(_localctx, 6, RULE_playable);
 		try {
-			setState(74);
+			setState(71);
 			_errHandler.sync(this);
 			switch ( getInterpreter().adaptivePredict(_input,6,_ctx) ) {
 			case 1:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(68);
+				setState(65);
 				notes();
 				}
 				break;
 			case 2:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(69);
+				setState(66);
 				rhythm();
 				}
 				break;
 			case 3:
 				enterOuterAlt(_localctx, 3);
 				{
-				setState(70);
+				setState(67);
 				timeBookmark();
 				}
 				break;
 			case 4:
 				enterOuterAlt(_localctx, 4);
 				{
-				setState(71);
+				setState(68);
 				timeRecall();
 				}
 				break;
 			case 5:
 				enterOuterAlt(_localctx, 5);
 				{
-				setState(72);
+				setState(69);
 				timeSet();
 				}
 				break;
 			case 6:
 				enterOuterAlt(_localctx, 6);
 				{
-				setState(73);
+				setState(70);
 				match(VAR);
 				}
 				break;
@@ -468,13 +466,13 @@ public class Song4Parser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(76);
+			setState(73);
 			match(VAR);
-			setState(77);
+			setState(74);
 			match(ASSIGN);
-			setState(78);
+			setState(75);
 			assignable();
-			setState(79);
+			setState(76);
 			match(SEMICOLON);
 			}
 		}
@@ -522,27 +520,27 @@ public class Song4Parser extends Parser {
 		AssignableContext _localctx = new AssignableContext(_ctx, getState());
 		enterRule(_localctx, 10, RULE_assignable);
 		try {
-			setState(84);
+			setState(81);
 			_errHandler.sync(this);
 			switch ( getInterpreter().adaptivePredict(_input,7,_ctx) ) {
 			case 1:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(81);
+				setState(78);
 				voice();
 				}
 				break;
 			case 2:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(82);
+				setState(79);
 				notes();
 				}
 				break;
 			case 3:
 				enterOuterAlt(_localctx, 3);
 				{
-				setState(83);
+				setState(80);
 				rhythm();
 				}
 				break;
@@ -588,7 +586,7 @@ public class Song4Parser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(86);
+			setState(83);
 			_la = _input.LA(1);
 			if ( !(_la==INSTRUMENTNAME || _la==DRUMNAME) ) {
 			_errHandler.recoverInline(this);
@@ -644,7 +642,7 @@ public class Song4Parser extends Parser {
 			int _alt;
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(89); 
+			setState(86); 
 			_errHandler.sync(this);
 			_alt = 1;
 			do {
@@ -652,7 +650,7 @@ public class Song4Parser extends Parser {
 				case 1:
 					{
 					{
-					setState(88);
+					setState(85);
 					notesElement();
 					}
 					}
@@ -660,7 +658,7 @@ public class Song4Parser extends Parser {
 				default:
 					throw new NoViableAltException(this);
 				}
-				setState(91); 
+				setState(88); 
 				_errHandler.sync(this);
 				_alt = getInterpreter().adaptivePredict(_input,8,_ctx);
 			} while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER );
@@ -712,50 +710,50 @@ public class Song4Parser extends Parser {
 		NotesElementContext _localctx = new NotesElementContext(_ctx, getState());
 		enterRule(_localctx, 16, RULE_notesElement);
 		try {
-			setState(100);
+			setState(97);
 			_errHandler.sync(this);
 			switch (_input.LA(1)) {
 			case NOTE:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(93);
+				setState(90);
 				match(NOTE);
 				}
 				break;
 			case CHORD:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(94);
+				setState(91);
 				match(CHORD);
 				}
 				break;
 			case BARMARKER:
 				enterOuterAlt(_localctx, 3);
 				{
-				setState(95);
+				setState(92);
 				match(BARMARKER);
 				}
 				break;
 			case LBRACE:
 				enterOuterAlt(_localctx, 4);
 				{
-				setState(96);
+				setState(93);
 				parallelNotes();
 				}
 				break;
 			case VOICE:
 				enterOuterAlt(_localctx, 5);
 				{
-				setState(97);
+				setState(94);
 				match(VOICE);
-				setState(98);
+				setState(95);
 				match(VAR);
 				}
 				break;
 			case LPAREN:
 				enterOuterAlt(_localctx, 6);
 				{
-				setState(99);
+				setState(96);
 				groupedNotes();
 				}
 				break;
@@ -808,20 +806,20 @@ public class Song4Parser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(102);
+			setState(99);
 			match(LPAREN);
-			setState(103);
+			setState(100);
 			notes();
-			setState(104);
+			setState(101);
 			match(RPAREN);
-			setState(107);
+			setState(104);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			if (_la==TIMES) {
 				{
-				setState(105);
+				setState(102);
 				match(TIMES);
-				setState(106);
+				setState(103);
 				match(NUM);
 				}
 			}
@@ -872,7 +870,7 @@ public class Song4Parser extends Parser {
 			int _alt;
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(110); 
+			setState(107); 
 			_errHandler.sync(this);
 			_alt = 1;
 			do {
@@ -880,7 +878,7 @@ public class Song4Parser extends Parser {
 				case 1:
 					{
 					{
-					setState(109);
+					setState(106);
 					rhythmElement();
 					}
 					}
@@ -888,7 +886,7 @@ public class Song4Parser extends Parser {
 				default:
 					throw new NoViableAltException(this);
 				}
-				setState(112); 
+				setState(109); 
 				_errHandler.sync(this);
 				_alt = getInterpreter().adaptivePredict(_input,11,_ctx);
 			} while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER );
@@ -938,50 +936,50 @@ public class Song4Parser extends Parser {
 		RhythmElementContext _localctx = new RhythmElementContext(_ctx, getState());
 		enterRule(_localctx, 22, RULE_rhythmElement);
 		try {
-			setState(121);
+			setState(118);
 			_errHandler.sync(this);
 			switch (_input.LA(1)) {
 			case PLUS:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(114);
+				setState(111);
 				match(PLUS);
 				}
 				break;
 			case MINUS:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(115);
+				setState(112);
 				match(MINUS);
 				}
 				break;
 			case BARMARKER:
 				enterOuterAlt(_localctx, 3);
 				{
-				setState(116);
+				setState(113);
 				match(BARMARKER);
 				}
 				break;
 			case DRUM:
 				enterOuterAlt(_localctx, 4);
 				{
-				setState(117);
+				setState(114);
 				match(DRUM);
-				setState(118);
+				setState(115);
 				match(VAR);
 				}
 				break;
 			case NUM:
 				enterOuterAlt(_localctx, 5);
 				{
-				setState(119);
+				setState(116);
 				match(NUM);
 				}
 				break;
 			case LPAREN:
 				enterOuterAlt(_localctx, 6);
 				{
-				setState(120);
+				setState(117);
 				groupedRhythm();
 				}
 				break;
@@ -1034,20 +1032,20 @@ public class Song4Parser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(123);
+			setState(120);
 			match(LPAREN);
-			setState(124);
+			setState(121);
 			rhythm();
-			setState(125);
+			setState(122);
 			match(RPAREN);
-			setState(128);
+			setState(125);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			if (_la==TIMES) {
 				{
-				setState(126);
+				setState(123);
 				match(TIMES);
-				setState(127);
+				setState(124);
 				match(NUM);
 				}
 			}
@@ -1094,11 +1092,11 @@ public class Song4Parser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(130);
+			setState(127);
 			match(TEMPO);
-			setState(131);
+			setState(128);
 			match(NUM);
-			setState(132);
+			setState(129);
 			match(SEMICOLON);
 			}
 		}
@@ -1142,11 +1140,11 @@ public class Song4Parser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(134);
+			setState(131);
 			match(KEY);
-			setState(135);
+			setState(132);
 			match(KEYSIG);
-			setState(136);
+			setState(133);
 			match(SEMICOLON);
 			}
 		}
@@ -1194,15 +1192,15 @@ public class Song4Parser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(138);
+			setState(135);
 			match(TIME);
-			setState(139);
+			setState(136);
 			match(NUM);
-			setState(140);
+			setState(137);
 			match(SLASH);
-			setState(141);
+			setState(138);
 			match(NUM);
-			setState(142);
+			setState(139);
 			match(SEMICOLON);
 			}
 		}
@@ -1252,23 +1250,23 @@ public class Song4Parser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(144);
+			setState(141);
 			match(LBRACE);
-			setState(146); 
+			setState(143); 
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			do {
 				{
 				{
-				setState(145);
+				setState(142);
 				parallelNotesElement();
 				}
 				}
-				setState(148); 
+				setState(145); 
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			} while ( _la==NOTE );
-			setState(150);
+			setState(147);
 			match(RBRACE);
 			}
 		}
@@ -1310,7 +1308,7 @@ public class Song4Parser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(152);
+			setState(149);
 			match(NOTE);
 			}
 		}
@@ -1354,11 +1352,11 @@ public class Song4Parser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(154);
+			setState(151);
 			match(MARKTIME);
-			setState(155);
+			setState(152);
 			match(COLON);
-			setState(156);
+			setState(153);
 			match(VAR);
 			}
 		}
@@ -1402,11 +1400,11 @@ public class Song4Parser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(158);
+			setState(155);
 			match(RECALLTIME);
-			setState(159);
+			setState(156);
 			match(COLON);
-			setState(160);
+			setState(157);
 			match(VAR);
 			}
 		}
@@ -1452,11 +1450,11 @@ public class Song4Parser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(162);
+			setState(159);
 			match(NUM);
-			setState(163);
+			setState(160);
 			match(COLON);
-			setState(164);
+			setState(161);
 			match(NUM);
 			}
 		}
@@ -1472,53 +1470,52 @@ public class Song4Parser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3$\u00a9\4\2\t\2\4"+
+		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3$\u00a6\4\2\t\2\4"+
 		"\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b\4\t\t\t\4\n\t\n\4\13\t"+
 		"\13\4\f\t\f\4\r\t\r\4\16\t\16\4\17\t\17\4\20\t\20\4\21\t\21\4\22\t\22"+
 		"\4\23\t\23\4\24\t\24\4\25\t\25\4\26\t\26\3\2\5\2.\n\2\3\2\5\2\61\n\2\3"+
-		"\2\5\2\64\n\2\3\2\6\2\67\n\2\r\2\16\28\3\3\3\3\5\3=\n\3\3\4\3\4\6\4A\n"+
-		"\4\r\4\16\4B\3\4\3\4\3\5\3\5\3\5\3\5\3\5\3\5\5\5M\n\5\3\6\3\6\3\6\3\6"+
-		"\3\6\3\7\3\7\3\7\5\7W\n\7\3\b\3\b\3\t\6\t\\\n\t\r\t\16\t]\3\n\3\n\3\n"+
-		"\3\n\3\n\3\n\3\n\5\ng\n\n\3\13\3\13\3\13\3\13\3\13\5\13n\n\13\3\f\6\f"+
-		"q\n\f\r\f\16\fr\3\r\3\r\3\r\3\r\3\r\3\r\3\r\5\r|\n\r\3\16\3\16\3\16\3"+
-		"\16\3\16\5\16\u0083\n\16\3\17\3\17\3\17\3\17\3\20\3\20\3\20\3\20\3\21"+
-		"\3\21\3\21\3\21\3\21\3\21\3\22\3\22\6\22\u0095\n\22\r\22\16\22\u0096\3"+
-		"\22\3\22\3\23\3\23\3\24\3\24\3\24\3\24\3\25\3\25\3\25\3\25\3\26\3\26\3"+
-		"\26\3\26\3\26\2\2\27\2\4\6\b\n\f\16\20\22\24\26\30\32\34\36 \"$&(*\2\3"+
-		"\3\2\6\7\2\u00af\2-\3\2\2\2\4<\3\2\2\2\6>\3\2\2\2\bL\3\2\2\2\nN\3\2\2"+
-		"\2\fV\3\2\2\2\16X\3\2\2\2\20[\3\2\2\2\22f\3\2\2\2\24h\3\2\2\2\26p\3\2"+
-		"\2\2\30{\3\2\2\2\32}\3\2\2\2\34\u0084\3\2\2\2\36\u0088\3\2\2\2 \u008c"+
-		"\3\2\2\2\"\u0092\3\2\2\2$\u009a\3\2\2\2&\u009c\3\2\2\2(\u00a0\3\2\2\2"+
-		"*\u00a4\3\2\2\2,.\5\34\17\2-,\3\2\2\2-.\3\2\2\2.\60\3\2\2\2/\61\5\36\20"+
-		"\2\60/\3\2\2\2\60\61\3\2\2\2\61\63\3\2\2\2\62\64\5 \21\2\63\62\3\2\2\2"+
-		"\63\64\3\2\2\2\64\66\3\2\2\2\65\67\5\4\3\2\66\65\3\2\2\2\678\3\2\2\28"+
-		"\66\3\2\2\289\3\2\2\29\3\3\2\2\2:=\5\n\6\2;=\5\6\4\2<:\3\2\2\2<;\3\2\2"+
-		"\2=\5\3\2\2\2>@\7\r\2\2?A\5\b\5\2@?\3\2\2\2AB\3\2\2\2B@\3\2\2\2BC\3\2"+
-		"\2\2CD\3\2\2\2DE\7\22\2\2E\7\3\2\2\2FM\5\20\t\2GM\5\26\f\2HM\5&\24\2I"+
-		"M\5(\25\2JM\5*\26\2KM\7\20\2\2LF\3\2\2\2LG\3\2\2\2LH\3\2\2\2LI\3\2\2\2"+
-		"LJ\3\2\2\2LK\3\2\2\2M\t\3\2\2\2NO\7\20\2\2OP\7\33\2\2PQ\5\f\7\2QR\7\22"+
-		"\2\2R\13\3\2\2\2SW\5\16\b\2TW\5\20\t\2UW\5\26\f\2VS\3\2\2\2VT\3\2\2\2"+
-		"VU\3\2\2\2W\r\3\2\2\2XY\t\2\2\2Y\17\3\2\2\2Z\\\5\22\n\2[Z\3\2\2\2\\]\3"+
-		"\2\2\2][\3\2\2\2]^\3\2\2\2^\21\3\2\2\2_g\7\4\2\2`g\7\3\2\2ag\7\21\2\2"+
-		"bg\5\"\22\2cd\7\13\2\2dg\7\20\2\2eg\5\24\13\2f_\3\2\2\2f`\3\2\2\2fa\3"+
-		"\2\2\2fb\3\2\2\2fc\3\2\2\2fe\3\2\2\2g\23\3\2\2\2hi\7\24\2\2ij\5\20\t\2"+
-		"jm\7\25\2\2kl\7\34\2\2ln\7\37\2\2mk\3\2\2\2mn\3\2\2\2n\25\3\2\2\2oq\5"+
-		"\30\r\2po\3\2\2\2qr\3\2\2\2rp\3\2\2\2rs\3\2\2\2s\27\3\2\2\2t|\7\35\2\2"+
-		"u|\7\36\2\2v|\7\21\2\2wx\7\f\2\2x|\7\20\2\2y|\7\37\2\2z|\5\32\16\2{t\3"+
-		"\2\2\2{u\3\2\2\2{v\3\2\2\2{w\3\2\2\2{y\3\2\2\2{z\3\2\2\2|\31\3\2\2\2}"+
-		"~\7\24\2\2~\177\5\26\f\2\177\u0082\7\25\2\2\u0080\u0081\7\34\2\2\u0081"+
-		"\u0083\7\37\2\2\u0082\u0080\3\2\2\2\u0082\u0083\3\2\2\2\u0083\33\3\2\2"+
-		"\2\u0084\u0085\7\b\2\2\u0085\u0086\7\37\2\2\u0086\u0087\7\22\2\2\u0087"+
-		"\35\3\2\2\2\u0088\u0089\7\t\2\2\u0089\u008a\7\5\2\2\u008a\u008b\7\22\2"+
-		"\2\u008b\37\3\2\2\2\u008c\u008d\7\n\2\2\u008d\u008e\7\37\2\2\u008e\u008f"+
-		"\7\26\2\2\u008f\u0090\7\37\2\2\u0090\u0091\7\22\2\2\u0091!\3\2\2\2\u0092"+
-		"\u0094\7\31\2\2\u0093\u0095\5$\23\2\u0094\u0093\3\2\2\2\u0095\u0096\3"+
-		"\2\2\2\u0096\u0094\3\2\2\2\u0096\u0097\3\2\2\2\u0097\u0098\3\2\2\2\u0098"+
-		"\u0099\7\32\2\2\u0099#\3\2\2\2\u009a\u009b\7\4\2\2\u009b%\3\2\2\2\u009c"+
-		"\u009d\7\16\2\2\u009d\u009e\7\23\2\2\u009e\u009f\7\20\2\2\u009f\'\3\2"+
-		"\2\2\u00a0\u00a1\7\17\2\2\u00a1\u00a2\7\23\2\2\u00a2\u00a3\7\20\2\2\u00a3"+
-		")\3\2\2\2\u00a4\u00a5\7\37\2\2\u00a5\u00a6\7\23\2\2\u00a6\u00a7\7\37\2"+
-		"\2\u00a7+\3\2\2\2\21-\60\638<BLV]fmr{\u0082\u0096";
+		"\2\5\2\64\n\2\3\2\6\2\67\n\2\r\2\16\28\3\3\3\3\5\3=\n\3\3\4\6\4@\n\4\r"+
+		"\4\16\4A\3\5\3\5\3\5\3\5\3\5\3\5\5\5J\n\5\3\6\3\6\3\6\3\6\3\6\3\7\3\7"+
+		"\3\7\5\7T\n\7\3\b\3\b\3\t\6\tY\n\t\r\t\16\tZ\3\n\3\n\3\n\3\n\3\n\3\n\3"+
+		"\n\5\nd\n\n\3\13\3\13\3\13\3\13\3\13\5\13k\n\13\3\f\6\fn\n\f\r\f\16\f"+
+		"o\3\r\3\r\3\r\3\r\3\r\3\r\3\r\5\ry\n\r\3\16\3\16\3\16\3\16\3\16\5\16\u0080"+
+		"\n\16\3\17\3\17\3\17\3\17\3\20\3\20\3\20\3\20\3\21\3\21\3\21\3\21\3\21"+
+		"\3\21\3\22\3\22\6\22\u0092\n\22\r\22\16\22\u0093\3\22\3\22\3\23\3\23\3"+
+		"\24\3\24\3\24\3\24\3\25\3\25\3\25\3\25\3\26\3\26\3\26\3\26\3\26\2\2\27"+
+		"\2\4\6\b\n\f\16\20\22\24\26\30\32\34\36 \"$&(*\2\3\3\2\6\7\2\u00ac\2-"+
+		"\3\2\2\2\4<\3\2\2\2\6?\3\2\2\2\bI\3\2\2\2\nK\3\2\2\2\fS\3\2\2\2\16U\3"+
+		"\2\2\2\20X\3\2\2\2\22c\3\2\2\2\24e\3\2\2\2\26m\3\2\2\2\30x\3\2\2\2\32"+
+		"z\3\2\2\2\34\u0081\3\2\2\2\36\u0085\3\2\2\2 \u0089\3\2\2\2\"\u008f\3\2"+
+		"\2\2$\u0097\3\2\2\2&\u0099\3\2\2\2(\u009d\3\2\2\2*\u00a1\3\2\2\2,.\5\34"+
+		"\17\2-,\3\2\2\2-.\3\2\2\2.\60\3\2\2\2/\61\5\36\20\2\60/\3\2\2\2\60\61"+
+		"\3\2\2\2\61\63\3\2\2\2\62\64\5 \21\2\63\62\3\2\2\2\63\64\3\2\2\2\64\66"+
+		"\3\2\2\2\65\67\5\4\3\2\66\65\3\2\2\2\678\3\2\2\28\66\3\2\2\289\3\2\2\2"+
+		"9\3\3\2\2\2:=\5\n\6\2;=\5\6\4\2<:\3\2\2\2<;\3\2\2\2=\5\3\2\2\2>@\5\b\5"+
+		"\2?>\3\2\2\2@A\3\2\2\2A?\3\2\2\2AB\3\2\2\2B\7\3\2\2\2CJ\5\20\t\2DJ\5\26"+
+		"\f\2EJ\5&\24\2FJ\5(\25\2GJ\5*\26\2HJ\7\20\2\2IC\3\2\2\2ID\3\2\2\2IE\3"+
+		"\2\2\2IF\3\2\2\2IG\3\2\2\2IH\3\2\2\2J\t\3\2\2\2KL\7\20\2\2LM\7\33\2\2"+
+		"MN\5\f\7\2NO\7\22\2\2O\13\3\2\2\2PT\5\16\b\2QT\5\20\t\2RT\5\26\f\2SP\3"+
+		"\2\2\2SQ\3\2\2\2SR\3\2\2\2T\r\3\2\2\2UV\t\2\2\2V\17\3\2\2\2WY\5\22\n\2"+
+		"XW\3\2\2\2YZ\3\2\2\2ZX\3\2\2\2Z[\3\2\2\2[\21\3\2\2\2\\d\7\4\2\2]d\7\3"+
+		"\2\2^d\7\21\2\2_d\5\"\22\2`a\7\13\2\2ad\7\20\2\2bd\5\24\13\2c\\\3\2\2"+
+		"\2c]\3\2\2\2c^\3\2\2\2c_\3\2\2\2c`\3\2\2\2cb\3\2\2\2d\23\3\2\2\2ef\7\24"+
+		"\2\2fg\5\20\t\2gj\7\25\2\2hi\7\34\2\2ik\7\37\2\2jh\3\2\2\2jk\3\2\2\2k"+
+		"\25\3\2\2\2ln\5\30\r\2ml\3\2\2\2no\3\2\2\2om\3\2\2\2op\3\2\2\2p\27\3\2"+
+		"\2\2qy\7\35\2\2ry\7\36\2\2sy\7\21\2\2tu\7\f\2\2uy\7\20\2\2vy\7\37\2\2"+
+		"wy\5\32\16\2xq\3\2\2\2xr\3\2\2\2xs\3\2\2\2xt\3\2\2\2xv\3\2\2\2xw\3\2\2"+
+		"\2y\31\3\2\2\2z{\7\24\2\2{|\5\26\f\2|\177\7\25\2\2}~\7\34\2\2~\u0080\7"+
+		"\37\2\2\177}\3\2\2\2\177\u0080\3\2\2\2\u0080\33\3\2\2\2\u0081\u0082\7"+
+		"\b\2\2\u0082\u0083\7\37\2\2\u0083\u0084\7\22\2\2\u0084\35\3\2\2\2\u0085"+
+		"\u0086\7\t\2\2\u0086\u0087\7\5\2\2\u0087\u0088\7\22\2\2\u0088\37\3\2\2"+
+		"\2\u0089\u008a\7\n\2\2\u008a\u008b\7\37\2\2\u008b\u008c\7\26\2\2\u008c"+
+		"\u008d\7\37\2\2\u008d\u008e\7\22\2\2\u008e!\3\2\2\2\u008f\u0091\7\31\2"+
+		"\2\u0090\u0092\5$\23\2\u0091\u0090\3\2\2\2\u0092\u0093\3\2\2\2\u0093\u0091"+
+		"\3\2\2\2\u0093\u0094\3\2\2\2\u0094\u0095\3\2\2\2\u0095\u0096\7\32\2\2"+
+		"\u0096#\3\2\2\2\u0097\u0098\7\4\2\2\u0098%\3\2\2\2\u0099\u009a\7\16\2"+
+		"\2\u009a\u009b\7\23\2\2\u009b\u009c\7\20\2\2\u009c\'\3\2\2\2\u009d\u009e"+
+		"\7\17\2\2\u009e\u009f\7\23\2\2\u009f\u00a0\7\20\2\2\u00a0)\3\2\2\2\u00a1"+
+		"\u00a2\7\37\2\2\u00a2\u00a3\7\23\2\2\u00a3\u00a4\7\37\2\2\u00a4+\3\2\2"+
+		"\2\21-\60\638<AISZcjox\177\u0093";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {

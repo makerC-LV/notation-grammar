@@ -1,6 +1,7 @@
 package shiva.metamusic;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Notes extends ArrayList<INotesElement> implements IPlayable, INotesElement, IAssignable {
 
@@ -44,6 +45,15 @@ public class Notes extends ArrayList<INotesElement> implements IPlayable, INotes
 		} else {
 			return "( " + sb.toString() + " ) X " + reps + " ";
 		}
+	}
+
+
+	public static IPlayable create(List<MMNote> notes) {
+		Notes n = new Notes(1);
+		for (MMNote nn : notes) {
+			n.add(nn);
+		}
+		return n;
 	}
 
 }

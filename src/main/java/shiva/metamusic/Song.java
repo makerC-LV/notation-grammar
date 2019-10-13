@@ -1,9 +1,8 @@
 package shiva.metamusic;
 
 import java.util.ArrayList;
-import java.util.Stack;
+import java.util.List;
 
-import org.jfugue.theory.Key;
 import org.jfugue.theory.TimeSignature;
 
 public class Song extends ArrayList<ISongElement>{
@@ -14,7 +13,7 @@ public class Song extends ArrayList<ISongElement>{
 	
 	
 	public Song() {
-		this(new MMKeySig(Key.DEFAULT_KEY), new MMTimeSig(TimeSignature.DEFAULT_TIMESIG), MMTempo.DEFAULT_TEMPO);
+		this(MMKeySig.DEFAULT_KEYSIG, new MMTimeSig(TimeSignature.DEFAULT_TIMESIG), MMTempo.DEFAULT_TEMPO);
 	}
 	
 	protected Song(MMKeySig keySig, MMTimeSig timeSig, MMTempo tempo) {
@@ -50,6 +49,20 @@ public class Song extends ArrayList<ISongElement>{
 		this.timeSig = timeSig;
 	}
 
+	public void addNoteList(String voiceName, String instrument, boolean isPercussion, List<? extends INotesElement> mmnotes) {
+		add(new VarDef(voiceName, new Voice(instrument.toUpperCase(), isPercussion)));
+		Notes notes = new Notes(1);
+		notes.add(new Var(voiceName));
+		for (INotesElement  mmn: mmnotes) {
+			notes.add(mmn);
+		}
+		PlayCommand pc = new PlayCommand();
+		pc.add(notes);
+		add(pc);
+	}
+	
+	
+	
 	public String toSong4() {
 		StringBuilder sb = new StringBuilder();
 		sb.append(tempo.toSong4());
@@ -65,6 +78,18 @@ public class Song extends ArrayList<ISongElement>{
 		}
 		return sb.toString();
 	}
+
+	public static Song create(List<MMNote> notes) {
+		return create(notes, MMKeySig.DEFAULT_KEYSIG);
+	}
+
+	public static Song create(List<MMNote> notes, MMKeySig keySig) {
+		Song s = new Song();
+		s.setKeySig(keySig);
+		s.add(PlayCommand.create(notes));
+		return s;
+	}
+	
 	
 	
 }

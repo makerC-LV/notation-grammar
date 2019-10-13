@@ -207,7 +207,7 @@ public class Song4SpecialTokenParser {
 		}
 		sb.append(")");
 		String s = sb.toString();
-		System.out.println(s);
+//		System.out.println(s);
 		return s;
 	}
 
@@ -270,7 +270,9 @@ public class Song4SpecialTokenParser {
 				accidental = "";
 			}
 			Note root = new Note(note+accidental);
-			Scale scale = majorOrMinor.equals("MAJOR") ? Scale.MAJOR : Scale.MINOR;
+			Scale scale = majorOrMinor.equals("MAJOR") ? 
+					MMKeySig.createScale(Scale.MAJOR) : 
+						MMKeySig.createScale(Scale.MINOR) ;
 			Key key = new Key(root, scale);
 			
 			mmkeysig = new MMKeySig(key);

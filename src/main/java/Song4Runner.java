@@ -10,12 +10,13 @@ import org.antlr.v4.gui.TreeViewer;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
-import org.antlr.v4.runtime.Token;
 import org.antlr.v4.runtime.tree.ParseTree;
 
 import shiva.metamusic.Song;
-import shiva.metamusic.Song4Visitor2;
-import shiva.metamusic.SongToMidi;
+import shiva.metamusic.util.LinearSong;
+import shiva.metamusic.util.LinearSongToMidi;
+import shiva.metamusic.util.PlayUtils;
+import shiva.metamusic.util.Song4Visitor2;
 import shiva.song4.Song4Lexer;
 import shiva.song4.Song4Parser;
 import shiva.util.PTimer;
@@ -30,8 +31,8 @@ public class Song4Runner
 //        CharStream input = CharStreams.fromStream(System.in);
 
 //    	CharStream input = CharStreams.fromString(new String(Files.readAllBytes( Paths.get("test.song4"))));
-//    	CharStream input = CharStreams.fromString(new String(Files.readAllBytes( Paths.get("test2.song4"))));
-    	CharStream input = CharStreams.fromString("play (c dh eq fi gi ai bs) X 3 ;");
+    	CharStream input = CharStreams.fromString(new String(Files.readAllBytes( Paths.get("test2.song4"))));
+//    	CharStream input = CharStreams.fromString("play (c dh eq fi gi ai bs) X 3 ; play (+---+--+-+-+-+-+) X 3 ;");
     	
 //    	CharStream input = CharStreams.fromString("key Cminor; r c d e f g a b ");
     	
@@ -45,10 +46,10 @@ public class Song4Runner
         // Lexer test
         tokens.fill();
         
-        System.out.println(tokens.getTokens());
-        for (Token t : tokens.getTokens()) {
-        	System.out.println("'" + t.getText() + "'" + "   " + lexer.getVocabulary().getSymbolicName(t.getType()));
-        }
+//        System.out.println(tokens.getTokens());
+//        for (Token t : tokens.getTokens()) {
+//        	System.out.println("'" + t.getText() + "'" + "   " + lexer.getVocabulary().getSymbolicName(t.getType()));
+//        }
         lext.stop();
         
         // Parser test
@@ -74,8 +75,12 @@ public class Song4Runner
         System.out.println(lext);
         System.out.println(part);
         
-       Sequence seq = SongToMidi.createSequence(song);
-       SongToMidi.playUsingJava(seq);
+//       Sequence seq = SongToMidi.createSequence(song);
+        
+        LinearSong ls = new LinearSong(song);
+        Sequence seq = LinearSongToMidi.getSequence(ls);
+        
+        PlayUtils.playUsingJava(seq);
 
        
        

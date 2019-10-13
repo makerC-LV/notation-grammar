@@ -1,4 +1,4 @@
-package shiva.metamusic;
+package shiva.metamusic.util;
 
 public class Util {
 

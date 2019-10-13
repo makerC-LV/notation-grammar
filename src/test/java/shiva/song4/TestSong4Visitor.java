@@ -10,7 +10,7 @@ import org.antlr.v4.runtime.tree.ParseTree;
 import org.junit.Ignore;
 import org.junit.Test;
 
-import shiva.metamusic.Song4Visitor2;
+import shiva.metamusic.util.Song4Visitor2;
 
 public class TestSong4Visitor {
 

@@ -23,7 +23,6 @@ public class TestSong4Parser {
 	ParseTree tree;
 	DescriptiveErrorListener errors = DescriptiveErrorListener.INSTANCE;
 
-	@Ignore
 	@Test
 	public void testVarDef() {
 		setupWith("$a = (c d) (e f) X 2 ;");
@@ -31,13 +30,18 @@ public class TestSong4Parser {
 		print(tree);
 		assertEquals(0, errors.getErrorCount());
 		
-		setupWith("$b = +-|+- drum $c (+-) X 4 ;");
+		setupWith("$a = +-|+- ; $b (+-) X 4 ");
 		tree = parser.varDef();
 		print(tree);
 		assertEquals(0, errors.getErrorCount());
 		
-		setupWith("play voice $i c d e f g ;");
+		setupWith("voice $v1 c d e f g ");
 		tree = parser.playCommand();
+		print(tree);
+		assertEquals(0, errors.getErrorCount());
+		
+		setupWith("$v1 = CLOSED_HI_HAT; drum $v1 +-+-  ");
+		tree = parser.song();
 		print(tree);
 		assertEquals(0, errors.getErrorCount());
 		

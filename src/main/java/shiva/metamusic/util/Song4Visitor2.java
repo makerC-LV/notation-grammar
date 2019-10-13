@@ -1,4 +1,4 @@
-package shiva.metamusic;
+package shiva.metamusic.util;
 import java.util.Stack;
 
 import org.antlr.v4.runtime.ParserRuleContext;
@@ -25,6 +25,24 @@ import shiva.song4.Song4Parser.TimeSetContext;
 import shiva.song4.Song4Parser.TimesigContext;
 import shiva.song4.Song4Parser.VarDefContext;
 import shiva.song4.Song4Parser.VoiceContext;
+import shiva.metamusic.BarMarker;
+import shiva.metamusic.BeatChange;
+import shiva.metamusic.DrumBeat;
+import shiva.metamusic.ISongElement;
+import shiva.metamusic.MMDuration;
+import shiva.metamusic.MMRhythm;
+import shiva.metamusic.MMTempo;
+import shiva.metamusic.MMTimeSig;
+import shiva.metamusic.Notes;
+import shiva.metamusic.ParallelNotes;
+import shiva.metamusic.PlayCommand;
+import shiva.metamusic.Song;
+import shiva.metamusic.TimeBookmark;
+import shiva.metamusic.TimeRecall;
+import shiva.metamusic.TimeSet;
+import shiva.metamusic.Var;
+import shiva.metamusic.VarDef;
+import shiva.metamusic.Voice;
 import shiva.song4.Song4ParserBaseVisitor;
 import shiva.song4.Song4SpecialTokenParser;
 import shiva.song4.Song4SpecialTokenParser.SpecialToken;
@@ -165,7 +183,7 @@ public class Song4Visitor2<T> extends Song4ParserBaseVisitor<T> {
 			notes.add(st.mmchord);
 		} else if (ctx.BARMARKER() != null) {
 			notes.add(new BarMarker());
-		} else if (ctx.VOICE() != null) {
+		} else if (ctx.VAR() != null) {
 			Var var = new Var(ctx.VAR().getText());
 			notes.add(var);
 		}
@@ -225,7 +243,7 @@ public class Song4Visitor2<T> extends Song4ParserBaseVisitor<T> {
 			rhythm.add(new DrumBeat(false));
 		} else if (ctx.BARMARKER() != null) {
 			rhythm.add(new BarMarker());
-		} else if (ctx.DRUM() != null) {
+		} else if (ctx.VAR() != null) {
 			Var var = new Var(ctx.VAR().getText());
 			rhythm.add(var);
 		} else if (ctx.NUM() != null) {

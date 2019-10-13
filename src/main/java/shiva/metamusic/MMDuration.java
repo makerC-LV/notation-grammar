@@ -100,5 +100,12 @@ public class MMDuration implements Comparable<MMDuration> {
 	public static MMDuration divide(int n) {
 		return new MMDuration(WHOLE.pulses/n);
 	}
+
+	@Override
+	public String toString() {
+		return "D[" + pulses + "]";
+	}
+	
+	
 	
 }

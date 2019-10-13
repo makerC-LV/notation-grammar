@@ -1,6 +1,7 @@
 package shiva.metamusic;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class PlayCommand extends ArrayList<IPlayable> implements ISongElement {
 
@@ -16,5 +17,11 @@ public class PlayCommand extends ArrayList<IPlayable> implements ISongElement {
 			sb.append(p.toSong4());
 		}
 		return "play " + sb.toString() + " ;" ;
+	}
+
+	public static ISongElement create(List<MMNote> notes) {
+		PlayCommand pc = new PlayCommand();
+		pc.add(Notes.create(notes));
+		return pc;
 	}
 }

@@ -1,4 +1,4 @@
-package shiva.metamusic;
+package shiva.music.theory;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -7,7 +7,10 @@ import java.util.Map;
 import org.jfugue.theory.Note;
 import org.jfugue.theory.Scale;
 
-public class MMNoteAdjuster {
+import shiva.metamusic.MMKeySig;
+import shiva.metamusic.MMNote;
+
+public class AdjustNoteForScale {
 
 	
 	//http://neilhawes.com/sstheory/skeysig2.htm
@@ -27,11 +30,12 @@ public class MMNoteAdjuster {
 		fillMaps();
 	}
 	
-	static public int getMidiNote(MMNote mmnote, MMKeySig keySig) {
+	/** Returns the number of semitones (0, 1 or -1) that should be added to the note to adjust for scale. */
+	static public int adjustNoteForKeySignature(MMNote mmnote, MMKeySig keySig) {
 		Note jfnote = mmnote.getJFugueNote();
 		String noteS = Note.getToneStringWithoutOctave(jfnote.getValue());
 		if (noteS.length() > 1) {
-			return jfnote.getValue();
+			return 0;
 		}
 		boolean isMajorKey = keySig.getKey().getScale().getMajorOrMinorIndicator() == Scale.MAJOR_INDICATOR;
 		Map<String, SharpOrFlatNotes> map = isMajorKey ? majorScaleMap : minorScaleMap;
@@ -39,17 +43,42 @@ public class MMNoteAdjuster {
 		String keySigNoteS = Note.getToneStringWithoutOctave(keyRootValue);
 		SharpOrFlatNotes sof = map.get(keySigNoteS);
 		if (sof == null) {
-			return jfnote.getValue();
+			return 0;
 		} else if (sof.contains(noteS)){
 			if (sof.sharp) {
-				return jfnote.getValue() + 1;
+				return  1;
 			} else {
-				return jfnote.getValue() - 1;
+				return - 1;
 			}
 			
 		}
-		return jfnote.getValue();
+		return 0;
 	}
+	
+	
+//	static public int getMidiNote(MMNote mmnote, MMKeySig keySig) {
+//		Note jfnote = mmnote.getJFugueNote();
+//		String noteS = Note.getToneStringWithoutOctave(jfnote.getValue());
+//		if (noteS.length() > 1) {
+//			return jfnote.getValue();
+//		}
+//		boolean isMajorKey = keySig.getKey().getScale().getMajorOrMinorIndicator() == Scale.MAJOR_INDICATOR;
+//		Map<String, SharpOrFlatNotes> map = isMajorKey ? majorScaleMap : minorScaleMap;
+//		byte keyRootValue = keySig.getKey().getRoot().getValue();
+//		String keySigNoteS = Note.getToneStringWithoutOctave(keyRootValue);
+//		SharpOrFlatNotes sof = map.get(keySigNoteS);
+//		if (sof == null) {
+//			return jfnote.getValue();
+//		} else if (sof.contains(noteS)){
+//			if (sof.sharp) {
+//				return jfnote.getValue() + 1;
+//			} else {
+//				return jfnote.getValue() - 1;
+//			}
+//			
+//		}
+//		return jfnote.getValue();
+//	}
 	
 	
 	static private void fillMaps() {

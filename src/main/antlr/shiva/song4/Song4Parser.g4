@@ -11,7 +11,7 @@ song : tempo? keysig? timesig? songElement+ ;
 
 songElement : varDef | playCommand ;
 
-playCommand : PLAY playable+ SEMICOLON;
+playCommand : playable+  ;
 
 playable: notes | rhythm | timeBookmark | timeRecall | timeSet | VAR ;
 
