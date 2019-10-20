@@ -2,6 +2,6 @@
 tempo 120 ;
 key Cbminor ;
 time 4/4 ;
-c d ;
+c d 
 $a = a b;
-$a ;
+$a 

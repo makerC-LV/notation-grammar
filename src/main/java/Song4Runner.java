@@ -62,6 +62,7 @@ public class Song4Runner
         
         TreeViewer viewr = new TreeViewer(Arrays.asList(
                 parser.getRuleNames()),tree);
+        viewr.setUseCurvedEdges(true);
         
         Future<JFrame> ff = viewr.open();
         ff.get().setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

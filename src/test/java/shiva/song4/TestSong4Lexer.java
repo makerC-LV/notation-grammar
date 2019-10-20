@@ -17,8 +17,18 @@ public class TestSong4Lexer {
 	public void test() {
 		setupWith("{ } C#11maj7");
 		assertEquals(0, errors.getErrorCount());
+		
+		setupWith("D // a b \n /*   a b */ ");
+		
 	}
 
+	@Test
+	public void testUndefinedWords() {
+		setupWith("klm a");
+		assertEquals(0, errors.getErrorCount());
+		assertEquals(0, errors.getErrorCount());
+		
+	}
 	
 	private void setupWith(String string) {
 		DescriptiveErrorListener.INSTANCE.reset();
@@ -32,7 +42,8 @@ public class TestSong4Lexer {
         tokens.fill();
         
         for (Token t : tokens.getTokens()) {
-        	System.out.println("'" + t.getText() + "'" + "   " + lexer.getVocabulary().getSymbolicName(t.getType()));
+        	System.out.println("'" + t.getText() + "'" + "  ["  +
+        			t.getChannel() + "]  " + lexer.getVocabulary().getSymbolicName(t.getType()));
         }
         
 	}

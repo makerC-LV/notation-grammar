@@ -2,6 +2,7 @@ package shiva.metamusic.util;
 import java.util.Stack;
 
 import org.antlr.v4.runtime.ParserRuleContext;
+import org.jfugue.rhythm.Rhythm;
 import org.jfugue.theory.TimeSignature;
 
 import shiva.song4.Song4Parser.AssignableContext;
@@ -117,6 +118,8 @@ public class Song4Visitor2<T> extends Song4ParserBaseVisitor<T> {
 		contextStack.pop();
 		return v;
 	}
+	
+	
 	@Override
 	public T visitAssignable(AssignableContext ctx) {
 		contextStack.push(ctx);

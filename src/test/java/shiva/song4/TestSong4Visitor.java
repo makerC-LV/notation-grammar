@@ -1,5 +1,6 @@
 package shiva.song4;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
 import org.antlr.v4.runtime.CharStream;
@@ -20,31 +21,36 @@ public class TestSong4Visitor {
 	DescriptiveErrorListener errors = DescriptiveErrorListener.INSTANCE;
 	Song4Visitor2<Void> visitor;
 	
-	@Ignore
+	
 	@Test
 	public void test1() {
-		setupWith("tempo  90 ; key eminor ; time 2/3 ; play c d ;");
+		setupWith("tempo  90 ; key eminor ; time 2/3 ;  c d ");
 		tree = parser.song();
+		noErrors();
 		visitor.visit(tree);
 		System.out.println(visitor.getSong().toSong4());
 		
 	}
 
-	@Ignore
+	
+
+	
 	@Test
 	public void testParallelNotes() {
-		setupWith(" play c { d f} ;");
+		setupWith("c { d f} ");
 		tree = parser.song();
+		noErrors();
 		visitor.visit(tree);
 		System.out.println(visitor.getSong().toSong4());
 		
 	}
 	
-	@Ignore
+	
 	@Test
 	public void testNestedNotes() {
-		setupWith("play c d ( e f) X 3 (a g) ;");
+		setupWith(" c d ( e f) X 3 (a g) ");
 		tree = parser.song();
+		noErrors();
 		visitor.visit(tree);
 		System.out.println(visitor.getSong().toSong4());
 		
@@ -52,8 +58,19 @@ public class TestSong4Visitor {
 	
 	@Test
 	public void testBarlinesAndTime() {
-		setupWith("play c d | ( e f) X 3 | (a g) ;");
+		setupWith("c d | ( e f) X 3 | (a g) ");
 		tree = parser.song();
+		noErrors();
+		visitor.visit(tree);
+		System.out.println(visitor.getSong().toSong4());
+		
+	}
+	
+	@Test
+	public void testVariables() {
+		setupWith("$a = c d ; $a");
+		tree = parser.song();
+		noErrors();
 		visitor.visit(tree);
 		System.out.println(visitor.getSong().toSong4());
 		
@@ -83,5 +100,10 @@ public class TestSong4Visitor {
         
         visitor = new Song4Visitor2<Void>();
         
+	}
+	
+	private void noErrors() {
+		assertEquals(0, errors.getErrorCount());
+		
 	}
 }

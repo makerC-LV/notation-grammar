@@ -7,13 +7,15 @@ options {   tokenVocab = Song4Lexer; }
     import java.util.HashMap;
 }
 
-song : tempo? keysig? timesig? songElement+ ;
+song : globalElement* songElement* EOF ;
+
+globalElement : keysig | timesig | tempo ;
 
 songElement : varDef | playCommand ;
 
 playCommand : playable+  ;
 
-playable: notes | rhythm | timeBookmark | timeRecall | timeSet | VAR ;
+playable: notes | rhythm | timeBookmark | timeRecall | timeSet  ;
 
 varDef : VAR ASSIGN assignable SEMICOLON;
 
@@ -24,14 +26,14 @@ voice : INSTRUMENTNAME | DRUMNAME ;
 notes:  notesElement+ ;
 
 notesElement : NOTE | CHORD | BARMARKER | parallelNotes | VOICE VAR
-	| groupedNotes ;
+	| groupedNotes | VAR ;
 
 groupedNotes: LPAREN notes RPAREN (TIMES NUM)? ;
 
 rhythm : rhythmElement+ ;
 
 rhythmElement :  PLUS | MINUS | BARMARKER | DRUM VAR | NUM
-	| groupedRhythm  ;
+	| groupedRhythm  | VAR ;
 
 groupedRhythm : LPAREN rhythm RPAREN (TIMES NUM)? ;
 

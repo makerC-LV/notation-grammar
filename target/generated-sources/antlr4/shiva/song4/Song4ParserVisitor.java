@@ -20,6 +20,12 @@ public interface Song4ParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitSong(Song4Parser.SongContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link Song4Parser#globalElement}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitGlobalElement(Song4Parser.GlobalElementContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link Song4Parser#songElement}.
 	 * @param ctx the parse tree
 	 * @return the visitor result

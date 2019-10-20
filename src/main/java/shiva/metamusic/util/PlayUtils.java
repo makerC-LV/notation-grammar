@@ -30,7 +30,18 @@ public class PlayUtils {
 		play("Rq Cq Dq Eq Fq Rq;");
 	}
 	
+	public static Sequence toSequence(String songString) throws InvalidMidiDataException {
+		Song song = toSong(songString);
+		LinearSong lsong = new LinearSong(song);
+		return LinearSongToMidi.getSequence(lsong);
+	}
+	
 	public static void play(String songString) throws MidiUnavailableException, InvalidMidiDataException {
+		Song song = toSong(songString);
+        playSong(song);
+	}
+
+	private static Song toSong(String songString) {
 		CharStream input = CharStreams.fromString(songString);
 		Song4Lexer lexer = new Song4Lexer(input);
 		CommonTokenStream tokens = new CommonTokenStream(lexer);
@@ -40,7 +51,7 @@ public class PlayUtils {
         visitor.visit(tree);
         
         Song song = visitor.getSong();
-        playSong(song);
+		return song;
 	}
 	
 	public static void playNotes(List<MMNote> notes, MMKeySig keySig) throws MidiUnavailableException, InvalidMidiDataException {

@@ -21,6 +21,16 @@ public interface Song4ParserListener extends ParseTreeListener {
 	 */
 	void exitSong(Song4Parser.SongContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link Song4Parser#globalElement}.
+	 * @param ctx the parse tree
+	 */
+	void enterGlobalElement(Song4Parser.GlobalElementContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link Song4Parser#globalElement}.
+	 * @param ctx the parse tree
+	 */
+	void exitGlobalElement(Song4Parser.GlobalElementContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link Song4Parser#songElement}.
 	 * @param ctx the parse tree
 	 */

@@ -35,6 +35,21 @@ dependencies {
 	// Temporary - for development purposes
 	implementation 'com.github.JensPiegsa:jfugue:5.0.9'
 	
+	implementation 'com.github.makerC-LV:tablelayout:master-SNAPSHOT'
+	
+	implementation 'com.github.jiconfont:jiconfont-swing:1.0.0'
+	
+	implementation 'com.github.jiconfont:jiconfont-google_material_design_icons:2.2.0.2'
+	
+	implementation 'com.fifesoft:rsyntaxtextarea:3.0.4'
+	
+	implementation 'com.fifesoft:autocomplete:3.0.2'
+	
+	implementation 'com.fifesoft:rstaui:3.0.2'
+	
+	implementation 'com.fifesoft:languagesupport:3.0.1'
+	
+	
     // Use JUnit test framework
     testImplementation 'junit:junit:4.12'
     

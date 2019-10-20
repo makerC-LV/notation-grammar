@@ -1,0 +1,17 @@
+Decide tempo, keysig, timesig.
+
+
+
+1) Pick a rhythm for a melody (Pick a note length, then vary only one above and one below). 
+Fit a melody to it.
+
+
+
+2) Pick a melody. Fit a rhythm to it.
+
+
+3) Fit a bass line and chords 
+(bass line is pretty much choosing chord notes so that they form a meaningful pattern)
+
+4) Fit some drums.
+

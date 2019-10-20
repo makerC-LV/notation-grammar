@@ -19,7 +19,7 @@ public class Voice implements IAssignable {
 		if (isPercussion) {
 			midiNote = getRhythmMidiNum(instrumentName);
 		} else {
-			midiProgramChange = MidiDictionary.INSTRUMENT_STRING_TO_BYTE.get(instrumentName);
+			midiProgramChange = MidiDictionary.INSTRUMENT_STRING_TO_BYTE.get(instrumentName.toUpperCase());
 		}
 	}
 

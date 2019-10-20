@@ -8,7 +8,10 @@ lexer grammar Song4Lexer;
 
 @members {
   //public static final LexerLookup LOOKUP = LexerLookup.INSTANCE;
+  
 }
+
+channels { ERROR }
 
 tokens {
   CHORD, NOTE, KEYSIG, INSTRUMENTNAME, DRUMNAME
@@ -25,7 +28,7 @@ VOICE : 'voice' ;
 
 DRUM : 'drum' ;
 
-PLAY : 'play' ;
+//PLAY : 'play' ;
 
 //NOTES : 'notes' ;
 //
@@ -37,7 +40,14 @@ RECALLTIME: 'recalltime' ;
 
 VAR : '$' IDCHAR+ ;
 
+MULTILINE_COMMENT
+    : STARTCOMMENT .*? ENDCOMMENT -> channel(HIDDEN)
+;
 
+
+STARTCOMMENT: '/*' -> channel(HIDDEN);
+
+ENDCOMMENT: '*/' -> channel(HIDDEN);
 
 
 // 
@@ -81,14 +91,15 @@ fragment IDCHAR : [A-Za-z0-9_] ;
 
 
 
-WS : [ \n\r\t]+ -> skip;
+WS : [ \n\r\t]+ -> channel(HIDDEN);
 
-COMMENT
-    : '/*' .*? '*/' -> skip
-;
+
+
+
+
 
 LINE_COMMENT
-    : '//' ~[\r\n]* -> skip
+    : '//' ~[\r\n]* -> channel(HIDDEN)
 ;
 
 WORD : [a-zA-Z0-9#%_]+
@@ -96,11 +107,14 @@ WORD : [a-zA-Z0-9#%_]+
 	Song4SpecialTokenParser.SpecialToken token = Song4SpecialTokenParser.getSpecialToken(getText());
 	if ( token != null) {
 		setType(token.tokenId);
+	} else {
+		setType(Song4Lexer.UNMATCHED);
 	}
 }
 ;
 
-
+UNMATCHED          : .  /* -> channel(ERROR) */
+;
 
 	
 	

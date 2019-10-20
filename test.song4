@@ -6,24 +6,24 @@ key Cminor ;
 time 4/4 ;
 
 // Voice delcarations
-voice $V1 = Guitar ;
-voice $V2 = Flute ;
+ $V1 = Guitar ;
+ $V2 = Flute ;
 
-drum $d1 = ACOUSTIC_SNARE ;
-drum $d2 = OPEN_HI_HAT ;
+ $d1 = ACOUSTIC_SNARE ;
+ $d2 = OPEN_HI_HAT ;
 
 // Phrase declarations
-notes $N1 = C Dh Eq Fi {g a} ;
-notes $N2 = Gmaj Adim A#aug Bbmin ;
+$N1 = C Dh Eq Fi {g a} ;
+$N2 = Gmaj Adim A#aug Bbmin ;
 
 // Voiced phrases
 
-($V1 $N1 $N1 )
-($V2 $N1 $N1 marktime:$mark)
-($V1 $N2 $N1 | $N2)
-($V2 recalltime:$mark $N2 $N2 3:4 $N1)
+voice $V1 $N1 $N1 
+voice $V2 $N1 $N1 marktime:$mark
+voice $V1 $N2 $N1 | $N2
+voice $V2 recalltime:$mark $N2 $N2 3:4 $N1
 
 (ri ci ri ci  ri ci ri ci  ri ci ri ci  ri ci ri ci)
-($d2 16 -+-+ -+-+ -+-+ -+-+)
-($d1 16 --+- --+- --++ --+-)
+drum $d2 16 -+-+ -+-+ -+-+ -+-+
+drum $d1 16 --+- --+- --++ --+-
 
