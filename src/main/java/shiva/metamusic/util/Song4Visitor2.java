@@ -6,9 +6,12 @@ import org.jfugue.rhythm.Rhythm;
 import org.jfugue.theory.TimeSignature;
 
 import shiva.song4.Song4Parser.AssignableContext;
+import shiva.song4.Song4Parser.BeatContext;
+import shiva.song4.Song4Parser.ChordContext;
 import shiva.song4.Song4Parser.GroupedNotesContext;
 import shiva.song4.Song4Parser.GroupedRhythmContext;
 import shiva.song4.Song4Parser.KeysigContext;
+import shiva.song4.Song4Parser.NoteContext;
 import shiva.song4.Song4Parser.NotesContext;
 import shiva.song4.Song4Parser.NotesElementContext;
 import shiva.song4.Song4Parser.ParallelNotesContext;
@@ -30,7 +33,10 @@ import shiva.metamusic.BarMarker;
 import shiva.metamusic.BeatChange;
 import shiva.metamusic.DrumBeat;
 import shiva.metamusic.ISongElement;
+import shiva.metamusic.MMChord;
 import shiva.metamusic.MMDuration;
+import shiva.metamusic.MMDynamics;
+import shiva.metamusic.MMNote;
 import shiva.metamusic.MMRhythm;
 import shiva.metamusic.MMTempo;
 import shiva.metamusic.MMTimeSig;
@@ -178,12 +184,8 @@ public class Song4Visitor2<T> extends Song4ParserBaseVisitor<T> {
 	public T visitNotesElement(NotesElementContext ctx) {
 		contextStack.push(ctx);
 		Notes notes = notesStack.peek();
-		if (ctx.NOTE() != null) {
-			SpecialToken st = Song4SpecialTokenParser.getSpecialToken(ctx.NOTE().getText());
-			notes.add(st.mmnote);
-		} else if (ctx.CHORD() != null) {
-			SpecialToken st = Song4SpecialTokenParser.getSpecialToken(ctx.CHORD().getText());
-			notes.add(st.mmchord);
+		if (ctx.DYNAMICS() != null) {
+			notes.add(new MMDynamics(ctx.DYNAMICS().getText().substring(1)));
 		} else if (ctx.BARMARKER() != null) {
 			notes.add(new BarMarker());
 		} else if (ctx.VAR() != null) {
@@ -209,6 +211,63 @@ public class Song4Visitor2<T> extends Song4ParserBaseVisitor<T> {
 		return v;
 	}
 	
+	
+	@Override
+	public T visitNote(NoteContext ctx) {
+		contextStack.push(ctx);
+		Notes notes = notesStack.peek();
+		if (ctx.NOTE() != null) {
+			SpecialToken st = Song4SpecialTokenParser.getSpecialToken(ctx.NOTE().getText());
+			MMNote mmnote = (MMNote) st.mmnote.copy();
+			if (ctx.ACCENT() != null) {
+				mmnote.accent(true);
+			}
+			notes.add(mmnote);
+		}
+		T v = super.visitNote(ctx);
+		contextStack.pop();
+		return v;
+	}
+
+	@Override
+	public T visitChord(ChordContext ctx) {
+		contextStack.push(ctx);
+		Notes notes = notesStack.peek();
+		if (ctx.CHORD() != null) {
+			SpecialToken st = Song4SpecialTokenParser.getSpecialToken(ctx.CHORD().getText());
+			MMChord mmchord = (MMChord) st.mmchord.copy();
+			if (ctx.ACCENT() != null) {
+				mmchord.accent(true);
+			}
+			notes.add(mmchord);
+		}
+		T v = super.visitChord(ctx);
+		contextStack.pop();
+		return v;
+	}
+
+	@Override
+	public T visitBeat(BeatContext ctx) {
+		contextStack.push(ctx);
+		MMRhythm rhythm = rhythmStack.peek();
+		boolean accented = ctx.ACCENT() != null;
+		DrumBeat db = null;;
+		if (ctx.PLUS() != null) {
+			db = new DrumBeat(true);
+			if (accented) {
+				db.accent(true);
+			}
+		} else if (ctx.MINUS() != null) {
+			db = new DrumBeat(false);
+		} 
+		if (db != null) {
+			rhythm.add(db);
+		}
+		T v = super.visitBeat(ctx);
+		contextStack.pop();
+		return v;
+	}
+
 	@Override
 	public T visitRhythm(RhythmContext ctx) {
 		ParserRuleContext context = contextStack.peek();
@@ -240,10 +299,8 @@ public class Song4Visitor2<T> extends Song4ParserBaseVisitor<T> {
 	public T visitRhythmElement(RhythmElementContext ctx) {
 		contextStack.push(ctx);
 		MMRhythm rhythm = rhythmStack.peek();
-		if (ctx.PLUS() != null) {
-			rhythm.add(new DrumBeat(true));
-		} else if (ctx.MINUS() != null) {
-			rhythm.add(new DrumBeat(false));
+		if (ctx.DYNAMICS() != null) {
+			rhythm.add(new MMDynamics(ctx.DYNAMICS().getText().substring(1)));
 		} else if (ctx.BARMARKER() != null) {
 			rhythm.add(new BarMarker());
 		} else if (ctx.VAR() != null) {

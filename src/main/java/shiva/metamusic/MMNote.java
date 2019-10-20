@@ -10,6 +10,7 @@ public class MMNote extends ElementWithDuration implements ICopiable, INotesElem
 	public static final int DEFAULT_OCTAVE = 5;
 	Note note;
 	int midiVelocity;
+	boolean accented;
 	
 	
 	public MMNote(MMDuration time) {
@@ -23,17 +24,27 @@ public class MMNote extends ElementWithDuration implements ICopiable, INotesElem
 	public MMNote(MMDuration time, Note note, MMDuration duration) {
 		super(time);
 		this.note = note;
-		this.midiVelocity = MidiUtils.DEFAULT_VELOCITY;
+		this.midiVelocity = MidiUtils.DEFAULT_DYNAMICS.getMidiValue();
 		this.duration = duration;
 	}
 	
+	
+	public boolean isAccented() {
+		return accented;
+	}
+
 	@Override
 	public ICopiable copy() {
 		MMNote n = new MMNote(new MMDuration(time.getPulses()), new Note(note), new MMDuration(duration.getPulses()));
 		n.midiVelocity = midiVelocity;
+		n.accented = accented;
 		return n;
 	}
 	
+	public void accent(boolean b) {
+		accented = b;
+		
+	}
 	
 	public static String midiNumToString(int midiNum) {
 		int octave = midiNum/12;
@@ -107,5 +118,7 @@ public class MMNote extends ElementWithDuration implements ICopiable, INotesElem
 	public static MMNote defaultNote(Note n) {
 		return new MMNote(MMDuration.ZERO, n, MMDuration.QUARTER);
 	}
+
+	
 		
 }

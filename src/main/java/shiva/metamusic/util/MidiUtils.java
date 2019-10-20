@@ -22,7 +22,27 @@ public class MidiUtils {
 	public static final int PERCUSSION_CHANNEL = 9;
 	public static final int DEFAULT_INSTRUMENT = 0;  //Piano
 	public static final String DEFAULT_INSTRUMENT_NAME = "PIANO";
-	public static final int DEFAULT_VELOCITY = 64;
+//	public static final int DEFAULT_VELOCITY = 64;
+
+	public static final Dynamics DEFAULT_DYNAMICS = Dynamics.mp;
+	public static final int ACCENT_INCREMENT = 34;
+	
+	public static enum Dynamics {
+		
+		ppp(16), pp(33), p(49), mp(64), mf(80), f(96), ff(112), fff(127) ;
+		
+		private int midiValue;
+		
+		private Dynamics(int midiValue) {
+			this.midiValue = midiValue;
+		}
+
+		public int getMidiValue() {
+			return midiValue;
+		}
+		
+		
+	}
 	
 	public static final int instrumentToMidiNum(String instrument) {
 		return MidiDictionary.INSTRUMENT_STRING_TO_BYTE.get(instrument.toUpperCase());
@@ -45,36 +65,36 @@ public class MidiUtils {
 		return Note.PERCUSSION_NAMES[note - 35];
 	}
 	
-	public static void addNote(Track track, int midiNum, long durationTicks, long startTick, int midiChannel) throws InvalidMidiDataException {
-		track.add(createNoteOn(midiNum, startTick, midiChannel));
-		track.add(createNoteOff(midiNum, startTick + durationTicks, midiChannel));
+	public static void addNote(Track track, int midiNum, long durationTicks, long startTick, int midiChannel, int velocity) throws InvalidMidiDataException {
+		track.add(createNoteOn(midiNum, startTick, midiChannel, velocity));
+		track.add(createNoteOff(midiNum, startTick + durationTicks, midiChannel, velocity));
 		
 	}
 	
-	public static void addNote(Track track,  Song song, long startTick, long durationTicks, MMNote mmnote, int midiChannel)
+	public static void addNote(Track track,  Song song, long startTick, long durationTicks, MMNote mmnote, int midiChannel, int velocity)
 			throws InvalidMidiDataException {
 		if (! mmnote.getJFugueNote().isRest()) {
 			int midiNum = MMNote.calculateMidiNum(mmnote, song.getKeySig());
-			track.add(createNoteOn(midiNum, startTick, midiChannel));
-			track.add(createNoteOff(midiNum, startTick + durationTicks, midiChannel));
+			track.add(createNoteOn(midiNum, startTick, midiChannel, velocity));
+			track.add(createNoteOff(midiNum, startTick + durationTicks, midiChannel, velocity));
 		}
 	}
 
-	public static MidiEvent createNoteOn(int noteNum, long tick, int channel)
+	public static MidiEvent createNoteOn(int noteNum, long tick, int channel, int velocity)
 			throws InvalidMidiDataException {
 		ShortMessage myMsg = new ShortMessage();
 		// (velocity = 93)on channel 0 (zero-based).
-		myMsg.setMessage(ShortMessage.NOTE_ON,  channel, noteNum, 93);
+		myMsg.setMessage(ShortMessage.NOTE_ON,  channel, noteNum, velocity);
 		debug("Note on " + noteNum + "  tick=" + tick + " channel=" + channel);
 		return new MidiEvent(myMsg, tick);
 	}
 
-	public static MidiEvent createNoteOff(int noteNum, long tick, int channel)
+	public static MidiEvent createNoteOff(int noteNum, long tick, int channel, int velocity)
 			throws InvalidMidiDataException {
 		ShortMessage myMsg = new ShortMessage();
 		// Play the note Middle C (60) moderately loud
 		// (velocity = 93)on channel 0 (zero-based).
-		myMsg.setMessage(ShortMessage.NOTE_OFF, channel, noteNum, 93);
+		myMsg.setMessage(ShortMessage.NOTE_OFF, channel, noteNum, velocity);
 		debug("Note off " + noteNum + "  tick=" + tick  + " channel=" + channel);
 		return new MidiEvent(myMsg, tick);
 	}

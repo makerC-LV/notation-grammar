@@ -6,6 +6,7 @@ import org.jfugue.theory.Note;
 public class MMChord extends ElementWithDuration implements ICopiable, INotesElement {
 
 	private Chord chord;
+	private boolean accented;
 
 	public MMChord(Chord chord) {
 		this(MMDuration.ZERO, chord, MMDuration.QUARTER);
@@ -17,9 +18,20 @@ public class MMChord extends ElementWithDuration implements ICopiable, INotesEle
 		this.duration = duration;
 	}
 
+	public void accent(boolean b) {
+		accented = b;
+		
+	}
+	
+	
+	public boolean isAccented() {
+		return accented;
+	}
+
 	@Override
 	public ICopiable copy() {
 		MMChord newChord = new MMChord(time, chord, duration);
+		newChord.accented = accented;
 		return newChord;
 	}
 
@@ -71,5 +83,7 @@ public class MMChord extends ElementWithDuration implements ICopiable, INotesEle
 		}
 		return -1;
 	}
+
+	
 
 }

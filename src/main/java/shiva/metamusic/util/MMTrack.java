@@ -11,6 +11,7 @@ import org.jfugue.theory.Note;
 import shiva.metamusic.ElementWithDuration;
 import shiva.metamusic.MMChord;
 import shiva.metamusic.MMDuration;
+import shiva.metamusic.MMDynamics;
 import shiva.metamusic.MMNote;
 import shiva.metamusic.ParallelNotes;
 
@@ -87,6 +88,7 @@ public class MMTrack {
 		Chord c = chord.getJFugueChord();
 		for (Note n : c.getNotes()) {
 			MMNote mmnote = new MMNote(MMDuration.ZERO, n, dur);
+			mmnote.accent(chord.isAccented());
 			addNoteWithoutIncrementingTime(mmnote);
 		}
 		currentTime = MMDuration.add(currentTime, dur);
@@ -108,15 +110,28 @@ public class MMTrack {
 	}
 
 	private void addNoteWithoutIncrementingTime(MMNote item) {
-		List<ElementWithDuration> list = items.get(currentTime);
-		if (list == null) {
-			list = new ArrayList<>();
-			items.put(currentTime, list);
-		}
+		List<ElementWithDuration> list = getItemsForTime(currentTime);
 		MMNote copy = (MMNote) item.copy();
 //		System.out.println("Adding " + item.toSong4() + " " + item.getTime())
 		copy.setTime(currentTime);
 		list.add(copy);
+	}
+
+	private List<ElementWithDuration> getItemsForTime(MMDuration time) {
+		List<ElementWithDuration> list = items.get(time);
+		if (list == null) {
+			list = new ArrayList<>();
+			items.put(currentTime, list);
+		}
+		return list;
+	}
+	
+	public void add(MMDynamics mmd) {
+		MMDynamics copy = (MMDynamics) mmd.copy();
+		copy.setTime(currentTime);
+		List<ElementWithDuration> list = getItemsForTime(currentTime);
+		list.add(copy);
+		
 	}
 	
 	public void setDuration(MMDuration dur) {
@@ -126,7 +141,7 @@ public class MMTrack {
 		this.duration = dur;
 	} 
 	
-	public void addBeat(boolean beat) {
+	public void addBeat(boolean beat, boolean accented) {
 		if (!percussionTrack) {
 			throw new RuntimeException("Cannot add beat to note track");
 		}
@@ -135,30 +150,11 @@ public class MMTrack {
 			n = new Note(midiNote);
 		}
 		MMNote mmnote = new MMNote(MMDuration.ZERO, n, duration);
+		mmnote.accent(accented);
 		addNoteInternal(mmnote);
 	}
 	
-	/*
-	public void add(MMNotePhrase phrase) {
-		for (MMTrackItem item: phrase.getItems()) {
-			add(item.copy());
-		}
-	}
 	
-	public void add(MMRhythmPhrase phrase, int midiNoteNum) {
-		MMDuration dur = phrase.getNoteDuration();
-		
-		for (boolean b: phrase.getBeats()) {
-			Note n = Note.createRest(1);
-			if (b) {
-				n = new Note(midiNoteNum);
-			}
-			MMNote mmnote = new MMNote(MMDuration.ZERO, n, dur);
-			add(mmnote);
-			
-		}
-	}
-	*/
 	public void setTime(MMDuration duration) {
 		currentTime = duration;
 	}
@@ -190,6 +186,8 @@ public class MMTrack {
 		sb.append("]");
 		return sb.toString();
 	}
+
+	
 
 	
 	

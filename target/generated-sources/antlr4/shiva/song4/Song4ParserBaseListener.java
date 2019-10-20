@@ -151,6 +151,30 @@ public class Song4ParserBaseListener implements Song4ParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterNote(Song4Parser.NoteContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitNote(Song4Parser.NoteContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterChord(Song4Parser.ChordContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitChord(Song4Parser.ChordContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterRhythm(Song4Parser.RhythmContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -170,6 +194,18 @@ public class Song4ParserBaseListener implements Song4ParserListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitRhythmElement(Song4Parser.RhythmElementContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterBeat(Song4Parser.BeatContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitBeat(Song4Parser.BeatContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

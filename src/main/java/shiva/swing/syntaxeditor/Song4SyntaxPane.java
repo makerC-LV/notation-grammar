@@ -30,7 +30,8 @@ public class Song4SyntaxPane extends JPanel implements Tabbable, FileEditor {
 
 	static {
 		AbstractTokenMakerFactory atmf = (AbstractTokenMakerFactory) TokenMakerFactory.getDefaultInstance();
-		atmf.putMapping("text/song4", "shiva.swing.music.song4editor.Song4TokenMaker");
+		String name = Song4TokenMaker.class.getName();
+		atmf.putMapping("text/song4", name);
 
 	}
 

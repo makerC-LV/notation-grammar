@@ -4,7 +4,7 @@ package shiva.metamusic;
 public interface INotesElement {
 
 	public enum Type {
-		 NOTE, CHORD, BARMARKER, PARALLELNOTES, NOTES, VAR
+		 NOTE, CHORD, BARMARKER, PARALLELNOTES, NOTES, VAR, DYNAMIC
 			
 	}
 

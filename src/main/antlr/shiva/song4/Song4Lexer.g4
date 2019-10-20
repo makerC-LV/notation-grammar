@@ -40,6 +40,12 @@ RECALLTIME: 'recalltime' ;
 
 VAR : '$' IDCHAR+ ;
 
+ACCENT : CARET ;
+
+DYNAMICS : COLON ('fff'|'ff'|'f'|'mf'| 'pf'| 'ppp' | 'pp' | 'p') ;
+
+
+
 MULTILINE_COMMENT
     : STARTCOMMENT .*? ENDCOMMENT -> channel(HIDDEN)
 ;
@@ -78,6 +84,9 @@ TIMES : 'X' ;
 PLUS: '+' ;
 
 MINUS: '-' ;
+
+CARET: '^' ;
+
 
 
 NUM: DIGIT+ ;

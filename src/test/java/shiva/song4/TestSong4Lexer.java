@@ -19,7 +19,10 @@ public class TestSong4Lexer {
 		assertEquals(0, errors.getErrorCount());
 		
 		setupWith("D // a b \n /*   a b */ ");
+		assertEquals(0, errors.getErrorCount());
 		
+		setupWith("a ^b c d :f e f");
+		assertEquals(0, errors.getErrorCount());
 	}
 
 	@Test

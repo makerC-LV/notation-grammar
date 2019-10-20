@@ -15,7 +15,7 @@ songElement : varDef | playCommand ;
 
 playCommand : playable+  ;
 
-playable: notes | rhythm | timeBookmark | timeRecall | timeSet  ;
+playable: notes | rhythm | timeBookmark | timeRecall | timeSet ;
 
 varDef : VAR ASSIGN assignable SEMICOLON;
 
@@ -25,15 +25,21 @@ voice : INSTRUMENTNAME | DRUMNAME ;
 
 notes:  notesElement+ ;
 
-notesElement : NOTE | CHORD | BARMARKER | parallelNotes | VOICE VAR
-	| groupedNotes | VAR ;
+notesElement : note | chord | BARMARKER | parallelNotes | VOICE VAR
+	| groupedNotes | VAR | DYNAMICS ;
 
 groupedNotes: LPAREN notes RPAREN (TIMES NUM)? ;
 
+note: ACCENT? NOTE;
+
+chord: ACCENT? CHORD;
+
 rhythm : rhythmElement+ ;
 
-rhythmElement :  PLUS | MINUS | BARMARKER | DRUM VAR | NUM
-	| groupedRhythm  | VAR ;
+rhythmElement :  beat | BARMARKER | DRUM VAR | NUM
+	| groupedRhythm  | VAR | DYNAMICS ;
+
+beat: (ACCENT? PLUS) | MINUS ;
 
 groupedRhythm : LPAREN rhythm RPAREN (TIMES NUM)? ;
 

@@ -105,6 +105,11 @@ public class MMDuration implements Comparable<MMDuration> {
 	public String toString() {
 		return "D[" + pulses + "]";
 	}
+
+	public MMDuration copy() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
 	
 	

@@ -6,6 +6,7 @@ import java.util.Map;
 import javax.sound.midi.InvalidMidiDataException;
 
 import shiva.metamusic.BeatChange;
+import shiva.metamusic.DrumBeat;
 import shiva.metamusic.IAssignable;
 import shiva.metamusic.INotesElement;
 import shiva.metamusic.IPlayable;
@@ -13,6 +14,7 @@ import shiva.metamusic.IRhythmElement;
 import shiva.metamusic.ISongElement;
 import shiva.metamusic.MMChord;
 import shiva.metamusic.MMDuration;
+import shiva.metamusic.MMDynamics;
 import shiva.metamusic.MMNote;
 import shiva.metamusic.MMRhythm;
 import shiva.metamusic.Notes;
@@ -130,7 +132,7 @@ public class LinearSong {
 			processVoice((Voice) ass, pl.getVarName(), cs);
 			break;
 		default:
-			break;
+			throw new RuntimeException("Unknown type: " + ass.getType());
 		
 		}
 		
@@ -175,11 +177,11 @@ public class LinearSong {
 					drumTracks.getCurrentTrack().setDuration(bc.getDuration());
 					break;
 				case MINUS:
-					drumTracks.getCurrentTrack().addBeat(false);
+					drumTracks.getCurrentTrack().addBeat(false, ((DrumBeat)re).isAccented());
 					
 					break;
 				case PLUS:
-					drumTracks.getCurrentTrack().addBeat(true);
+					drumTracks.getCurrentTrack().addBeat(true, ((DrumBeat)re).isAccented());
 					break;
 				case RHYTHM:
 					processRhythm((MMRhythm) re, cs);
@@ -187,9 +189,12 @@ public class LinearSong {
 				case VAR:
 					processVar((Var) re, cs);
 					break;
-
-				default:
+				case DYNAMIC:
+					MMDynamics mmd = (MMDynamics) re;
+					drumTracks.getCurrentTrack().add(mmd);
 					break;
+				default:
+					throw new RuntimeException("Unknown type: " + re.getRhythmElementType());
 
 				}
 			}
@@ -228,9 +233,12 @@ public class LinearSong {
 					Var v = (Var) ne;
 					processVar(v, cs);
 					break;
-				
-				default:
+				case DYNAMIC:
+					MMDynamics mmd = (MMDynamics) ne;
+					noteTracks.getCurrentTrack().add(mmd);
 					break;
+				default:
+					throw new RuntimeException("Unknown type: " + ne.getNotesElementType());
 				
 				}
 			}

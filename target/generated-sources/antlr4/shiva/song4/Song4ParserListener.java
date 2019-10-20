@@ -121,6 +121,26 @@ public interface Song4ParserListener extends ParseTreeListener {
 	 */
 	void exitGroupedNotes(Song4Parser.GroupedNotesContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link Song4Parser#note}.
+	 * @param ctx the parse tree
+	 */
+	void enterNote(Song4Parser.NoteContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link Song4Parser#note}.
+	 * @param ctx the parse tree
+	 */
+	void exitNote(Song4Parser.NoteContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link Song4Parser#chord}.
+	 * @param ctx the parse tree
+	 */
+	void enterChord(Song4Parser.ChordContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link Song4Parser#chord}.
+	 * @param ctx the parse tree
+	 */
+	void exitChord(Song4Parser.ChordContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link Song4Parser#rhythm}.
 	 * @param ctx the parse tree
 	 */
@@ -140,6 +160,16 @@ public interface Song4ParserListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitRhythmElement(Song4Parser.RhythmElementContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link Song4Parser#beat}.
+	 * @param ctx the parse tree
+	 */
+	void enterBeat(Song4Parser.BeatContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link Song4Parser#beat}.
+	 * @param ctx the parse tree
+	 */
+	void exitBeat(Song4Parser.BeatContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link Song4Parser#groupedRhythm}.
 	 * @param ctx the parse tree

@@ -3,14 +3,22 @@ package shiva.metamusic;
 public class DrumBeat implements ICopiable, IRhythmElement {
 
 	private boolean beat;
-	
+	private boolean accented;
 	
 	public DrumBeat(boolean beat) {
 		super();
 		this.beat = beat;
 	}
 
+	public void accent(boolean b) {
+		accented = b;
+	}
 	
+	
+	public boolean isAccented() {
+		return accented;
+	}
+
 	public boolean isBeat() {
 		return beat;
 	}
@@ -23,7 +31,9 @@ public class DrumBeat implements ICopiable, IRhythmElement {
 
 	@Override
 	public ICopiable copy() {
-		return new DrumBeat(beat);
+		DrumBeat db = new DrumBeat(beat);
+		db.accent(accented);
+		return db;
 	}
 
 
@@ -31,5 +41,8 @@ public class DrumBeat implements ICopiable, IRhythmElement {
 	public String toSong4() {
 		return beat ? "+" : "-";
 	}
+
+
+	
 
 }
