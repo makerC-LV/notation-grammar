@@ -1,13 +1,13 @@
 package shiva.metamusic;
 
-public class TimeBookmark implements IPlayable {
+public class TimeBookmark extends Locatable implements IPlayable {
 
 	private String varName;
 	
 	
 	
-	public TimeBookmark(String varName) {
-		super();
+	public TimeBookmark(String varName, Location location) {
+		super(location);
 		this.varName = varName;
 	}
 

@@ -1,10 +1,11 @@
 package shiva.metamusic;
 
-public class BeatChange implements IRhythmElement {
+public class BeatChange extends Locatable implements IRhythmElement {
 	
 	MMDuration duration;
 
-	public BeatChange(int pulse) {
+	public BeatChange(int pulse, Location location) {
+		super(location);
 		duration = new MMDuration(pulse);
 	}
 
@@ -21,8 +22,7 @@ public class BeatChange implements IRhythmElement {
 
 	@Override
 	public String toSong4() {
-		// TODO Auto-generated method stub
-		return null;
+		return " " + duration.getPulses() + " " ;
 	}
 
 }

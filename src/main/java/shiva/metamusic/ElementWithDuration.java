@@ -1,14 +1,14 @@
 package shiva.metamusic;
 
-public abstract class ElementWithDuration {
+public abstract class ElementWithDuration extends Locatable {
 
 	
 	
 	protected MMDuration time;
 	protected MMDuration duration;
 
-	protected ElementWithDuration( MMDuration time) {
-		super();
+	protected ElementWithDuration( MMDuration time, Location location) {
+		super(location);
 		this.time = time;
 	}
 

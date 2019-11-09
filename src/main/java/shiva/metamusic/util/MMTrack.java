@@ -66,6 +66,10 @@ public class MMTrack {
 	}
 
 
+	public String getMidiInstrumentName() {
+		return midiInstrumentName;
+	}
+
 	public int getMidiChannel() {
 		return midiChannel;
 	}
@@ -87,8 +91,8 @@ public class MMTrack {
 		MMDuration dur = chord.getDuration();
 		Chord c = chord.getJFugueChord();
 		for (Note n : c.getNotes()) {
-			MMNote mmnote = new MMNote(MMDuration.ZERO, n, dur);
-			mmnote.accent(chord.isAccented());
+			MMNote mmnote = new MMNote(MMDuration.ZERO, n, dur, chord.getLocation());
+			mmnote.accent(chord.getAccent());
 			addNoteWithoutIncrementingTime(mmnote);
 		}
 		currentTime = MMDuration.add(currentTime, dur);
@@ -141,7 +145,7 @@ public class MMTrack {
 		this.duration = dur;
 	} 
 	
-	public void addBeat(boolean beat, boolean accented) {
+	public void addBeat(boolean beat, int accent) {
 		if (!percussionTrack) {
 			throw new RuntimeException("Cannot add beat to note track");
 		}
@@ -149,11 +153,27 @@ public class MMTrack {
 		if (beat) {
 			n = new Note(midiNote);
 		}
-		MMNote mmnote = new MMNote(MMDuration.ZERO, n, duration);
-		mmnote.accent(accented);
+		MMNote mmnote = new MMNote(MMDuration.ZERO, n, duration, null);
+		mmnote.accent(accent);
 		addNoteInternal(mmnote);
 	}
 	
+	public void addFlam(int accent) {
+		if (!percussionTrack) {
+			throw new RuntimeException("Cannot add flam to note track");
+		}
+		Note n = new Note(midiNote);
+		MMDuration halfDuration = MMDuration.multiply(duration, 0.5);
+		int preAccent = accent - 1;
+		MMNote prenote = new MMNote(MMDuration.ZERO, n, halfDuration, null);
+		prenote.accent(preAccent);
+		MMNote note = new MMNote(MMDuration.ZERO, n, halfDuration, null);
+		note.accent(accent);
+		addNoteInternal(prenote);
+		addNoteInternal(note);
+		
+		
+	}
 	
 	public void setTime(MMDuration duration) {
 		currentTime = duration;

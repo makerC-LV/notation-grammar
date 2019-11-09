@@ -47,32 +47,32 @@ public class Song4SyntaxPane extends JPanel implements Tabbable, FileEditor {
 		super();
 		this.parser = parser;
 		textArea = new TextEditorPane();
-		textArea.setRows(25);
-		textArea.setColumns(100);
-		textArea.setSyntaxEditingStyle("text/song4");
-		textArea.requestFocusInWindow();
-		textArea.setMarkOccurrences(true);
-		textArea.setCodeFoldingEnabled(true);
-		textArea.setClearWhitespaceLinesEnabled(false);
-		textArea.setTabSize(4);
-		textArea.setTabsEmulated(true);
-		textArea.setAnimateBracketMatching(false);
-		textArea.setPaintMatchedBracketPair(true);
-		textArea.setCodeFoldingEnabled(true);
+		getTextArea().setRows(25);
+		getTextArea().setColumns(100);
+		getTextArea().setSyntaxEditingStyle("text/song4");
+		getTextArea().requestFocusInWindow();
+		getTextArea().setMarkOccurrences(true);
+		getTextArea().setCodeFoldingEnabled(true);
+		getTextArea().setClearWhitespaceLinesEnabled(false);
+		getTextArea().setTabSize(4);
+		getTextArea().setTabsEmulated(true);
+		getTextArea().setAnimateBracketMatching(false);
+		getTextArea().setPaintMatchedBracketPair(true);
+		getTextArea().setCodeFoldingEnabled(true);
 		Theme theme;
 		try {
 			theme = Theme.load(getClass().getResourceAsStream(
 //			           "/org/fife/ui/rsyntaxtextarea/themes/dark.xml"));
 					"/song4-dark.xml"));
-			theme.apply(textArea);
+			theme.apply(getTextArea());
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
-		textArea.addParser(parser);
+		getTextArea().addParser(parser);
 
-		textArea.addPropertyChangeListener(RSyntaxTextArea.PARSER_NOTICES_PROPERTY, e -> {
+		getTextArea().addPropertyChangeListener(RSyntaxTextArea.PARSER_NOTICES_PROPERTY, e -> {
 			// List<ParserNotice> notices = textArea.getParserNotices();
 //                    System.out.println("Parser notices changed");
 			// refreshErrorTable(notices);
@@ -80,15 +80,15 @@ public class Song4SyntaxPane extends JPanel implements Tabbable, FileEditor {
 
 		
 		
-		scrollPane = new RTextScrollPane(textArea);
+		scrollPane = new RTextScrollPane(getTextArea());
 		setLayout(new BorderLayout());
-		add(scrollPane, BorderLayout.CENTER);
+		add(getScrollPane(), BorderLayout.CENTER);
 
 	}
 
 
 	public void reparse() {
-		textArea.forceReparsing(0);
+		getTextArea().forceReparsing(0);
 	}
 
 	@Override
@@ -98,12 +98,12 @@ public class Song4SyntaxPane extends JPanel implements Tabbable, FileEditor {
 
 	@Override
 	public boolean closeRequested() {
-		return fileHandler.closeFile();
+		return getFileHandler().closeFile();
 	}
 
 	@Override
 	public String getTitle() {
-		File f = fileHandler.getFile();
+		File f = getFileHandler().getFile();
 		if (f == null) {
 			return "Untitled";
 		} else {
@@ -125,12 +125,12 @@ public class Song4SyntaxPane extends JPanel implements Tabbable, FileEditor {
 
 	@Override
 	public String getContents() {
-		return textArea.getText();
+		return getTextArea().getText();
 	}
 
 	@Override
 	public boolean isDirty() {
-		return ((TextEditorPane) textArea).isDirty();
+		return ((TextEditorPane) getTextArea()).isDirty();
 	}
 
 	@Override
@@ -147,14 +147,26 @@ public class Song4SyntaxPane extends JPanel implements Tabbable, FileEditor {
 	@Override
 	public void onSave() {
 		System.out.println("Onsave called");
-		File f = fileHandler.getFile();
+		File f = getFileHandler().getFile();
 		if (myPane != null && f != null) {
 			myPane.setTitleFor(this, f.getName());
 		}
 
 	}
 
-	class Song4FileHandler extends FileOpenSaveCloseHandler {
+	public RSyntaxTextArea getTextArea() {
+		return textArea;
+	}
+
+	public RTextScrollPane getScrollPane() {
+		return scrollPane;
+	}
+
+	public Song4FileHandler getFileHandler() {
+		return fileHandler;
+	}
+
+	public class Song4FileHandler extends FileOpenSaveCloseHandler {
 
 		public Song4FileHandler(FileEditor editor) {
 			super(editor);
@@ -165,7 +177,7 @@ public class Song4SyntaxPane extends JPanel implements Tabbable, FileEditor {
 
 			FileLocation loc = FileLocation.create(selectedFile);
 			try {
-				((TextEditorPane) textArea).load(loc, null);
+				((TextEditorPane) getTextArea()).load(loc, null);
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -177,7 +189,7 @@ public class Song4SyntaxPane extends JPanel implements Tabbable, FileEditor {
 			try {
 
 				FileLocation loc = FileLocation.create(file);
-				((TextEditorPane) textArea).saveAs(loc);
+				((TextEditorPane) getTextArea()).saveAs(loc);
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

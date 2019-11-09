@@ -1,46 +1,67 @@
 package shiva.metamusic;
 
-public class DrumBeat implements ICopiable, IRhythmElement {
+public class DrumBeat extends Locatable implements ICopiable, IRhythmElement {
 
 	private boolean beat;
-	private boolean accented;
+	private int accent;
+	private boolean flam;
 	
-	public DrumBeat(boolean beat) {
-		super();
+	public DrumBeat(boolean beat, Location location) {
+		super(location);
 		this.beat = beat;
 	}
 
-	public void accent(boolean b) {
-		accented = b;
+	public void accent(int b) {
+		accent = b;
 	}
 	
 	
-	public boolean isAccented() {
-		return accented;
+	public int getAccent() {
+		return accent;
 	}
 
 	public boolean isBeat() {
 		return beat;
 	}
 
+	public boolean isFlam() {
+		return flam;
+	}
 
+	public void setFlam(boolean b) {
+		this.flam = b;
+	}
+	
 	@Override
 	public Type getRhythmElementType() {
-		return beat ? Type.PLUS : Type.MINUS;
+		return flam ? Type.FLAM : (beat ? Type.BEAT : Type.REST);
 	}
 
 	@Override
 	public ICopiable copy() {
-		DrumBeat db = new DrumBeat(beat);
-		db.accent(accented);
+		DrumBeat db = new DrumBeat(beat, getLocation());
+		db.accent(accent);
 		return db;
 	}
 
 
 	@Override
 	public String toSong4() {
-		return beat ? "+" : "-";
+		if (beat && !flam && accent == 1) {
+			return "!";
+		}
+		if (!beat) {
+			return "-";
+		}
+		StringBuilder sb = new StringBuilder();
+		for (int i = 0; i < accent; i++) {
+			sb.append("^");
+		}
+		String accentString = sb.toString();
+		return accentString + (flam ? "*" : "+") ;
 	}
+
+	
 
 
 	

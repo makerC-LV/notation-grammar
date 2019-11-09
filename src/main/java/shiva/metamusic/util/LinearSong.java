@@ -157,7 +157,7 @@ public class LinearSong {
 //		VarDef vd = cs.varDefs.get(pl.getVarName());
 		MMDuration vd = cs.timeBookmarks.get(pl.getVarName());
 		if (vd == null) {
-			throw new RuntimeException("Unknown variable: " + pl.getVarName());
+			throw new LocatableException(pl.getLocation(), "Unknown variable: " + pl.getVarName());
 		}
 		getCurrentTrack().setTime(vd);
 	}
@@ -176,12 +176,14 @@ public class LinearSong {
 					BeatChange bc = (BeatChange) re;
 					drumTracks.getCurrentTrack().setDuration(bc.getDuration());
 					break;
-				case MINUS:
-					drumTracks.getCurrentTrack().addBeat(false, ((DrumBeat)re).isAccented());
-					
+				case REST:
+					drumTracks.getCurrentTrack().addBeat(false, ((DrumBeat)re).getAccent());
 					break;
-				case PLUS:
-					drumTracks.getCurrentTrack().addBeat(true, ((DrumBeat)re).isAccented());
+				case BEAT:
+					drumTracks.getCurrentTrack().addBeat(true, ((DrumBeat)re).getAccent());
+					break;
+				case FLAM:
+					drumTracks.getCurrentTrack().addFlam(((DrumBeat)re).getAccent());
 					break;
 				case RHYTHM:
 					processRhythm((MMRhythm) re, cs);

@@ -65,8 +65,8 @@ public class LinearSongToMidi {
 		
 		for (ElementWithDuration ti: mmtrack.getItems()) {
 			
-			long startTick = tc.toTick(ti.getTime());
-			long durationTicks = tc.toTick(ti.getDuration());
+			long startTick = tc.toTicks(ti.getTime());
+			long durationTicks = tc.toTicks(ti.getDuration());
 			if (maxTime < startTick + durationTicks) {
 				maxTime = startTick + durationTicks;
 			}
@@ -75,12 +75,12 @@ public class LinearSongToMidi {
 			
 			case CHORD: {
 				MMChord mmchord = (MMChord) ti;
-				if (mmchord.isAccented()) {
-					velocityIncrement = MidiUtils.ACCENT_INCREMENT;
-				}
+				
+				velocityIncrement = mmchord.getAccent() * MidiUtils.ACCENT_INCREMENT;
+				
 				Chord chord = mmchord.getJFugueChord();
 				for (Note n : chord.getNotes()) {
-					MMNote mmn = new MMNote(mmchord.getTime(), n, mmchord.getDuration());
+					MMNote mmn = new MMNote(mmchord.getTime(), n, mmchord.getDuration(), null);
 					MidiUtils.addNote(track, song, startTick, durationTicks, mmn, mmtrack.getMidiChannel(), 
 							Math.min((currentVelocity + velocityIncrement), 127));
 				}
@@ -88,9 +88,8 @@ public class LinearSongToMidi {
 			}
 			case NOTE: {
 				MMNote mmnote = (MMNote) ti;
-				if (mmnote.isAccented()) {
-					velocityIncrement = MidiUtils.ACCENT_INCREMENT;
-				}
+				velocityIncrement = mmnote.getAccent() * MidiUtils.ACCENT_INCREMENT;
+				
 				MidiUtils.addNote(track, song, startTick, durationTicks, mmnote, mmtrack.getMidiChannel(), 
 						Math.min((currentVelocity + velocityIncrement), 127));
 				break;
@@ -99,9 +98,7 @@ public class LinearSongToMidi {
 				ParallelNotes pnotes = (ParallelNotes) ti;
 				for (MMNote note: pnotes.getNotes()) {
 					int inc = 0;
-					if (note.isAccented()) {
-						inc = MidiUtils.ACCENT_INCREMENT;
-					}
+					inc = note.getAccent() * MidiUtils.ACCENT_INCREMENT;
 					MidiUtils.addNote(track, song, startTick, durationTicks, note, mmtrack.getMidiChannel(), 
 							Math.min((currentVelocity + inc), 127));
 				}
@@ -112,7 +109,7 @@ public class LinearSongToMidi {
 				break;
 			
 			default:
-				throw new RuntimeException("Unimplemented type : " + ((INotesElement) ti).getNotesElementType());
+				throw new LocatableException(ti.getLocation(), "Unimplemented type : " + ((INotesElement) ti).getNotesElementType());
 			
 			}
 		}
@@ -120,23 +117,5 @@ public class LinearSongToMidi {
 		return maxTime;
 	}
 
-	private static class TickCalculator {
-
-		long ticksPerPulse;
-
-		public TickCalculator(int ppq, MMTimeSig timeSig, MMTempo tempo) {
-			super();
-			int ppb = timeSig.getPulsesForBeat();
-//			int bpm = tempo.getBpm();
-//			long pulsesPerMin = ppb * bpm;
-//			long ticksPerMin = ppq * bpm;
-			ticksPerPulse = ppq / ppb;
-
-		}
-
-		long toTick(MMDuration duration) {
-			return ticksPerPulse * duration.getPulses();
-		}
-
-	}
+	
 }

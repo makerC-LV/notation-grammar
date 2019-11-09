@@ -1,5 +1,6 @@
 package shiva.swing.components;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.GraphicsConfiguration;
@@ -11,6 +12,9 @@ import java.awt.image.BufferedImage;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JComponent;
+import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JToggleButton;
@@ -29,6 +33,22 @@ public class Util {
 	public static final int DEFAULT_ICON_SIZE = 16;
 	public static final int SMALL = 12;
 	
+	public static final Color SOLARIZED_base03 =     new Color(0x002b36);
+	public static final Color SOLARIZED_base02 =     new Color(0x073642);
+	public static final Color SOLARIZED_base01 =     new Color(0x586e75);
+	public static final Color SOLARIZED_base00 =     new Color(0x657b83);
+	public static final Color SOLARIZED_base0 =      new Color(0x839496);
+	public static final Color SOLARIZED_base1 =      new Color(0x93a1a1);
+	public static final Color SOLARIZED_base2 =      new Color(0xeee8d5);
+	public static final Color SOLARIZED_base3 =      new Color(0xfdf6e3);
+	public static final Color SOLARIZED_yellow =     new Color(0xb58900);
+	public static final Color SOLARIZED_orange =     new Color(0xcb4b16);
+	public static final Color SOLARIZED_red =        new Color(0xdc322f);
+	public static final Color SOLARIZED_magenta =    new Color(0xd33682);
+	public static final Color SOLARIZED_violet =     new Color(0x6c71c4);
+	public static final Color SOLARIZED_blue =       new Color(0x268bd2);
+	public static final Color SOLARIZED_cyan =       new Color(0x2aa198);
+	public static final Color SOLARIZED_green =      new Color(0x859900);
 	
 	static {
 		IconFontSwing.register(GoogleMaterialDesignIcons.getIconFont());
@@ -90,10 +110,20 @@ public class Util {
 		return iconButton(GoogleMaterialDesignIcons.SKIP_PREVIOUS, DEFAULT_ICON_SIZE, DEFAULT_COLOR);
 	}
 	
+	public static JButton equalizerButton() {
+		return iconButton(GoogleMaterialDesignIcons.EQUALIZER, DEFAULT_ICON_SIZE, DEFAULT_COLOR);
+	}
+	
 	public static JToggleButton playPauseButton() {
 		return dualIconToggleButton(GoogleMaterialDesignIcons.PLAY_ARROW, 
 				GoogleMaterialDesignIcons.PAUSE, DEFAULT_ICON_SIZE, DEFAULT_COLOR, Color.red);
 	}
+	
+	public static JToggleButton recordPauseButton() {
+		return dualIconToggleButton(GoogleMaterialDesignIcons.RECORD_VOICE_OVER, 
+				GoogleMaterialDesignIcons.PAUSE, DEFAULT_ICON_SIZE, DEFAULT_COLOR, Color.red);
+	}
+	
 	public static JToggleButton soloButton() {
 		JToggleButton but = onOffButton(GoogleMaterialDesignIcons.RECORD_VOICE_OVER, 
 			DEFAULT_ICON_SIZE, DEFAULT_COLOR, Color.green);
@@ -174,6 +204,25 @@ public class Util {
 		}
 	}
 
+	public static void showInFrame(JComponent comp) {
+		JFrame fr = new JFrame();
+		fr.getContentPane().setLayout(new BorderLayout());
+		fr.getContentPane().add(comp, BorderLayout.CENTER);
+		fr.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		fr.pack();
+		fr.setVisible(true);
+	}
+	
+	public static void showInDialog(JComponent comp) {
+		JDialog fr = new JDialog();
+		fr.setModal(true);
+		fr.getContentPane().setLayout(new BorderLayout());
+		fr.getContentPane().add(comp, BorderLayout.CENTER);
+		fr.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+		fr.pack();
+		fr.setVisible(true);
+	}
+	
 	private static class OnOffButton extends JToggleButton {
 	    
 		private Icon offIcon;

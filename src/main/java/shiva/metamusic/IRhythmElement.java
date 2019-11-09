@@ -4,7 +4,7 @@ package shiva.metamusic;
 public interface IRhythmElement {
 
 	public enum Type {
-		PLUS,  MINUS,  BARMARKER, BEATCHANGE, RHYTHM, VAR, DYNAMIC
+		BEAT,  REST,  FLAM, BARMARKER, BEATCHANGE, RHYTHM, VAR, DYNAMIC
 			
 	}
 

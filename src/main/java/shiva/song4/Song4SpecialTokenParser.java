@@ -15,6 +15,7 @@ import org.jfugue.theory.Key;
 import org.jfugue.theory.Note;
 import org.jfugue.theory.Scale;
 
+import shiva.metamusic.Location;
 import shiva.metamusic.MMChord;
 import shiva.metamusic.MMDuration;
 import shiva.metamusic.MMKeySig;
@@ -249,7 +250,8 @@ public class Song4SpecialTokenParser {
 		public String instrumentName;
 		public String drumName;
 		
-		public void setChord(String note, String accidental, String octave, String chordType, String duration) {
+		public void setChord(String note, String accidental, String octave, String chordType, 
+				String duration) {
 			if (accidental == null) {
 				accidental = "";
 			}
@@ -262,7 +264,7 @@ public class Song4SpecialTokenParser {
 			Note n = new Note(note + accidental + octave + duration);
 			Intervals intervals = Chord.getIntervals(chordType);
 			Chord c = new Chord(n, intervals);
-			mmchord = new MMChord(MMDuration.ZERO, c, MMDuration.stringToDuration(duration));
+			mmchord = new MMChord(MMDuration.ZERO, c, MMDuration.stringToDuration(duration), null);
 		}
 		
 		public void setKeySig(String note, String accidental, String majorOrMinor) {
@@ -275,7 +277,7 @@ public class Song4SpecialTokenParser {
 						MMKeySig.createScale(Scale.MINOR) ;
 			Key key = new Key(root, scale);
 			
-			mmkeysig = new MMKeySig(key);
+			mmkeysig = new MMKeySig(key, null);
 			
 		}
 		public void setNote(String note, String accidental, String octave, String duration) {
@@ -289,7 +291,7 @@ public class Song4SpecialTokenParser {
 				duration = "";
 			}
 			Note n = new Note(note + accidental + octave + duration);
-			mmnote = new MMNote(MMDuration.ZERO, n, MMDuration.stringToDuration(duration));
+			mmnote = new MMNote(MMDuration.ZERO, n, MMDuration.stringToDuration(duration), null);
 			
 		}
 		

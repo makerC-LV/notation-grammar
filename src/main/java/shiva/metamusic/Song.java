@@ -13,7 +13,7 @@ public class Song extends ArrayList<ISongElement>{
 	
 	
 	public Song() {
-		this(MMKeySig.DEFAULT_KEYSIG, new MMTimeSig(TimeSignature.DEFAULT_TIMESIG), MMTempo.DEFAULT_TEMPO);
+		this(MMKeySig.DEFAULT_KEYSIG, MMTimeSig.DEFAULT_TIMESIG, MMTempo.DEFAULT_TEMPO);
 	}
 	
 	protected Song(MMKeySig keySig, MMTimeSig timeSig, MMTempo tempo) {
@@ -50,9 +50,9 @@ public class Song extends ArrayList<ISongElement>{
 	}
 
 	public void addNoteList(String voiceName, String instrument, boolean isPercussion, List<? extends INotesElement> mmnotes) {
-		add(new VarDef(voiceName, new Voice(instrument.toUpperCase(), isPercussion)));
+		add(new VarDef(voiceName, new Voice(instrument.toUpperCase(), isPercussion, null), null));
 		Notes notes = new Notes(1);
-		notes.add(new Var(voiceName));
+		notes.add(new Var(voiceName, null));
 		for (INotesElement  mmn: mmnotes) {
 			notes.add(mmn);
 		}

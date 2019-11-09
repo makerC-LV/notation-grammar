@@ -25,21 +25,25 @@ voice : INSTRUMENTNAME | DRUMNAME ;
 
 notes:  notesElement+ ;
 
-notesElement : note | chord | BARMARKER | parallelNotes | VOICE VAR
-	| groupedNotes | VAR | DYNAMICS ;
+notesElement : note | chord | BARMARKER | parallelNotes | voiceChange
+	| groupedNotes | VAR | DYNAMICS | SCRIPT ;
+
+voiceChange : VOICE VAR ;
 
 groupedNotes: LPAREN notes RPAREN (TIMES NUM)? ;
 
-note: ACCENT? NOTE;
+note: (ACCENT* | ANTIACCENT*) NOTE;
 
-chord: ACCENT? CHORD;
+chord: (ACCENT* | ANTIACCENT*) CHORD;
 
 rhythm : rhythmElement+ ;
 
-rhythmElement :  beat | BARMARKER | DRUM VAR | NUM
-	| groupedRhythm  | VAR | DYNAMICS ;
+rhythmElement :  beat | BARMARKER | drumChange | NUM
+	| groupedRhythm  | VAR | DYNAMICS | SCRIPT ;
 
-beat: (ACCENT? PLUS) | MINUS ;
+drumChange: DRUM VAR ;
+
+beat: ((ACCENT* | ANTIACCENT*) BEAT) | ACCENTED_BEAT | FLAM | MINUS ;
 
 groupedRhythm : LPAREN rhythm RPAREN (TIMES NUM)? ;
 

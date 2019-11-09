@@ -1,13 +1,13 @@
 package shiva.metamusic;
 
-public class VarDef implements ISongElement {
+public class VarDef extends Locatable implements ISongElement {
 
 	String varName;
 	IAssignable value;
 	
 	
-	public VarDef(String varName, IAssignable value) {
-		super();
+	public VarDef(String varName, IAssignable value, Location location) {
+		super(location);
 		this.varName = varName;
 		this.value = value;
 	}

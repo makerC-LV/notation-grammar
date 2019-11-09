@@ -1,4 +1,4 @@
-package shiva.swing.syntaxeditor;
+package shiva.swing.apps;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
@@ -11,14 +11,17 @@ import java.beans.PropertyChangeListener;
 import java.util.List;
 
 import javax.sound.midi.InvalidMidiDataException;
+import javax.sound.midi.MidiDevice;
+import javax.sound.midi.MidiUnavailableException;
 import javax.sound.midi.Sequence;
+import javax.sound.midi.Sequencer;
+import javax.sound.midi.Transmitter;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.Icon;
 import javax.swing.InputMap;
 import javax.swing.JButton;
 import javax.swing.JComponent;
-import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 import javax.swing.JToolBar;
@@ -33,18 +36,42 @@ import org.antlr.v4.runtime.tree.ParseTree;
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 import org.fife.ui.rsyntaxtextarea.parser.ParserNotice;
 import org.fife.ui.rtextarea.Gutter;
+import org.jfugue.player.SequencerManager;
+import org.jfugue.player.SynthesizerManager;
 
 import com.esotericsoftware.tablelayout.swing.Table;
 
+import shiva.metamusic.Song;
+import shiva.metamusic.util.CaptureKeyboard;
+import shiva.metamusic.util.LinearSong;
+import shiva.metamusic.util.LinearSongToMidi;
+import shiva.metamusic.util.MMTrack;
+import shiva.metamusic.util.MidiUtils;
 import shiva.metamusic.util.PlayUtils;
+import shiva.metamusic.util.TrackManager;
+import shiva.midi.DeviceUtils;
 import shiva.song4.Song4Lexer;
 import shiva.song4.Song4Parser;
 import shiva.swing.components.Dialogs;
 import shiva.swing.components.Util;
+import shiva.swing.midicomponents.DrumChooser;
+import shiva.swing.midicomponents.InstrumentChooser;
+import shiva.swing.midicomponents.MultiVoiceControls;
+import shiva.swing.midicomponents.OneVoiceControls;
 import shiva.swing.midicomponents.PlayControls;
 import shiva.swing.midicomponents.PlayControls.SequenceProvider;
+import shiva.swing.syntaxeditor.ErrorTable;
 import shiva.swing.syntaxeditor.ErrorTable.ErrorTableModel;
+import shiva.swing.syntaxeditor.ParseTreeModel;
+import shiva.swing.syntaxeditor.PhraseTester;
+import shiva.swing.syntaxeditor.STabbablePane;
 import shiva.swing.syntaxeditor.STabbablePane.Tabbable;
+import shiva.swing.syntaxeditor.Song4IconFactory;
+import shiva.swing.syntaxeditor.Song4OutlineTree;
+import shiva.swing.syntaxeditor.Song4Parsing;
+import shiva.swing.syntaxeditor.Song4RSTAParser;
+import shiva.swing.syntaxeditor.Song4SyntaxPane;
+import shiva.swing.syntaxeditor.SyntaxEditorFrame;
 
 
 
@@ -61,7 +88,19 @@ public class Song4Main implements PropertyChangeListener, SequenceProvider {
 	
 	Song4Parsing parsing = new Song4Parsing(new Song4Lexer(null), new Song4Parser(null));
 	Song4RSTAParser parser = new Song4RSTAParser(parsing);
-	PlayControls controls = new PlayControls(this);
+	PlayControls controls;
+	MultiVoiceControls eqControls;
+	PhraseTester pt;
+
+	private MidiDevice synth;
+
+	private MidiDevice keyboard;
+	
+	public Song4Main(MidiDevice keyboard, MidiDevice synth) {
+		this.synth = synth;
+		this.keyboard = keyboard;
+		controls = new PlayControls(this, synth);
+	}
 	
 	private void setup() {
 		frame = new SyntaxEditorFrame("Song4") {
@@ -78,13 +117,13 @@ public class Song4Main implements PropertyChangeListener, SequenceProvider {
 		tabPane = new STabbablePane() {
 
 			@Override
-			boolean closeRequested(int index, Tabbable tabbable) {
+			protected boolean closeRequested(int index, Tabbable tabbable) {
 				return tabbable.closeRequested();
 			}
 			
 		};
 		
-		tabPane.tabbedPane.addChangeListener(e -> {
+		tabPane.getTabbedPane().addChangeListener(e -> {
 			tabChanged();
 		});
 		
@@ -100,23 +139,27 @@ public class Song4Main implements PropertyChangeListener, SequenceProvider {
 		JScrollPane treeSp = new JScrollPane(tree);
 		frame.setLeftView(treeSp);
 		
+		pt = new PhraseTester(new CaptureKeyboard(keyboard, synth));
+		frame.setRightView(pt);
+		
+		
 		frame.getContentPane().add(createToolBar(), BorderLayout.NORTH);
 		
 		
 		actionNew();
 		
 		
-		frame.setBounds(100, 100, 600, 500);
+		frame.setBounds(100, 100, 1200, 800);
 		SwingUtilities.invokeLater(() -> {
-			frame.setLocations(0.25, 0.25, 0);
+			frame.setLocations(0.25, 0.25, 0.25);
 		});
 		
 		
 	}
 	
 	protected boolean dirtyPanelsExist() {
-		for (int i = 0; i < tabPane.tabbedPane.getTabCount(); i++) {
-			Song4SyntaxPane syntaxpane = (Song4SyntaxPane) tabPane.tabbedPane.getComponentAt(i);
+		for (int i = 0; i < tabPane.getTabbedPane().getTabCount(); i++) {
+			Song4SyntaxPane syntaxpane = (Song4SyntaxPane) tabPane.getTabbedPane().getComponentAt(i);
 			if (syntaxpane.isDirty()) {
 				return true;
 			}
@@ -135,10 +178,14 @@ public class Song4Main implements PropertyChangeListener, SequenceProvider {
 		add(table, Util.saveButton(), "Save", e ->{ actionSave();} );
 		add(table, Util.saveAsButton(), "Save as", e ->{ actionSaveAs();} );
 		
-		toolbar.add(new JSeparator());
+		table.addCell(new JSeparator());
+		
+		table.addCell(new InstrumentChooser(8));
+		table.addCell(new DrumChooser(6));
 		
 		table.addCell(controls).expandX().fillX();
 		
+		controls.getEqualizerButton().addActionListener(e-> {showEqualizer();});
 //		toolbar.add(Util.copyButton());
 //		toolbar.add(new JSeparator());
 //		toolbar.add(Util.editButton());
@@ -165,7 +212,7 @@ public class Song4Main implements PropertyChangeListener, SequenceProvider {
 		
 		Song4SyntaxPane spane = getSelectedPane();
 		if (spane != null) {
-			errorTable.setTextArea(spane.textArea);
+			errorTable.setTextArea(spane.getTextArea());
 		}
 		controls.onReset();
 		
@@ -174,7 +221,7 @@ public class Song4Main implements PropertyChangeListener, SequenceProvider {
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
 		Song4SyntaxPane spane = getSelectedPane();
-		List<ParserNotice> notices = spane.textArea.getParserNotices();
+		List<ParserNotice> notices = spane.getTextArea().getParserNotices();
         refreshErrorTable(spane, notices);
         refreshTreeView(notices);
 		
@@ -183,7 +230,11 @@ public class Song4Main implements PropertyChangeListener, SequenceProvider {
 	@Override
 	public Sequence buildSequence() {
 		try {
-			return PlayUtils.toSequence(getSelectedPane().textArea.getText());
+			Song song = PlayUtils.toSong(getSelectedPane().getTextArea().getText());
+			LinearSong lsong = new LinearSong(song);
+			buildEqPanel(lsong);
+			return LinearSongToMidi.getSequence(lsong);
+//			return PlayUtils.toSequence(getSelectedPane().textArea.getText());
 		} catch (InvalidMidiDataException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -192,14 +243,48 @@ public class Song4Main implements PropertyChangeListener, SequenceProvider {
 	}
 	
 	
+	private void buildEqPanel(LinearSong lsong) {
+		TrackManager nm = lsong.getNoteTracks();
+		TrackManager rm = lsong.getDrumTracks();
+		int numTracks = 0;
+		if (nm != null) {
+			numTracks += nm.getTrackNames().size();
+		}
+		if (rm != null) {
+			numTracks++;
+		}
+		eqControls = new MultiVoiceControls(numTracks);
+		int tracknum = 0;
+		if (nm != null) {
+			for (String name : lsong.getNoteTracks().getTrackNames()) {
+				MMTrack t = nm.getTrackByName(name);
+				int midiChannel = t.getMidiChannel();
+				String inst = t.getMidiInstrumentName();
+				OneVoiceControls ovc =  new OneVoiceControls(controls, midiChannel, tracknum, name, inst);
+				eqControls.add(ovc);
+				tracknum++;
+			}
+		}
+		if (rm != null) {
+			OneVoiceControls ovc =  new OneVoiceControls(controls, MidiUtils.PERCUSSION_CHANNEL, 
+					tracknum, "Percussion", "Drums");
+			eqControls.add(ovc);
+		}
+		
+	}
+
+	private void showEqualizer() {
+		Util.showInDialog(eqControls);
+	}
+	
 	private Song4SyntaxPane getSelectedPane() {
-		Song4SyntaxPane spane = (Song4SyntaxPane) tabPane.tabbedPane.getSelectedComponent();
+		Song4SyntaxPane spane = (Song4SyntaxPane) tabPane.getTabbedPane().getSelectedComponent();
 		return spane;
 	}
 	
 	private void refreshErrorTable(Song4SyntaxPane spane, List<ParserNotice> notices) {
 
-		Gutter gutter = spane.scrollPane.getGutter();
+		Gutter gutter = spane.getScrollPane().getGutter();
 		gutter.removeAllTrackingIcons();
 		errorTableModel.setRowCount(0);
 
@@ -240,10 +325,10 @@ public class Song4Main implements PropertyChangeListener, SequenceProvider {
 		
 		String defaultText = "tempo 120 ;";
 		
-		syntaxPane.textArea.setText(defaultText);
-		syntaxPane.textArea.addPropertyChangeListener(RSyntaxTextArea.PARSER_NOTICES_PROPERTY, this);
+		syntaxPane.getTextArea().setText(defaultText);
+		syntaxPane.getTextArea().addPropertyChangeListener(RSyntaxTextArea.PARSER_NOTICES_PROPERTY, this);
 		tabPane.add((Tabbable) syntaxPane) ;
-		tabPane.tabbedPane.setSelectedIndex(tabPane.tabbedPane.getTabCount()-1);
+		tabPane.getTabbedPane().setSelectedIndex(tabPane.getTabbedPane().getTabCount()-1);
 		
 		setUpSaveKey(syntaxPane);
 		setUpDirtyIndicator(syntaxPane);
@@ -252,7 +337,7 @@ public class Song4Main implements PropertyChangeListener, SequenceProvider {
 	}
 
 	private void setUpDirtyIndicator(Song4SyntaxPane syntaxPane) {
-		syntaxPane.textArea.getDocument().addDocumentListener(new DocumentListener() {
+		syntaxPane.getTextArea().getDocument().addDocumentListener(new DocumentListener() {
 
 			@Override
 			public void insertUpdate(DocumentEvent e) {
@@ -289,12 +374,12 @@ public class Song4Main implements PropertyChangeListener, SequenceProvider {
 			}
 		};
 		
-		syntaxPane.textArea.getActionMap().put(SAVE, saveAction);
+		syntaxPane.getTextArea().getActionMap().put(SAVE, saveAction);
 		
 		InputMap[] inputMaps = new InputMap[] {
-				syntaxPane.textArea.getInputMap(JComponent.WHEN_FOCUSED),
-				syntaxPane.textArea.getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT),
-				syntaxPane.textArea.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW),
+				syntaxPane.getTextArea().getInputMap(JComponent.WHEN_FOCUSED),
+				syntaxPane.getTextArea().getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT),
+				syntaxPane.getTextArea().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW),
 		};
 		for(InputMap i : inputMaps) {
 			i.put(saveKey,SAVE);
@@ -303,21 +388,36 @@ public class Song4Main implements PropertyChangeListener, SequenceProvider {
 	
 	private void actionOpen() {
 		Song4SyntaxPane pane = actionNew();
-		pane.fileHandler.openFile();
+		pane.getFileHandler().openFile();
 	}
 	
 	
 	private void actionSave() {
 		Song4SyntaxPane pane = getSelectedPane();
-		pane.fileHandler.saveFile();
+		pane.getFileHandler().saveFile();
 	}
 	
 	private void actionSaveAs() {
 		Song4SyntaxPane pane = getSelectedPane();
-		pane.fileHandler.saveAs();
+		pane.getFileHandler().saveAs();
 	}
 	
 	public static void main(String[] args) {
+		
+//		try {
+//			SequencerManager seqm = SequencerManager.getInstance();
+//			Sequencer seqr = seqm.getDefaultSequencer();
+//			
+//			for (Transmitter tr : seqr.getTransmitters()) {
+//				tr.setReceiver(null);
+//			}
+//			seqm.setSequencer(seqr);
+//			SynthesizerManager synm = SynthesizerManager.getInstance();
+//			synm.setSynthesizer(synm.getDefaultSynthesizer());
+//			SequencerManager.getInstance().connectSequencerToSynthesizer();
+//		} catch (MidiUnavailableException e1) {
+//			e1.printStackTrace();
+//		}
 		
 		SwingUtilities.invokeLater(() -> {
 			try {
@@ -350,7 +450,10 @@ public class Song4Main implements PropertyChangeListener, SequenceProvider {
 //				}
 
 				
-				Song4Main s4m = new Song4Main();
+				Song4Main s4m = new Song4Main(
+						DeviceUtils.getInputDevice("USB"),
+						DeviceUtils.getOutputDevice("Fluid")
+						);
 				s4m.setup();
 				
 				s4m.frame.setVisible(true);

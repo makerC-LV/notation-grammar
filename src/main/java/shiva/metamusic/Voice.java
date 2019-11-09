@@ -3,7 +3,7 @@ package shiva.metamusic;
 import org.jfugue.midi.MidiDictionary;
 import org.jfugue.theory.Note;
 
-public class Voice implements IAssignable {
+public class Voice extends Locatable implements IAssignable {
 	
 	public static final int DEFAULT_PERCUSSION_NOTE = 42; // Closed hi-hat
 
@@ -12,8 +12,8 @@ public class Voice implements IAssignable {
 	private int midiNote; // (for percussion)
 	private int midiProgramChange;  // for a note
 	
-	public Voice(String instrumentName, boolean isPercussion) {
-		super();
+	public Voice(String instrumentName, boolean isPercussion, Location location) {
+		super(location);
 		this.instrumentName = instrumentName;
 		this.percussion = isPercussion;
 		if (isPercussion) {

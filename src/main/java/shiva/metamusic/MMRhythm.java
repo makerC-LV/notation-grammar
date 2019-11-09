@@ -39,9 +39,9 @@ public class MMRhythm extends ArrayList<IRhythmElement> implements IPlayable, IR
 			sb.append(ir.toSong4());
 		}
 		if (reps == 1) {
-			return sb.toString();
+			return sb.toString() + "\n" ;
 		} else {
-			return "( " + sb.toString() + " ) X " + reps + " ";
+			return "( " + sb.toString() + " ) X " + reps + "\n";
 		}
 	}
 

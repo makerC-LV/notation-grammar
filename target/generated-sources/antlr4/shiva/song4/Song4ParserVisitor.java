@@ -74,6 +74,12 @@ public interface Song4ParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitNotesElement(Song4Parser.NotesElementContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link Song4Parser#voiceChange}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitVoiceChange(Song4Parser.VoiceChangeContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link Song4Parser#groupedNotes}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -103,6 +109,12 @@ public interface Song4ParserVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitRhythmElement(Song4Parser.RhythmElementContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link Song4Parser#drumChange}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitDrumChange(Song4Parser.DrumChangeContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link Song4Parser#beat}.
 	 * @param ctx the parse tree

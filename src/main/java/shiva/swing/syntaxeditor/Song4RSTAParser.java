@@ -1,6 +1,5 @@
 package shiva.swing.syntaxeditor;
 
-import java.awt.Color;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,10 +20,15 @@ import org.fife.ui.rsyntaxtextarea.parser.ParseResult;
 import org.fife.ui.rsyntaxtextarea.parser.Parser;
 import org.fife.ui.rsyntaxtextarea.parser.ParserNotice;
 
-import shiva.song4.Song4Lexer;
-import shiva.song4.Song4Parser;
+import shiva.metamusic.Song;
+import shiva.metamusic.util.LinearSong;
+import shiva.metamusic.util.LinearSongToMidi;
+import shiva.metamusic.util.LocatableException;
+import shiva.metamusic.util.Song4Visitor2;
 
 public class Song4RSTAParser implements Parser {
+	
+	private static final boolean DEBUG = false;
 	
 	Song4Parsing parsing;
 	
@@ -79,7 +83,39 @@ public class Song4RSTAParser implements Parser {
 			parsing.getParser().setTokenStream(tokens);
 			ParseTree tree = parsing.getParser().song();
 			parsing.setParseTree(tree);
-		} catch (BadLocationException e) {
+			
+			
+			Song song = null;
+			try {
+				Song4Visitor2<Void> visitor = new Song4Visitor2<Void>();
+		        visitor.visit(tree);
+		        
+		        song = visitor.getSong();
+		        
+			} catch (LocatableException e) {
+				prgen.syntaxError(null, e.getText(), e.getLine(), e.getCharOffsetInLine(), 
+						"Error while generating song: " + e.getMessage(), null);
+			}
+			if (song != null) {
+				LinearSong lsong = null;
+				try {
+					lsong = new LinearSong(song);
+					
+				} catch (LocatableException ex) {
+					prgen.syntaxError(null, ex.getText(), ex.getLine(), ex.getCharOffsetInLine(), 
+							"Error while generating linear song: " + ex.getMessage(), null);
+				}
+				if (lsong != null) {
+					try {
+						LinearSongToMidi.getSequence(lsong);
+					} catch (LocatableException ex) {
+						prgen.syntaxError(null, ex.getText(), ex.getLine(), ex.getCharOffsetInLine(), 
+								"Error while generating midi: " + ex.getMessage(), null);
+					}
+				}
+			}
+			
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			pres.setException(e);
@@ -119,18 +155,22 @@ public class Song4RSTAParser implements Parser {
 	                            String msg, RecognitionException e)
 	    {
 			
-			String sourceName = recognizer.getInputStream().getSourceName();
-//			String descSourceName = "";
-//	        if (!sourceName.isEmpty()) {
-//	            descSourceName = String.format("%s:%d:%d: ", sourceName, line, charPositionInLine);
-//	        }
-	        int length = sourceName == null ? 10 : sourceName.length();
+			String sourceName = null;
+			if (recognizer == null) {
+				sourceName = offendingSymbol.toString();
+			} else {
+				sourceName = recognizer.getInputStream().getSourceName();
+			}
+
+			int length = sourceName == null ? 10 : sourceName.length();
 	        int offset = getOffset(line, charPositionInLine);
 			DefaultParserNotice pn = new DefaultParserNotice(parser, msg, line-1, offset, length);
 			pn.setLevel(ParserNotice.Level.ERROR);
 			
-			System.err.println(sourceName+"line "+line+":"+charPositionInLine+" "+msg);
-			System.err.println(offendingSymbol.getClass().getName());
+			if (DEBUG) {
+				System.err.println(sourceName+"line "+line+":"+charPositionInLine+" "+msg);
+				System.err.println(offendingSymbol.getClass().getName());
+			}
 			pres.add(pn);
 	    }
 

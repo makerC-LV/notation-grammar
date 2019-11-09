@@ -116,6 +116,9 @@ public class Song4TokenMaker extends AbstractTokenMaker {
 		case Song4Lexer.RECALLTIME:
 			return Token.RESERVED_WORD;
 			
+		case Song4Lexer.SCRIPT:
+			return Token.FUNCTION;
+			
 		case Song4Lexer.LINE_COMMENT:
 			return Token.COMMENT_EOL;
 			

@@ -7,8 +7,8 @@ public class ParallelNotes extends ElementWithDuration implements ICopiable, INo
 
 	List<MMNote> notes = new ArrayList<>();
 	
-	public ParallelNotes(MMDuration time) {
-		super(time);
+	public ParallelNotes(MMDuration time, Location location) {
+		super(time, location);
 		
 	}
 	
@@ -29,7 +29,7 @@ public class ParallelNotes extends ElementWithDuration implements ICopiable, INo
 
 	@Override
 	public ICopiable copy() {
-		ParallelNotes newNotes = new ParallelNotes(time);
+		ParallelNotes newNotes = new ParallelNotes(time, getLocation());
 		for (MMNote n : notes) {
 			MMNote newNote = (MMNote) n.copy();
 			newNotes.addNote(newNote); 

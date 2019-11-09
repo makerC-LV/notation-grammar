@@ -6,32 +6,32 @@ import org.jfugue.theory.Note;
 public class MMChord extends ElementWithDuration implements ICopiable, INotesElement {
 
 	private Chord chord;
-	private boolean accented;
+	private int accent;  // can be + or -
 
-	public MMChord(Chord chord) {
-		this(MMDuration.ZERO, chord, MMDuration.QUARTER);
+	public MMChord(Chord chord, Location location) {
+		this(MMDuration.ZERO, chord, MMDuration.QUARTER, location);
 	}
 			
-	public MMChord(MMDuration time, Chord chord, MMDuration duration) {
-		super(time);
+	public MMChord(MMDuration time, Chord chord, MMDuration duration, Location location) {
+		super(time, location);
 		this.chord = chord;
 		this.duration = duration;
 	}
 
-	public void accent(boolean b) {
-		accented = b;
+	public void accent(int b) {
+		accent = b;
 		
 	}
 	
 	
-	public boolean isAccented() {
-		return accented;
+	public int getAccent() {
+		return accent;
 	}
 
 	@Override
 	public ICopiable copy() {
-		MMChord newChord = new MMChord(time, chord, duration);
-		newChord.accented = accented;
+		MMChord newChord = new MMChord(time, chord, duration, getLocation());
+		newChord.accent = accent;
 		return newChord;
 	}
 
@@ -68,9 +68,14 @@ public class MMChord extends ElementWithDuration implements ICopiable, INotesEle
 			transposed[i] = new Note(notes[i].getValue() + offset);
 		}
 		Chord transposedChord = Chord.fromNotes(transposed);
-		return new MMChord(new MMDuration(time.getPulses()), transposedChord, new MMDuration(duration.getPulses()));
+		return new MMChord(new MMDuration(time.getPulses()), transposedChord, 
+				new MMDuration(duration.getPulses()), getLocation());
 	}
 	
+	public MMNote getTonicNote() {
+		return new MMNote(chord.getNotes()[0], null);
+		
+	}
 	
 	private int getNoteIndexInternal(int midiNum) {
 		int index = 0;
@@ -83,6 +88,8 @@ public class MMChord extends ElementWithDuration implements ICopiable, INotesEle
 		}
 		return -1;
 	}
+
+	
 
 	
 

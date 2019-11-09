@@ -14,7 +14,7 @@ import org.jfugue.theory.Key;
 import org.jfugue.theory.Note;
 import org.jfugue.theory.Scale;
 
-public class MMKeySig {
+public class MMKeySig extends Locatable {
 
 	Key key;
 	
@@ -23,8 +23,8 @@ public class MMKeySig {
 	// Chords without octave
 	List<MMChord> allChordsInKey;
 	
-	public MMKeySig(Key key) {
-		super();
+	public MMKeySig(Key key, Location location) {
+		super(location);
 		this.key = key;
 //		byte noteValue = key.getRoot().getValue();
 //		Note root = new Note(Note.getToneStringWithoutOctave(noteValue ));
@@ -46,7 +46,7 @@ public class MMKeySig {
 			}
 			Chord c = Chord.fromNotes(na);
 			c.setInversion(0);
-			MMChord mmc = new MMChord(c);
+			MMChord mmc = new MMChord(c, null);
 			chords.add(mmc);
 		}
 		// for sevenths, 4 notes
@@ -58,7 +58,7 @@ public class MMKeySig {
 			}
 			Chord c = Chord.fromNotes(na);
 			c.setInversion(0);
-			MMChord mmc = new MMChord(c);
+			MMChord mmc = new MMChord(c, null);
 			chords.add(mmc);
 		}
 		allChordsInKey = Collections.unmodifiableList(chords);
@@ -128,5 +128,5 @@ public class MMKeySig {
 		return new Intervals(intervals.toString());
 	}
 	
-	static public MMKeySig DEFAULT_KEYSIG = new MMKeySig(Key.DEFAULT_KEY);
+	static public MMKeySig DEFAULT_KEYSIG = new MMKeySig(Key.DEFAULT_KEY, null);
 }

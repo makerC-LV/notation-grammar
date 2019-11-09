@@ -1,0 +1,29 @@
+// Shuffle 2 null
+tempo 110 ;
+time 12/8 ;
+
+$BD = BASS_DRUM  ; 
+$RS = SIDE_STICK  ; 
+$SD = ACOUSTIC_SNARE  ; 
+$CP = HAND_CLAP  ; 
+$CH = CLOSED_HI_HAT  ; 
+$LT = HIGH_FLOOR_TOM  ; 
+$OH = OPEN_HI_HAT  ; 
+$MT = LO_MID_TOM  ; 
+$CY = CRASH_CYMBAL_1  ; 
+$HT = HI_TOM  ; 
+$CB = COWBELL  ; 
+
+
+// Measure A 
+ 10 $CH +-++-++-++-+$SD ---+-----+--$BD +-+---+-+---
+
+
+// Measure B 
+ 10 $CH +-++-++-++-+$SD ---+-+---+--$BD +-+---+-+---
+
+
+// Break
+ 10 $CH +--+--------$SD -++-++++-++-$BD +--+----+--+
+
+

@@ -1,33 +1,45 @@
 package shiva.swing.midicomponents;
 
+import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import javax.sound.midi.InvalidMidiDataException;
+import javax.sound.midi.MidiChannel;
+import javax.sound.midi.MidiDevice;
+import javax.sound.midi.MidiEvent;
+import javax.sound.midi.MidiMessage;
+import javax.sound.midi.MidiSystem;
 import javax.sound.midi.MidiUnavailableException;
 import javax.sound.midi.Sequence;
-import javax.swing.AbstractButton;
+import javax.sound.midi.Sequencer;
+import javax.sound.midi.Synthesizer;
 import javax.swing.JButton;
 import javax.swing.JSlider;
 import javax.swing.JToggleButton;
 import javax.swing.SwingUtilities;
 
-import org.jfugue.player.ManagedPlayer;
-import org.jfugue.player.ManagedPlayerListener;
+import org.jfugue.player.SequencerManager;
+import org.jfugue.player.SynthesizerManager;
 
+import shiva.metamusic.util.MidiUtils;
+import shiva.metamusic.util.SequencePlayer;
+import shiva.metamusic.util.SequencePlayer.SequencePlayerListener;
 import shiva.swing.components.TablePanel;
 import shiva.swing.components.Util;
+import shiva.swing.midicomponents.OneVoiceControls.Controllable;
 
 @SuppressWarnings("serial")
-public class PlayControls extends TablePanel implements ManagedPlayerListener {
+public class PlayControls extends TablePanel implements SequencePlayerListener, Controllable {
 
 	public static interface SequenceProvider {
 		Sequence buildSequence();
 	}
 	
-	ManagedPlayer player = new ManagedPlayer();
+	SequencePlayer player;
 	JToggleButton playPause = Util.playPauseButton();
 	JButton resetButton = Util.playResetButton();
+	JButton equalizerButton = Util.equalizerButton();
 	JSlider seeker = new JSlider(0, 100);
 	ExecutorService ses = Executors.newFixedThreadPool(4);
 	SequenceProvider sequenceProvider;
@@ -53,16 +65,21 @@ public class PlayControls extends TablePanel implements ManagedPlayerListener {
 		
 	};
 	
-	public PlayControls(SequenceProvider client) {
+	public PlayControls(SequenceProvider client, MidiDevice synth) {
 		super();
 		this.sequenceProvider = client;
+		player = new SequencePlayer(synth);
 		table.addCell(playPause);
 		table.addCell(resetButton);
+		table.addCell(equalizerButton);
 		table.addCell(seeker).expandX().fillX();
 		playPause.addActionListener(e -> { playOrPause(); }) ;
 		resetButton.addActionListener(e -> { reset(); });
 		seeker.addChangeListener(ce-> {sliderChanged();});
-		player.addManagedPlayerListener(this);
+		player.addSequencePlayerListener(this);
+		
+		
+		
 	}
 	
 	private void sliderChanged() {
@@ -77,6 +94,11 @@ public class PlayControls extends TablePanel implements ManagedPlayerListener {
 
 		}
 
+	}
+
+	
+	public JButton getEqualizerButton() {
+		return equalizerButton;
 	}
 
 	public boolean isStarted() {
@@ -119,8 +141,8 @@ public class PlayControls extends TablePanel implements ManagedPlayerListener {
 	}
 	
 	private void setResetState() {
-		playPause.setSelected(false);
 		playPause.setEnabled(true);
+		playPause.setSelected(false);
 		resetButton.setEnabled(true);
 		seeker.setEnabled(true);
 		seeker.setValue(0);
@@ -160,9 +182,10 @@ public class PlayControls extends TablePanel implements ManagedPlayerListener {
 
 	@Override
 	public void onFinished() {
-		SwingUtilities.invokeLater(()-> {
-			setResetState();
-			});
+		ses.execute(() -> {player.reset();});
+//		SwingUtilities.invokeLater(()-> {
+//			setResetState();
+//			});
 		
 	}
 
@@ -193,6 +216,56 @@ public class PlayControls extends TablePanel implements ManagedPlayerListener {
 		});
 
 	}
+
+	@Override
+	public void mute(int trackNum, boolean mute) {
+		
+			Sequencer seq = player.getSequencer();
+			seq.setTrackMute(trackNum, mute);
+		
+	}
+
+	Executor ex = Executors.newSingleThreadExecutor();
+	@Override
+	public void volume(int channelNum, float value) {
+		int midiValue = (int) (value * 127);
+//		System.out.println("Vol: " + channelNum + " " + midiValue);
+		MidiDevice synth = player.getSynthesizer();
+		if (synth instanceof Synthesizer) {
+			volume(channelNum, midiValue, (Synthesizer)synth);
+		} else {
+			// send control change
+			Sequencer seq = player.getSequencer();
+			try {
+				MidiMessage message = MidiUtils.createChannelVelocity(0, channelNum, midiValue).getMessage();
+				synth.getReceivers().get(0).send(message, seq.getTickPosition());
+			} catch (InvalidMidiDataException e) {
+				e.printStackTrace();
+			}
+			
+		}
+		
+		
+		
+
+	} 
+
+
+	
+	private void volume(int channelNum, int midiValue, Synthesizer synth) {
+		MidiChannel channel = synth.getChannels()[channelNum];
+		channel.controlChange(MidiUtils.CHANNEL_VOLUME_CONTROLLER, midiValue);
+	}
+
+	
+	@Override
+	public void solo(int trackNum, boolean solo) {
+		Sequencer seq = player.getSequencer();
+		seq.setTrackSolo(trackNum, solo);
+
+	}
+
+	
 
 	
 	

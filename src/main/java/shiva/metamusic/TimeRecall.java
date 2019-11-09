@@ -1,12 +1,12 @@
 package shiva.metamusic;
 
-public class TimeRecall implements IPlayable {
+public class TimeRecall extends Locatable implements IPlayable {
 
 	private String varName;
 	
 	
-	public TimeRecall(String varName) {
-		super();
+	public TimeRecall(String varName, Location location) {
+		super(location);
 		this.varName = varName;
 	}
 

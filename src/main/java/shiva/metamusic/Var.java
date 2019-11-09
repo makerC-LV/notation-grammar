@@ -1,11 +1,11 @@
 package shiva.metamusic;
 
-public class Var implements IPlayable, INotesElement, IRhythmElement {
+public class Var extends Locatable implements IPlayable, INotesElement, IRhythmElement {
 
 	private String varName;
 
-	public Var(String varName) {
-		super();
+	public Var(String varName, Location location) {
+		super(location);
 		this.varName = varName;
 	}
 

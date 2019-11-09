@@ -10,39 +10,40 @@ public class MMNote extends ElementWithDuration implements ICopiable, INotesElem
 	public static final int DEFAULT_OCTAVE = 5;
 	Note note;
 	int midiVelocity;
-	boolean accented;
+	int accent; // can be + or -
 	
 	
-	public MMNote(MMDuration time) {
-		this(time, Note.REST, MMDuration.QUARTER);
+	public MMNote(MMDuration time, Location location) {
+		this(time, Note.REST, MMDuration.QUARTER, location);
 	}
 
-	public MMNote(Note note) {
-		this(MMDuration.ZERO, note, MMDuration.QUARTER);
+	public MMNote(Note note, Location location) {
+		this(MMDuration.ZERO, note, MMDuration.QUARTER, location);
 	}
 	
-	public MMNote(MMDuration time, Note note, MMDuration duration) {
-		super(time);
+	public MMNote(MMDuration time, Note note, MMDuration duration, Location location) {
+		super(time, location);
 		this.note = note;
 		this.midiVelocity = MidiUtils.DEFAULT_DYNAMICS.getMidiValue();
 		this.duration = duration;
 	}
 	
-	
-	public boolean isAccented() {
-		return accented;
+	public int getAccent() {
+		return accent;
 	}
+	
 
 	@Override
 	public ICopiable copy() {
-		MMNote n = new MMNote(new MMDuration(time.getPulses()), new Note(note), new MMDuration(duration.getPulses()));
+		MMNote n = new MMNote(new MMDuration(time.getPulses()), new Note(note), 
+				new MMDuration(duration.getPulses()), getLocation());
 		n.midiVelocity = midiVelocity;
-		n.accented = accented;
+		n.accent = accent;
 		return n;
 	}
 	
-	public void accent(boolean b) {
-		accented = b;
+	public void accent(int i) {
+		accent = i;
 		
 	}
 	
@@ -68,7 +69,7 @@ public class MMNote extends ElementWithDuration implements ICopiable, INotesElem
 
 	@Override
 	public String toSong4() {
-		return note.toString() + " ";
+		return note.toString() + getDuration().toSong4() + " ";
 	}
 
 	private static String[] notes = {"C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B", "B#"};
@@ -116,7 +117,7 @@ public class MMNote extends ElementWithDuration implements ICopiable, INotesElem
 	}
 
 	public static MMNote defaultNote(Note n) {
-		return new MMNote(MMDuration.ZERO, n, MMDuration.QUARTER);
+		return new MMNote(MMDuration.ZERO, n, MMDuration.QUARTER, null);
 	}
 
 	

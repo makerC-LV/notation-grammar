@@ -65,6 +65,6 @@ public class TestMMKeySig {
 	
 	private MMKeySig create(String repn) {
 		Key key = new Key(repn);
-		return new MMKeySig(key);
+		return new MMKeySig(key, null);
 	}
 }

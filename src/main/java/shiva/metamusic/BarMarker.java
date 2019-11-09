@@ -1,8 +1,12 @@
 package shiva.metamusic;
 
-public class BarMarker implements INotesElement, IRhythmElement {
+public class BarMarker extends Locatable implements INotesElement, IRhythmElement {
 
 	
+
+	public BarMarker(Location location) {
+		super(location);
+	}
 
 	@Override
 	public IRhythmElement.Type getRhythmElementType() {

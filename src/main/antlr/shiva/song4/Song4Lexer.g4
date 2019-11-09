@@ -15,36 +15,41 @@ channels { ERROR }
 
 tokens {
   CHORD, NOTE, KEYSIG, INSTRUMENTNAME, DRUMNAME
+  
+  
+  
 }
 // Keywords
 
-TEMPO : 'tempo' ;
+TEMPO : T E M P O ;
 
-KEY : 'key' ;
+KEY : K E Y ;
 
-TIME : 'time' ;
+TIME : T I M E ;
 
-VOICE : 'voice' ;
+VOICE : V O I C E ;
 
-DRUM : 'drum' ;
+DRUM : D R U M ;
 
-//PLAY : 'play' ;
+MARKTIME: M A R K ;
 
-//NOTES : 'notes' ;
-//
-//RHYTHM : 'rhythm' ;
+RECALLTIME: R E C A L L ;
 
-MARKTIME: 'marktime' ;
 
-RECALLTIME: 'recalltime' ;
 
 VAR : '$' IDCHAR+ ;
 
 ACCENT : CARET ;
 
+ANTIACCENT : TILDE ;
+
 DYNAMICS : COLON ('fff'|'ff'|'f'|'mf'| 'pf'| 'ppp' | 'pp' | 'p') ;
 
+BEAT : PLUS ;
 
+ACCENTED_BEAT : EXCLAMATION ;
+
+FLAM : ASTERISK ;
 
 MULTILINE_COMMENT
     : STARTCOMMENT .*? ENDCOMMENT -> channel(HIDDEN)
@@ -55,9 +60,17 @@ STARTCOMMENT: '/*' -> channel(HIDDEN);
 
 ENDCOMMENT: '*/' -> channel(HIDDEN);
 
+SCRIPT: STARTSCRIPT .*? ENDSCRIPT ;
+
+STARTSCRIPT: SLASH LBRACKET ;
+
+ENDSCRIPT : RBRACKET SLASH ;
+
 
 // 
 BARMARKER : '|' ;
+
+TILDE : '~' ;
 
 SEMICOLON : ';' ;
 
@@ -87,11 +100,41 @@ MINUS: '-' ;
 
 CARET: '^' ;
 
+EXCLAMATION: '!' ;
+
+ASTERISK: '*';
 
 
 NUM: DIGIT+ ;
 
 DIGIT : [0-9] ;
+
+fragment A : [aA]; // match either an 'a' or 'A'
+fragment B : [bB];
+fragment C : [cC];
+fragment D : [dD];
+fragment E : [eE];
+fragment F : [fF];
+fragment G : [gG];
+fragment H : [hH];
+fragment I : [iI];
+fragment J : [jJ];
+fragment K : [kK];
+fragment L : [lL];
+fragment M : [mM];
+fragment N : [nN];
+fragment O : [oO];
+fragment P : [pP];
+fragment Q : [qQ];
+fragment R : [rR];
+fragment S : [sS];
+fragment T : [tT];
+fragment U : [uU];
+fragment V : [vV];
+fragment W : [wW];
+fragment X : [xX];
+fragment Y : [yY];
+fragment Z : [zZ];
 
 fragment ALPHABET : [A-Za-z] ;
 
@@ -121,6 +164,9 @@ WORD : [a-zA-Z0-9#%_]+
 	}
 }
 ;
+
+
+
 
 UNMATCHED          : .  /* -> channel(ERROR) */
 ;

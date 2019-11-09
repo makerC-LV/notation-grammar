@@ -33,6 +33,19 @@ public class TestSong4Lexer {
 		
 	}
 	
+	@Test
+	public void testBeats() {
+		setupWith(" +-!-*-+-");
+		assertEquals(0, errors.getErrorCount());
+	}
+	
+	@Test
+	public void testScript() {
+		setupWith(" +-!-*-+- /[ thi is a script ]/ ");
+		assertEquals(0, errors.getErrorCount());
+	}
+	
+	
 	private void setupWith(String string) {
 		DescriptiveErrorListener.INSTANCE.reset();
 		CharStream input = CharStreams.fromString(string);

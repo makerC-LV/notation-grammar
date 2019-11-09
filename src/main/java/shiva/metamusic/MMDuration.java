@@ -1,5 +1,8 @@
 package shiva.metamusic;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /** Represents time in 1/128  notes. */
 public class MMDuration implements Comparable<MMDuration> {
 
@@ -44,6 +47,14 @@ public class MMDuration implements Comparable<MMDuration> {
 		return true;
 	}
 
+	@Override
+	public String toString() {
+		return "D[" + pulses + "]";
+	}
+
+	public MMDuration copy() {
+		return new MMDuration(pulses);
+	}
 
 
 	public static MMDuration ZERO = new MMDuration(0);
@@ -93,23 +104,91 @@ public class MMDuration implements Comparable<MMDuration> {
 		}
 	}
 
+	public static String durationToString(MMDuration dur) {
+		if (dur.pulses > WHOLE.pulses*1.5) {
+			return "D[" + dur.pulses + "]";
+		} else {
+			MMDuration fd =  getClosestFittingDuration(dur.pulses);
+			if (fd.equals(WHOLE)) {
+				return "";
+			} if (fd.equals(HALF)) {
+				return "h";
+			} if (fd.equals(QUARTER)) {
+				return "q";
+			} if (fd.equals(EIGHTH)) {
+				return "i";
+			} if (fd.equals(SIXTEENTH)) {
+				return "s";
+			} if (fd.equals(THIRTYSECOND)) {
+				return "t";
+			} if (fd.equals(SIXTYFOURTH)) {
+				return "x";
+			} if (fd.equals(ONETWENTYEIGHTH)) {
+				return "o";
+			}
+		}
+		return null;
+	}
 	public static MMDuration add(MMDuration currentTime, MMDuration duration) {
 		return new MMDuration(currentTime.pulses + duration.pulses);
 	}
 	
-	public static MMDuration divide(int n) {
-		return new MMDuration(WHOLE.pulses/n);
+	public static MMDuration multiply(MMDuration dur, double d) {
+		return new MMDuration((int) (dur.pulses * d));
+	}
+	
+	
+	/** Creates a duration of d * WHOLE */
+	public static MMDuration createDuration(double d) {
+		return new MMDuration((int) (WHOLE.pulses * d));
 	}
 
-	@Override
-	public String toString() {
-		return "D[" + pulses + "]";
+	
+	private static MMDuration[] DURATIONS = new MMDuration[] {
+			WHOLE, HALF, QUARTER, EIGHTH, SIXTEENTH, THIRTYSECOND, SIXTYFOURTH, ONETWENTYEIGHTH 
+	};
+	
+	public static List<MMDuration> getDurationList(int d) {
+		List<MMDuration> l = new ArrayList<>();
+		while (d >= ONETWENTYEIGHTH.pulses) {
+			MMDuration dur = getClosestFittingDuration(d);
+			l.add(dur.copy());
+			if (d < 1.6 * dur.pulses)
+			d = 0;
+			if (d <= 0) {
+				break;
+			}
+		}
+		return l;
 	}
 
-	public MMDuration copy() {
-		// TODO Auto-generated method stub
+	private static MMDuration getLargestFittingDuration(int d) {
+		for (MMDuration dur: DURATIONS) {
+			if (dur.pulses <= d) {
+				return dur;
+			}
+		}
 		return null;
 	}
+
+	private static MMDuration getClosestFittingDuration(int d) {
+		for (MMDuration dur: DURATIONS) {
+			if (dur.pulses == 1) {
+				return dur;
+			} else {
+				if (0.70 * dur.pulses < d && d < 1.5 * dur.pulses) {
+					return dur;
+				}
+			}
+			
+		}
+		return null;
+	}
+
+	public String toSong4() {
+		return durationToString(this);
+	}
+	
 	
 	
 	

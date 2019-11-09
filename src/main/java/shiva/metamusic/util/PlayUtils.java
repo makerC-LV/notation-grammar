@@ -27,7 +27,7 @@ public class PlayUtils {
 
 	
 	public static void main(String[] args) throws MidiUnavailableException, InvalidMidiDataException {
-		play("Rq Cq Dq Eq Fq Rq;");
+		play(" $v = rock_organ; voice $v ch qh eh fh gh ah bh");
 	}
 	
 	public static Sequence toSequence(String songString) throws InvalidMidiDataException {
@@ -41,7 +41,7 @@ public class PlayUtils {
         playSong(song);
 	}
 
-	private static Song toSong(String songString) {
+	public static Song toSong(String songString) {
 		CharStream input = CharStreams.fromString(songString);
 		Song4Lexer lexer = new Song4Lexer(input);
 		CommonTokenStream tokens = new CommonTokenStream(lexer);

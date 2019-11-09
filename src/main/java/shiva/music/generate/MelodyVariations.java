@@ -24,7 +24,7 @@ public class MelodyVariations {
 	public static int[] varyNote(int index, int[] midiNums, MMKeySig keySig) {
 		int[] n = midiNums;
 		if (n.length > 6) {
-			System.out.println("Warning: The melody is longer than 6 notes, varySecondlastNote will have little impact.");
+			System.out.println("Warning: The melody is longer than 6 notes, varying one index will have little impact.");
 		}
 		if (index == 0 || index == n.length - 1) {
 			throw new RuntimeException("varyNote: This method only handles middle notes");

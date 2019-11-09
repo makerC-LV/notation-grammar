@@ -1,16 +1,13 @@
 package shiva.metamusic;
 
-import shiva.metamusic.util.MidiUtils;
-import shiva.metamusic.util.MidiUtils.Dynamics;
-
 public class MMDynamics extends ElementWithDuration implements ICopiable, INotesElement, IRhythmElement {
 
 	Dynamics dynamics;
 	
-	public MMDynamics(String s) {
-		super(MMDuration.ZERO);
+	public MMDynamics(String s, Location location) {
+		super(MMDuration.ZERO, location);
 		duration = MMDuration.ZERO;
-		this.dynamics = MidiUtils.Dynamics.valueOf(s);
+		this.dynamics = Dynamics.valueOf(s);
 	}
 	
 	public int getMidiValue() {
@@ -34,7 +31,7 @@ public class MMDynamics extends ElementWithDuration implements ICopiable, INotes
 
 	@Override
 	public ICopiable copy() {
-		return new MMDynamics(dynamics.name());
+		return new MMDynamics(dynamics.name(), getLocation());
 	}
 
 }

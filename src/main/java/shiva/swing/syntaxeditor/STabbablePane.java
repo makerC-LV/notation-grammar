@@ -27,39 +27,43 @@ abstract public class STabbablePane extends JPanel {
 	public STabbablePane() {
 		super();
 		setLayout(new BorderLayout());
-		add(tabbedPane, BorderLayout.CENTER);
+		add(getTabbedPane(), BorderLayout.CENTER);
 		
 	}
 
-	abstract boolean closeRequested(int index, Tabbable tabbable);
+	protected abstract boolean closeRequested(int index, Tabbable tabbable);
 	
 	public void add(Tabbable tabbable) {
-		add(tabbedPane.getTabCount(), tabbable);
+		add(getTabbedPane().getTabCount(), tabbable);
 	}
 	
 	public void add(int index, Tabbable tabbable) {
-		tabbedPane.add(tabbable.getComponent(), index);
-		tabbedPane.setTabComponentAt(index, new TabLabel(tabbable, this, tabbable.getTitle()));
+		getTabbedPane().add(tabbable.getComponent(), index);
+		getTabbedPane().setTabComponentAt(index, new TabLabel(tabbable, this, tabbable.getTitle()));
 		tabbable.setTabbablePane(this);
 	}
 	
 	public void remove(int index) {
-		tabbedPane.remove(index);
+		getTabbedPane().remove(index);
 	}
 	
 	public void remove(Tabbable tabbable) {
-		tabbedPane.remove(tabbable.getComponent());
+		getTabbedPane().remove(tabbable.getComponent());
 	}
 	
 	public void setTitleFor(Tabbable tabbable, String name) {
-		int index = tabbedPane.indexOfComponent(tabbable.getComponent());
+		int index = getTabbedPane().indexOfComponent(tabbable.getComponent());
 		if (index >= 0) {
 			
-			tabbedPane.setTabComponentAt(index, new TabLabel(tabbable, this, name));
+			getTabbedPane().setTabComponentAt(index, new TabLabel(tabbable, this, name));
 		}
 		
 	}
 	
+	public JTabbedPane getTabbedPane() {
+		return tabbedPane;
+	}
+
 	public static interface Tabbable {
 		JComponent getComponent();
 		
@@ -102,7 +106,7 @@ abstract public class STabbablePane extends JPanel {
 
 				@Override
 				public void mouseClicked(MouseEvent e) {
-					int index = tabbedPane.tabbedPane.indexOfComponent(tabbable.getComponent());
+					int index = tabbedPane.getTabbedPane().indexOfComponent(tabbable.getComponent());
 					if (tabbedPane.closeRequested(index, tabbable)) {
 						tabbedPane.remove(tabbable);
 					}

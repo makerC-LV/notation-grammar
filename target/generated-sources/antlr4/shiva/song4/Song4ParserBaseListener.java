@@ -139,6 +139,18 @@ public class Song4ParserBaseListener implements Song4ParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterVoiceChange(Song4Parser.VoiceChangeContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitVoiceChange(Song4Parser.VoiceChangeContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterGroupedNotes(Song4Parser.GroupedNotesContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -194,6 +206,18 @@ public class Song4ParserBaseListener implements Song4ParserListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitRhythmElement(Song4Parser.RhythmElementContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterDrumChange(Song4Parser.DrumChangeContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitDrumChange(Song4Parser.DrumChangeContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

@@ -1,0 +1,29 @@
+// Rhythm_Blues 5 null
+tempo 82 ;
+time 4/4 ;
+
+$BD = BASS_DRUM  ; 
+$RS = SIDE_STICK  ; 
+$SD = ACOUSTIC_SNARE  ; 
+$CP = HAND_CLAP  ; 
+$CH = CLOSED_HI_HAT  ; 
+$LT = HIGH_FLOOR_TOM  ; 
+$OH = OPEN_HI_HAT  ; 
+$MT = LO_MID_TOM  ; 
+$CY = CRASH_CYMBAL_1  ; 
+$HT = HI_TOM  ; 
+$CB = COWBELL  ; 
+
+
+// Measure A 
+ 8 $CH +-+-+-+-+-+-+-+-$SD --+---+----+--+-$BD +---++-++-+-++-+$MT ----------------$LT ----------------
+
+
+// Measure B 
+ 8 $CH +-+-+-+-+-+-+-+-$SD ----+-------+---$BD +-++---++-++-+--$MT ----------------$LT ----------------
+
+
+// Break
+ 8 $CH ------------+---$MT ----+++---------$SD -++---------+---$LT --------+++-----$BD +--+---+---+----
+
+

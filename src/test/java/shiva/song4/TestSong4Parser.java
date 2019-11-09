@@ -59,7 +59,13 @@ public class TestSong4Parser {
 		print(tree);
 	}
 	
-	
+	@Test
+	public void testCaseInsensitivity() {
+		setupWith("tEmPo 120;");
+		tree = parser.song();
+		print(tree);
+		assertEquals(0, errors.getErrorCount());
+	}
 	
 	private String getResourceFile(String name) {
 		URL url = Resources.getResource(name);

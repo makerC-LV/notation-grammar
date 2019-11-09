@@ -133,7 +133,7 @@ public class GenerateNoteChordTokens {
 					Note n = new Note(note + accidental);
 					Key key = new Key(n, s);
 					
-					MMKeySig keySig = new MMKeySig(key);
+					MMKeySig keySig = new MMKeySig(key, null);
 					keySigMap.put(sb.toString().toUpperCase(), keySig);
 				}
 			}
@@ -210,7 +210,7 @@ public class GenerateNoteChordTokens {
 //			throw new RuntimeException("No JFugue note for " + num);
 //		}
 		Chord jfchord = new Chord(jfnote, Chord.getIntervals(chordType));
-		return new MMChord(MMDuration.ZERO, jfchord, bbdur);
+		return new MMChord(MMDuration.ZERO, jfchord, bbdur, null);
 	}
 
 
@@ -230,7 +230,7 @@ public class GenerateNoteChordTokens {
 //			throw new RuntimeException("No JFugue note for " + jfnoteS);
 //		}
 		MMDuration bbdur= MMDuration.stringToDuration(duration);
-		return new MMNote(MMDuration.ZERO, new Note(jfnote), bbdur);
+		return new MMNote(MMDuration.ZERO, new Note(jfnote), bbdur, null);
 	}
 
 	private static String[] generateDurationArray() {

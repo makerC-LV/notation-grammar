@@ -16,7 +16,7 @@ public class GenerateUtils {
 	public static List<MMNote> generateMMNotes(int[] midiNums) {
 		List<MMNote> l = new ArrayList<>();
 		for (int note: midiNums) {
-			MMNote mmn = new MMNote(new Note(note));
+			MMNote mmn = new MMNote(new Note(note), null);
 			l.add(mmn);
 		}
 		return l;

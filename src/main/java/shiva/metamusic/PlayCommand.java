@@ -3,6 +3,7 @@ package shiva.metamusic;
 import java.util.ArrayList;
 import java.util.List;
 
+@SuppressWarnings("serial")
 public class PlayCommand extends ArrayList<IPlayable> implements ISongElement {
 
 	@Override
@@ -12,11 +13,10 @@ public class PlayCommand extends ArrayList<IPlayable> implements ISongElement {
 
 	public String toSong4() {
 		StringBuilder sb = new StringBuilder();
-		System.out.println(this);
 		for (IPlayable p : this) {
 			sb.append(p.toSong4());
 		}
-		return "play " + sb.toString() + " ;" ;
+		return sb.toString() + "\n" ;
 	}
 
 	public static ISongElement create(List<MMNote> notes) {
