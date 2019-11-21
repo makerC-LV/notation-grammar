@@ -43,6 +43,7 @@ import com.esotericsoftware.tablelayout.swing.Table;
 
 import shiva.metamusic.Song;
 import shiva.metamusic.util.CaptureKeyboard;
+import shiva.metamusic.util.KeyboardModel;
 import shiva.metamusic.util.LinearSong;
 import shiva.metamusic.util.LinearSongToMidi;
 import shiva.metamusic.util.MMTrack;
@@ -92,14 +93,14 @@ public class Song4Main implements PropertyChangeListener, SequenceProvider {
 	MultiVoiceControls eqControls;
 	PhraseTester pt;
 
-	private MidiDevice synth;
-
-	private MidiDevice keyboard;
+//	private MidiDevice synth;
+//
+//	private MidiDevice keyboard;
 	
-	public Song4Main(MidiDevice keyboard, MidiDevice synth) {
-		this.synth = synth;
-		this.keyboard = keyboard;
-		controls = new PlayControls(this, synth);
+	public Song4Main() {
+//		this.synth = synth;
+//		this.keyboard = keyboard;
+		controls = new PlayControls(this);
 	}
 	
 	private void setup() {
@@ -139,7 +140,12 @@ public class Song4Main implements PropertyChangeListener, SequenceProvider {
 		JScrollPane treeSp = new JScrollPane(tree);
 		frame.setLeftView(treeSp);
 		
-		pt = new PhraseTester(new CaptureKeyboard(keyboard, synth));
+		KeyboardModel km = new KeyboardModel(2);
+		CaptureKeyboard ck = new CaptureKeyboard();
+		ck.addReceiver(km);
+		
+		controls.addDeviceListener(dev->{ck.setOutputDevice(dev);});
+		pt = new PhraseTester(ck, km);
 		frame.setRightView(pt);
 		
 		
@@ -450,10 +456,7 @@ public class Song4Main implements PropertyChangeListener, SequenceProvider {
 //				}
 
 				
-				Song4Main s4m = new Song4Main(
-						DeviceUtils.getInputDevice("USB"),
-						DeviceUtils.getOutputDevice("Fluid")
-						);
+				Song4Main s4m = new Song4Main();
 				s4m.setup();
 				
 				s4m.frame.setVisible(true);

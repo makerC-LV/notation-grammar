@@ -12,10 +12,10 @@ import javax.sound.midi.Sequencer;
 public class DeviceUtils {
 	
 	
-	public Sequencer getSequencerConnectedTo(String deviceName) throws MidiUnavailableException {
+	public static Sequencer getSequencerConnectedTo(String deviceName) throws MidiUnavailableException {
 		Sequencer seq = MidiSystem.getSequencer(false);
 		MidiDevice dev = getOutputDevice(deviceName);
-		
+		seq.open();
 		seq.getTransmitter().setReceiver(dev.getReceiver());
 		return seq;
 	}

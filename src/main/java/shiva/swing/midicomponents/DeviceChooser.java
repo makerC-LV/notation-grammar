@@ -21,6 +21,12 @@ public class DeviceChooser extends JComboBox<MidiDevice>{
 		INPUT, OUTPUT, BOTH
 	}
 	
+	public static interface DeviceListener {
+		void deviceChosen(MidiDevice device);
+	}
+	
+	private List<DeviceListener> listeners = new ArrayList<>();
+	
 	public DeviceChooser(Type type) {
 		
 		List<MidiDevice> devices = new ArrayList<MidiDevice>();
@@ -44,6 +50,14 @@ public class DeviceChooser extends JComboBox<MidiDevice>{
 			}
 			
 		});
+		addActionListener(e-> {
+			MidiDevice device = (MidiDevice) getSelectedItem();
+			listeners.forEach(l-> {l.deviceChosen(device);});
+		});
+		
 	}
 
+	public void addDeviceListener(DeviceListener l) {
+		listeners.add(l);
+	}
 }

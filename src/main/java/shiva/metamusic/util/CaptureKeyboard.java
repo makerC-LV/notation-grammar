@@ -2,12 +2,14 @@ package shiva.metamusic.util;
 
 import java.io.IOException;
 
+import javax.sound.midi.InvalidMidiDataException;
 import javax.sound.midi.MidiChannel;
 import javax.sound.midi.MidiDevice;
 import javax.sound.midi.MidiEvent;
 import javax.sound.midi.MidiMessage;
 import javax.sound.midi.MidiUnavailableException;
 import javax.sound.midi.Receiver;
+import javax.sound.midi.ShortMessage;
 import javax.swing.JLabel;
 
 import org.jfugue.theory.TimeSignature;
@@ -26,30 +28,97 @@ public class CaptureKeyboard  extends Connector {
 
     NotesFromMidi notesFromMidi = new NotesFromMidi();
 	private MidiDevice keyboard;
+    private MidiDevice synth;
+    int channel = 0;
+    
     
 	public static void main(String[] args) throws MidiUnavailableException, IOException, InterruptedException {
-		CaptureKeyboard ck = new CaptureKeyboard(
-				DeviceUtils.getInputDevice("USB"),
-				JSynSynthesizer.INSTANCE
-				//DeviceUtils.getOutputDevice("Gervill")
-				//DeviceUtils.getOutputDevice("Fluid")
-				);
-		ck.setTempo("240");
-		ck.setTempo("480");
+		CaptureKeyboard ck = new CaptureKeyboard();
+		ck.setInputDevice(DeviceUtils.getInputDevice("USB"));
+		//ck.setOutputDevice(JSynSynthesizer.INSTANCE);
+//		ck.setOutputDevice(DeviceUtils.getOutputDevice("Gervill"));
+		ck.setOutputDevice(DeviceUtils.getOutputDevice("Fluid"));
+		ck.setTempo(MMTempo.DEFAULT_TEMPO);
 		Util.showInFrame(new JLabel("Wait"));
 	}
 	
 	
 	
-	public CaptureKeyboard(MidiDevice keyboard, MidiDevice synth) {
+	public CaptureKeyboard() {
 		super(false);
+	}
+	
+	public CaptureKeyboard(MidiDevice keyboard, MidiDevice synth) {
+		this();
 		setup(keyboard, synth);
+		
+	}
+	
+	public void setChannel(int chan) {
+		this.channel = chan;
 	}
 	
 	
+	@Override
+	public void send(MidiMessage message, long timeStamp) {
+		if (message instanceof ShortMessage) {
+			ShortMessage msg = (ShortMessage) message;
+			if (msg.getChannel() != channel) {
+				try {
+					ShortMessage repl = new ShortMessage(msg.getCommand(), channel, msg.getData1(), msg.getData2());
+					message = repl;
+				} catch (InvalidMidiDataException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+		super.send(message, timeStamp);
+	}
+
+
+
+	public void setInputDevice(MidiDevice input) {
+		System.out.println("CaptureKeyboard: setInputDevice: " + input.getDeviceInfo().getName());
+		if (input == keyboard) {
+			return;
+		}
+		if (keyboard != null) {
+			removeDeviceFromTransmitters(keyboard);
+			//keyboard.close();
+		}
+		keyboard = input;
+		if (synth != null) {
+			setup(keyboard, synth);
+		}
+		
+		
+	}
+	
+	public void setOutputDevice(MidiDevice output) {
+		System.out.println("CaptureKeyboard: setOutputDevice: " + output.getDeviceInfo().getName());
+		if (output == synth) {
+			return;
+		}
+		if (synth != null) {
+			removeDeviceFromReceivers(synth);
+			//synth.close();
+		}
+		synth = output;
+		if (keyboard != null) {
+			setup(keyboard, synth);
+		}
+		
+		
+	}
+	
 	private void setup(MidiDevice keyboard, MidiDevice synth) {
+
+//		removeAllTransmitters();
+//		removeAllReceivers();
 		try {
-			this.keyboard = keyboard;
+			//keyboard.close();
+			//synth.close();
 			openIfNot(keyboard);
 			openIfNot(synth);
 			addTransmitter(keyboard.getTransmitter());
@@ -80,7 +149,7 @@ public class CaptureKeyboard  extends Connector {
 	}
 	
 	public Notes getNotes() {
-		return notesFromMidi.noteList;
+		return notesFromMidi.getNotes();
 	}
 	
 	public void start() {
@@ -100,33 +169,13 @@ public class CaptureKeyboard  extends Connector {
 		}
 	}
 	
-	public void setTempo(String s) {
-		MMTempo tempo = MMTempo.DEFAULT_TEMPO;
-		if (s != null && s.trim().length() > 0) {
-			try {
-				int bpm = Integer.parseInt(s);
-				tempo = new MMTempo(bpm, null);
-				MidiEvent e = MidiUtils.createTempoEvent(bpm);
-//				keyboard.getReceiver().send(e.getMessage(), -1);
-			} catch (Exception e) {
-				System.err.println("Invalid tempo: " + s);
-				e.printStackTrace();
-			}
-		}
+	public void setTempo(MMTempo tempo) {
+		
 		notesFromMidi.setTempo(tempo);
 	}
 	
-	public void setTimeSig(String s) {
-		MMTimeSig ts = MMTimeSig.DEFAULT_TIMESIG;
-		if (s != null && s.trim().length() > 0) {
-			try {
-				String[] parts = s.split("/");
-				ts = new MMTimeSig(new TimeSignature(Integer.parseInt(parts[0]), 
-						Integer.parseInt(parts[1])), null);
-			} catch (Exception e) {
-				System.err.println("Invalid time sig: " + s);
-			}
-		}
+	public void setTimeSig(MMTimeSig ts) {
+		
 		notesFromMidi.setTimeSig(ts);
 	}
 	

@@ -27,6 +27,7 @@ import shiva.metamusic.util.SequencePlayer;
 import shiva.metamusic.util.SequencePlayer.SequencePlayerListener;
 import shiva.swing.components.TablePanel;
 import shiva.swing.components.Util;
+import shiva.swing.midicomponents.DeviceChooser.DeviceListener;
 import shiva.swing.midicomponents.OneVoiceControls.Controllable;
 
 @SuppressWarnings("serial")
@@ -41,6 +42,7 @@ public class PlayControls extends TablePanel implements SequencePlayerListener, 
 	JButton resetButton = Util.playResetButton();
 	JButton equalizerButton = Util.equalizerButton();
 	JSlider seeker = new JSlider(0, 100);
+	DeviceChooser outputChooser = new DeviceChooser(DeviceChooser.Type.OUTPUT);
 	ExecutorService ses = Executors.newFixedThreadPool(4);
 	SequenceProvider sequenceProvider;
 	
@@ -65,23 +67,41 @@ public class PlayControls extends TablePanel implements SequencePlayerListener, 
 		
 	};
 	
-	public PlayControls(SequenceProvider client, MidiDevice synth) {
+	public PlayControls(SequenceProvider client) {
 		super();
 		this.sequenceProvider = client;
-		player = new SequencePlayer(synth);
+		player = new SequencePlayer();
 		table.addCell(playPause);
 		table.addCell(resetButton);
 		table.addCell(equalizerButton);
 		table.addCell(seeker).expandX().fillX();
+		table.addCell(outputChooser);
 		playPause.addActionListener(e -> { playOrPause(); }) ;
 		resetButton.addActionListener(e -> { reset(); });
 		seeker.addChangeListener(ce-> {sliderChanged();});
+		outputChooser.addDeviceListener(d->{outputDeviceChanged(d);});
 		player.addSequencePlayerListener(this);
 		
 		
 		
 	}
 	
+	public void addDeviceListener(DeviceListener l) {
+		outputChooser.addDeviceListener(l);
+	}
+	
+	private void outputDeviceChanged(MidiDevice dev) {
+		if (!dev.isOpen()) {
+			try {
+				dev.open();
+			} catch (MidiUnavailableException e) {
+				e.printStackTrace();
+			}
+		}
+		player.setOutputDevice(dev);
+		
+	}
+
 	private void sliderChanged() {
 		if (!seeker.getValueIsAdjusting() && !player.isPlaying()) {
 			int val = seeker.getValue();

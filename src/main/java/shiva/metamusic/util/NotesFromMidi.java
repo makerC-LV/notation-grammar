@@ -1,8 +1,12 @@
 package shiva.metamusic.util;
 
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 import javax.sound.midi.MetaMessage;
 import javax.sound.midi.MidiMessage;
@@ -12,6 +16,7 @@ import javax.sound.midi.SysexMessage;
 
 import org.jfugue.theory.Note;
 
+import shiva.metamusic.INotesElement;
 import shiva.metamusic.MMDuration;
 import shiva.metamusic.MMNote;
 import shiva.metamusic.MMTempo;
@@ -24,9 +29,21 @@ public class NotesFromMidi  implements Receiver {
 	private MMTimeSig timeSig = MMTimeSig.DEFAULT_TIMESIG;
 	TickCalculator tc;
 
-	Notes noteList = new Notes(1);
+	Comparator<PlayedNote> comp = new Comparator<PlayedNote>() {
+
+		@Override
+		public int compare(PlayedNote o1, PlayedNote o2) {
+			return o1.startPulses - o2.startPulses;
+		}
+		
+	};
+	
+	//SortedSet<MMNote> noteSet = new TreeSet<>(comp);
+	List<PlayedNote> capturedNotes = new ArrayList<>();
+	
 	Map<Integer, Long> onNotes = new HashMap<>();
 	long lastNoteEnd = 0;
+	long startTime;
 	boolean running;
 
 	public NotesFromMidi() {
@@ -41,10 +58,11 @@ public class NotesFromMidi  implements Receiver {
 	}
 
 	public void start() {
-		noteList.clear();
+		capturedNotes.clear();
 		onNotes.clear();
 		lastNoteEnd = 0;
 		running = true;
+		startTime = System.currentTimeMillis();
 	}
 
 	public void stop() {
@@ -133,11 +151,9 @@ public class NotesFromMidi  implements Receiver {
 		System.out.println("Note off: chan:" + channel + " note:" + note + " vel:" + velocity + " ms:" + msTime);
 		Long onTime = onNotes.get(note);
 		if (onTime != null) {
-			List<MMDuration> durations = getSensibleDuration(onTime, msTime);
-			for (MMDuration dur : durations) {
-				MMNote mmnote = new MMNote(MMDuration.ZERO, new Note(note), dur, null);
-				noteList.add(mmnote);
-			}
+			PlayedNote pn = new PlayedNote(note, velocity, onTime, msTime);
+			capturedNotes.add(pn);
+
 		}
 		lastNoteEnd = msTime;
 	}
@@ -151,27 +167,85 @@ public class NotesFromMidi  implements Receiver {
 			return;
 		}
 		System.out.println("Note on: chan:" + channel + " note:" + note + " vel:" + velocity + " ms:" + msTime);
-		if (lastNoteEnd > 0) {
-			fillInRests(lastNoteEnd, msTime);
-		}
+//		if (lastNoteEnd > 0) {
+//			fillInRests(lastNoteEnd, msTime);
+//		}
 		onNotes.put(note, msTime);
 	}
 
-	private void fillInRests(long start, long end) {
-		List<MMDuration> durations = getSensibleDuration(start, end);
-		for (MMDuration dur : durations) {
-			MMNote rest = new MMNote(MMDuration.ZERO, Note.createRest(0.25), dur, null);
-			noteList.add(rest);
-		}
+//	private void fillInRests(long start, long end) {
+//		List<MMDuration> durations = getSensibleDuration(start, end);
+//		for (MMDuration dur : durations) {
+//			MMNote rest = new MMNote(MMDuration.ZERO, Note.createRest(dur.toDecimal()), dur, null);
+//			noteSet.add(rest);
+//		}
+//
+//	}
+//
+//	private List<MMDuration> getSensibleDuration(long startMs, long endMs) {
+//		int pulses = tc.millisecondsToPulses(endMs - startMs);
+//		System.out.println("NotesFromMidi: Ms: " + (endMs - startMs) + "  pulses:" + pulses);
+//		List<MMDuration> dl = MMDuration.getDurationList(pulses);
+//		System.out.println(dl);
+//		return dl;
+//	}
 
+	public Notes getNotes() {
+		Notes notes = new Notes(1);
+		capturedNotes.forEach(pn->System.out.println(pn));
+		adjustDurations(capturedNotes);
+		capturedNotes.forEach(pn->System.out.println(pn));
+		quantizeStarts(capturedNotes);
+		capturedNotes.forEach(pn->System.out.println(pn));
+		SortedSet<PlayedNote> sortedNotes = new TreeSet<>(comp);
+		sortedNotes.addAll(capturedNotes);
+		int currentTime = 0;
+		boolean firstNote = true;
+		for (PlayedNote pn : sortedNotes) {
+			if (pn.startPulses < currentTime) {
+				System.out.println("Warning - overlapping notes");
+			} 
+			if (currentTime < pn.startPulses && !firstNote) {
+				MMNote rest = new MMNote(
+						MMDuration.ZERO, Note.createRest(1), new MMDuration(pn.startPulses - currentTime), null);
+				notes.add(rest);
+			}
+			notes.add(new MMNote(MMDuration.ZERO, new Note(pn.midiNum), new MMDuration(pn.durationPulses), null));
+			currentTime = pn.startPulses + pn.durationPulses;
+			firstNote = false;
+		}
+		return notes;
+	}
+	
+	
+	private void quantizeStarts(List<PlayedNote> d1) {
+		for (PlayedNote pn: d1) {
+			int startPulses = tc.millisecondsToPulses(pn.start - startTime);
+			if (pn.durationPulses >= MMDuration.EIGHTH.getPulses()) {
+				pn.startPulses = quantize(MMDuration.EIGHTH.getPulses(), startPulses);
+			} else {
+				pn.startPulses = quantize(pn.durationPulses, startPulses);
+			}
+		}
+		
 	}
 
-	private List<MMDuration> getSensibleDuration(long startMs, long endMs) {
-		int pulses = tc.millisecondsToPulses(endMs - startMs);
-		System.out.println("NotesFromMidi: Ms: " + (endMs - startMs) + "  pulses:" + pulses);
-		List<MMDuration> dl = MMDuration.getDurationList(pulses);
-		System.out.println(dl);
-		return dl;
+	private int quantize(int pulses, int start) {
+		return (int) Math.round(((double) start)/pulses);
+	}
+
+	private void adjustDurations(List<PlayedNote> l) {
+		l.forEach(pn-> 
+		pn.durationPulses = adjustDuration(pn.start, pn.end));
+	}
+	
+	private int adjustDuration(long start, long end) {
+
+		int pulses = tc.millisecondsToPulses(end - start);
+		int adjusted = MMDuration.getClosestFittingDuration(pulses).getPulses();
+		System.out.println(pulses +  " -> " + adjusted);
+		return adjusted;
+
 	}
 
 	private void polyphonicAftertouch(int channel, ShortMessage message, long timeStamp) {
@@ -205,6 +279,30 @@ public class NotesFromMidi  implements Receiver {
 		
 	}
 
+	private class PlayedNote {
+		int midiNum;
+		int velocity;
+		long start;
+		long end;
+		int durationPulses;
+		int startPulses;
+		
+		public PlayedNote(int midiNum, int velocity, long start, long end) {
+			super();
+			this.midiNum = midiNum;
+			this.velocity = velocity;
+			this.start = start;
+			this.end = end;
+		}
 
+		@Override
+		public String toString() {
+			return "PlayedNote [midiNum=" + midiNum + ", velocity=" + velocity + ", start=" + start + ", end=" + end
+					+ ", durationPulses=" + durationPulses + ", startPulses=" + startPulses + "]";
+		}
+		
+		
+		
+	}
 
 }

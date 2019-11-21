@@ -18,6 +18,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JToggleButton;
+import javax.swing.SwingUtilities;
 
 import jiconfont.icons.google_material_design_icons.GoogleMaterialDesignIcons;
 import jiconfont.swing.IconFontSwing;
@@ -205,22 +206,26 @@ public class Util {
 	}
 
 	public static void showInFrame(JComponent comp) {
-		JFrame fr = new JFrame();
-		fr.getContentPane().setLayout(new BorderLayout());
-		fr.getContentPane().add(comp, BorderLayout.CENTER);
-		fr.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		fr.pack();
-		fr.setVisible(true);
+		SwingUtilities.invokeLater(() -> {
+			JFrame fr = new JFrame();
+			fr.getContentPane().setLayout(new BorderLayout());
+			fr.getContentPane().add(comp, BorderLayout.CENTER);
+			fr.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+			fr.pack();
+			fr.setVisible(true);
+		});
 	}
 	
 	public static void showInDialog(JComponent comp) {
-		JDialog fr = new JDialog();
-		fr.setModal(true);
-		fr.getContentPane().setLayout(new BorderLayout());
-		fr.getContentPane().add(comp, BorderLayout.CENTER);
-		fr.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-		fr.pack();
-		fr.setVisible(true);
+		SwingUtilities.invokeLater(() -> {
+			JDialog fr = new JDialog();
+			fr.setModal(true);
+			fr.getContentPane().setLayout(new BorderLayout());
+			fr.getContentPane().add(comp, BorderLayout.CENTER);
+			fr.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+			fr.pack();
+			fr.setVisible(true);
+		});
 	}
 	
 	private static class OnOffButton extends JToggleButton {

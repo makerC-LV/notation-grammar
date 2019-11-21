@@ -171,7 +171,7 @@ public class MMDuration implements Comparable<MMDuration> {
 		return null;
 	}
 
-	private static MMDuration getClosestFittingDuration(int d) {
+	public static MMDuration getClosestFittingDuration(int d) {
 		for (MMDuration dur: DURATIONS) {
 			if (dur.pulses == 1) {
 				return dur;
@@ -187,6 +187,11 @@ public class MMDuration implements Comparable<MMDuration> {
 
 	public String toSong4() {
 		return durationToString(this);
+	}
+
+	// Compatibility with JFugue
+	public double toDecimal() {
+		return ((double)pulses)/ WHOLE.getPulses();
 	}
 	
 	

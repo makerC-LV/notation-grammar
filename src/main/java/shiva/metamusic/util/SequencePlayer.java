@@ -50,6 +50,23 @@ public class SequencePlayer {
 		}
 	}
 
+	public void setOutputDevice(MidiDevice output) {
+		System.out.println("SequencePlayer: setOutputDevice: " + output.getDeviceInfo().getName() + " " 
+				+ output.isOpen());
+		if (output == synth) {
+			return;
+		}
+		this.synth = output;
+		sequencer.getTransmitters().forEach(t-> { t.close();});
+		try {
+			synth.open();
+			sequencer.open();
+			sequencer.getTransmitter().setReceiver(synth.getReceiver());
+		} catch (MidiUnavailableException e) {
+			e.printStackTrace();
+		}
+		
+	}
 	private void setup(Sequencer sequencer, MidiDevice synth) throws MidiUnavailableException {
 		this.sequencer = sequencer;
 		this.synth = synth;
@@ -82,7 +99,6 @@ public class SequencePlayer {
 		this.state.started = true;
 		this.state.paused = false;
 		this.state.finished = false;
-		System.out.println("Seq started");
 		getSequencer().start();
 		startSequencerWatcher();
 	}

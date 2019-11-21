@@ -23,6 +23,10 @@ public class MMKeySig extends Locatable {
 	// Chords without octave
 	List<MMChord> allChordsInKey;
 	
+	public MMKeySig(String keyS, Location location) {
+		this(new Key(keyS), location);
+	}
+	
 	public MMKeySig(Key key, Location location) {
 		super(location);
 		this.key = key;
