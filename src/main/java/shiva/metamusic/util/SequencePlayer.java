@@ -7,11 +7,17 @@ import java.util.concurrent.Executors;
 
 import javax.sound.midi.InvalidMidiDataException;
 import javax.sound.midi.MidiDevice;
+import javax.sound.midi.MidiEvent;
+import javax.sound.midi.MidiMessage;
 import javax.sound.midi.MidiSystem;
 import javax.sound.midi.MidiUnavailableException;
+import javax.sound.midi.Receiver;
 import javax.sound.midi.Sequence;
 import javax.sound.midi.Sequencer;
+import javax.sound.midi.ShortMessage;
 import javax.sound.midi.Synthesizer;
+
+import shiva.midi.DeviceUtils;
 
 public class SequencePlayer {
 
@@ -26,6 +32,8 @@ public class SequencePlayer {
 	private Executor exec = Executors.newSingleThreadExecutor();
 
 	private SequencerWatcher seqWatcher = new SequencerWatcher();
+
+	private Receiver synthReceiver;
 
 	public SequencePlayer() {
 		this(null, null);
@@ -61,7 +69,8 @@ public class SequencePlayer {
 		try {
 			synth.open();
 			sequencer.open();
-			sequencer.getTransmitter().setReceiver(synth.getReceiver());
+			synthReceiver = synth.getReceiver();
+			sequencer.getTransmitter().setReceiver(synthReceiver);
 		} catch (MidiUnavailableException e) {
 			e.printStackTrace();
 		}
@@ -295,5 +304,27 @@ public class SequencePlayer {
 
 	}
 
+	// Set to start/stop recording in Reaper
+	public void sendMIDICC() {
+		MidiMessage message;
+		try {
+			message = new ShortMessage(ShortMessage.CONTROL_CHANGE, 16, 0);
+			synthReceiver.send(message ,-1);	
+		} catch (InvalidMidiDataException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	
+	public static void main(String[] args) throws InvalidMidiDataException, MidiUnavailableException {
+		MidiDevice dev = DeviceUtils.getOutputDevice("Bus");
+		dev.open();
+		MidiMessage message = new ShortMessage(ShortMessage.CONTROL_CHANGE, 16, 90);
+		dev.getReceiver().send(message ,-1);
+		System.out.println("done");
+		
+	}
+	
 	
 }

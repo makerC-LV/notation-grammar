@@ -1,8 +1,9 @@
-// Generated from Song4Parser.g4 by ANTLR 4.7.2
+// Generated from Song4Parser.g4 by ANTLR 4.4
 
     package shiva.song4;
     import java.util.HashMap;
 
+import org.antlr.v4.runtime.misc.NotNull;
 import org.antlr.v4.runtime.tree.AbstractParseTreeVisitor;
 
 /**
@@ -20,187 +21,187 @@ public class Song4ParserBaseVisitor<T> extends AbstractParseTreeVisitor<T> imple
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitSong(Song4Parser.SongContext ctx) { return visitChildren(ctx); }
+	@Override public T visitVoice(@NotNull Song4Parser.VoiceContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitGlobalElement(Song4Parser.GlobalElementContext ctx) { return visitChildren(ctx); }
+	@Override public T visitNote(@NotNull Song4Parser.NoteContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitSongElement(Song4Parser.SongElementContext ctx) { return visitChildren(ctx); }
+	@Override public T visitNotes(@NotNull Song4Parser.NotesContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitPlayCommand(Song4Parser.PlayCommandContext ctx) { return visitChildren(ctx); }
+	@Override public T visitParallelNotesElement(@NotNull Song4Parser.ParallelNotesElementContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitPlayable(Song4Parser.PlayableContext ctx) { return visitChildren(ctx); }
+	@Override public T visitTimeRecall(@NotNull Song4Parser.TimeRecallContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitVarDef(Song4Parser.VarDefContext ctx) { return visitChildren(ctx); }
+	@Override public T visitTempo(@NotNull Song4Parser.TempoContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitAssignable(Song4Parser.AssignableContext ctx) { return visitChildren(ctx); }
+	@Override public T visitTimesig(@NotNull Song4Parser.TimesigContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitVoice(Song4Parser.VoiceContext ctx) { return visitChildren(ctx); }
+	@Override public T visitKeysig(@NotNull Song4Parser.KeysigContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitNotes(Song4Parser.NotesContext ctx) { return visitChildren(ctx); }
+	@Override public T visitPlayable(@NotNull Song4Parser.PlayableContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitNotesElement(Song4Parser.NotesElementContext ctx) { return visitChildren(ctx); }
+	@Override public T visitTimeBookmark(@NotNull Song4Parser.TimeBookmarkContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitVoiceChange(Song4Parser.VoiceChangeContext ctx) { return visitChildren(ctx); }
+	@Override public T visitSongElement(@NotNull Song4Parser.SongElementContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitGroupedNotes(Song4Parser.GroupedNotesContext ctx) { return visitChildren(ctx); }
+	@Override public T visitBeat(@NotNull Song4Parser.BeatContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitNote(Song4Parser.NoteContext ctx) { return visitChildren(ctx); }
+	@Override public T visitSong(@NotNull Song4Parser.SongContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitChord(Song4Parser.ChordContext ctx) { return visitChildren(ctx); }
+	@Override public T visitDrumChange(@NotNull Song4Parser.DrumChangeContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitRhythm(Song4Parser.RhythmContext ctx) { return visitChildren(ctx); }
+	@Override public T visitGlobalElement(@NotNull Song4Parser.GlobalElementContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitRhythmElement(Song4Parser.RhythmElementContext ctx) { return visitChildren(ctx); }
+	@Override public T visitRhythmElement(@NotNull Song4Parser.RhythmElementContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitDrumChange(Song4Parser.DrumChangeContext ctx) { return visitChildren(ctx); }
+	@Override public T visitRhythm(@NotNull Song4Parser.RhythmContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitBeat(Song4Parser.BeatContext ctx) { return visitChildren(ctx); }
+	@Override public T visitAssignable(@NotNull Song4Parser.AssignableContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitGroupedRhythm(Song4Parser.GroupedRhythmContext ctx) { return visitChildren(ctx); }
+	@Override public T visitGroupedNotes(@NotNull Song4Parser.GroupedNotesContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitTempo(Song4Parser.TempoContext ctx) { return visitChildren(ctx); }
+	@Override public T visitParallelNotes(@NotNull Song4Parser.ParallelNotesContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitKeysig(Song4Parser.KeysigContext ctx) { return visitChildren(ctx); }
+	@Override public T visitPlayCommand(@NotNull Song4Parser.PlayCommandContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitTimesig(Song4Parser.TimesigContext ctx) { return visitChildren(ctx); }
+	@Override public T visitNotesElement(@NotNull Song4Parser.NotesElementContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitParallelNotes(Song4Parser.ParallelNotesContext ctx) { return visitChildren(ctx); }
+	@Override public T visitGroupedRhythm(@NotNull Song4Parser.GroupedRhythmContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitParallelNotesElement(Song4Parser.ParallelNotesElementContext ctx) { return visitChildren(ctx); }
+	@Override public T visitChord(@NotNull Song4Parser.ChordContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitTimeBookmark(Song4Parser.TimeBookmarkContext ctx) { return visitChildren(ctx); }
+	@Override public T visitVarDef(@NotNull Song4Parser.VarDefContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitTimeRecall(Song4Parser.TimeRecallContext ctx) { return visitChildren(ctx); }
+	@Override public T visitVoiceChange(@NotNull Song4Parser.VoiceChangeContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitTimeSet(Song4Parser.TimeSetContext ctx) { return visitChildren(ctx); }
+	@Override public T visitTimeSet(@NotNull Song4Parser.TimeSetContext ctx) { return visitChildren(ctx); }
 }

@@ -59,7 +59,7 @@ public class Metronome {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		beatSound = createSound(440 * 5);
+		beatSound = createSound(440 * 8);
 		barSound = createSound(440);
 	}
 	
@@ -68,19 +68,45 @@ public class Metronome {
 	}
 	
 	private byte[] createSound(double freq) {
-		return get16BitPcm(getSineWave(44000/16, 44000, freq));
+		//return get16BitPcm(getSineWave(44000/16, 44000, freq));
+		return get16BitPcm(expDecay(getRandomWave(44000/16, 44000, freq)));
 	}
 
 	public double[] getSineWave(int samples,int sampleRate,double frequencyOfTone){
-        double[] sample = new double[samples];
-        for (int i = 0; i < samples; i++) {
-            sample[i] = Math.sin(2 * Math.PI * i / (sampleRate/frequencyOfTone));
-        }
-                return sample;
+		double[] sample = new double[samples];
+		for (int i = 0; i < samples; i++) {
+			sample[i] = Math.sin(2 * Math.PI * i / (sampleRate/frequencyOfTone));
+		}
+		return sample;
     }
 
+	double[] samplebuffer; 
+	public double[] getRandomWave(int samples,int sampleRate,double frequencyOfTone) {
+		if (samplebuffer == null) {
+			samplebuffer = new double[800];
+			for (int i = 0; i < samplebuffer.length; i++) {
+				samplebuffer[i] = Math.random();
+			}
+		}
+		int period = (int) (sampleRate/frequencyOfTone);
+		double[] sample = new double[samples];
+		for (int i = 0; i < samples; i++) {
+			sample[i] = samplebuffer[i%period];
+		}
+		return sample;
+	}
+	
+	public double[] expDecay(double[] samples) {
+		double b = 0.01;
+		for (int i = 0; i < samples.length; i++) {
+			double x = i/ (samples.length);
+			samples[i] *= Math.pow(1-b, i);
+		}
+		return samples;
+	}
+	
     public byte[] get16BitPcm(double[] samples) {
-    	double volume = 0.1;
+    	double volume = 0.25;
         byte[] generatedSound = new byte[2 * samples.length];
         int index = 0;
         for (double sample : samples) {

@@ -1,10 +1,11 @@
-// Generated from Song4Parser.g4 by ANTLR 4.7.2
+// Generated from Song4Parser.g4 by ANTLR 4.4
 
     package shiva.song4;
     import java.util.HashMap;
 
 
 import org.antlr.v4.runtime.ParserRuleContext;
+import org.antlr.v4.runtime.misc.NotNull;
 import org.antlr.v4.runtime.tree.ErrorNode;
 import org.antlr.v4.runtime.tree.TerminalNode;
 
@@ -19,348 +20,348 @@ public class Song4ParserBaseListener implements Song4ParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterSong(Song4Parser.SongContext ctx) { }
+	@Override public void enterVoice(@NotNull Song4Parser.VoiceContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitSong(Song4Parser.SongContext ctx) { }
+	@Override public void exitVoice(@NotNull Song4Parser.VoiceContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterGlobalElement(Song4Parser.GlobalElementContext ctx) { }
+	@Override public void enterNote(@NotNull Song4Parser.NoteContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitGlobalElement(Song4Parser.GlobalElementContext ctx) { }
+	@Override public void exitNote(@NotNull Song4Parser.NoteContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterSongElement(Song4Parser.SongElementContext ctx) { }
+	@Override public void enterNotes(@NotNull Song4Parser.NotesContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitSongElement(Song4Parser.SongElementContext ctx) { }
+	@Override public void exitNotes(@NotNull Song4Parser.NotesContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterPlayCommand(Song4Parser.PlayCommandContext ctx) { }
+	@Override public void enterParallelNotesElement(@NotNull Song4Parser.ParallelNotesElementContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitPlayCommand(Song4Parser.PlayCommandContext ctx) { }
+	@Override public void exitParallelNotesElement(@NotNull Song4Parser.ParallelNotesElementContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterPlayable(Song4Parser.PlayableContext ctx) { }
+	@Override public void enterTimeRecall(@NotNull Song4Parser.TimeRecallContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitPlayable(Song4Parser.PlayableContext ctx) { }
+	@Override public void exitTimeRecall(@NotNull Song4Parser.TimeRecallContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterVarDef(Song4Parser.VarDefContext ctx) { }
+	@Override public void enterTempo(@NotNull Song4Parser.TempoContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitVarDef(Song4Parser.VarDefContext ctx) { }
+	@Override public void exitTempo(@NotNull Song4Parser.TempoContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterAssignable(Song4Parser.AssignableContext ctx) { }
+	@Override public void enterTimesig(@NotNull Song4Parser.TimesigContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitAssignable(Song4Parser.AssignableContext ctx) { }
+	@Override public void exitTimesig(@NotNull Song4Parser.TimesigContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterVoice(Song4Parser.VoiceContext ctx) { }
+	@Override public void enterKeysig(@NotNull Song4Parser.KeysigContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitVoice(Song4Parser.VoiceContext ctx) { }
+	@Override public void exitKeysig(@NotNull Song4Parser.KeysigContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterNotes(Song4Parser.NotesContext ctx) { }
+	@Override public void enterPlayable(@NotNull Song4Parser.PlayableContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitNotes(Song4Parser.NotesContext ctx) { }
+	@Override public void exitPlayable(@NotNull Song4Parser.PlayableContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterNotesElement(Song4Parser.NotesElementContext ctx) { }
+	@Override public void enterTimeBookmark(@NotNull Song4Parser.TimeBookmarkContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitNotesElement(Song4Parser.NotesElementContext ctx) { }
+	@Override public void exitTimeBookmark(@NotNull Song4Parser.TimeBookmarkContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterVoiceChange(Song4Parser.VoiceChangeContext ctx) { }
+	@Override public void enterSongElement(@NotNull Song4Parser.SongElementContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitVoiceChange(Song4Parser.VoiceChangeContext ctx) { }
+	@Override public void exitSongElement(@NotNull Song4Parser.SongElementContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterGroupedNotes(Song4Parser.GroupedNotesContext ctx) { }
+	@Override public void enterBeat(@NotNull Song4Parser.BeatContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitGroupedNotes(Song4Parser.GroupedNotesContext ctx) { }
+	@Override public void exitBeat(@NotNull Song4Parser.BeatContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterNote(Song4Parser.NoteContext ctx) { }
+	@Override public void enterSong(@NotNull Song4Parser.SongContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitNote(Song4Parser.NoteContext ctx) { }
+	@Override public void exitSong(@NotNull Song4Parser.SongContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterChord(Song4Parser.ChordContext ctx) { }
+	@Override public void enterDrumChange(@NotNull Song4Parser.DrumChangeContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitChord(Song4Parser.ChordContext ctx) { }
+	@Override public void exitDrumChange(@NotNull Song4Parser.DrumChangeContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterRhythm(Song4Parser.RhythmContext ctx) { }
+	@Override public void enterGlobalElement(@NotNull Song4Parser.GlobalElementContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitRhythm(Song4Parser.RhythmContext ctx) { }
+	@Override public void exitGlobalElement(@NotNull Song4Parser.GlobalElementContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterRhythmElement(Song4Parser.RhythmElementContext ctx) { }
+	@Override public void enterRhythmElement(@NotNull Song4Parser.RhythmElementContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitRhythmElement(Song4Parser.RhythmElementContext ctx) { }
+	@Override public void exitRhythmElement(@NotNull Song4Parser.RhythmElementContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterDrumChange(Song4Parser.DrumChangeContext ctx) { }
+	@Override public void enterRhythm(@NotNull Song4Parser.RhythmContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitDrumChange(Song4Parser.DrumChangeContext ctx) { }
+	@Override public void exitRhythm(@NotNull Song4Parser.RhythmContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterBeat(Song4Parser.BeatContext ctx) { }
+	@Override public void enterAssignable(@NotNull Song4Parser.AssignableContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitBeat(Song4Parser.BeatContext ctx) { }
+	@Override public void exitAssignable(@NotNull Song4Parser.AssignableContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterGroupedRhythm(Song4Parser.GroupedRhythmContext ctx) { }
+	@Override public void enterGroupedNotes(@NotNull Song4Parser.GroupedNotesContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitGroupedRhythm(Song4Parser.GroupedRhythmContext ctx) { }
+	@Override public void exitGroupedNotes(@NotNull Song4Parser.GroupedNotesContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterTempo(Song4Parser.TempoContext ctx) { }
+	@Override public void enterParallelNotes(@NotNull Song4Parser.ParallelNotesContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitTempo(Song4Parser.TempoContext ctx) { }
+	@Override public void exitParallelNotes(@NotNull Song4Parser.ParallelNotesContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterKeysig(Song4Parser.KeysigContext ctx) { }
+	@Override public void enterPlayCommand(@NotNull Song4Parser.PlayCommandContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitKeysig(Song4Parser.KeysigContext ctx) { }
+	@Override public void exitPlayCommand(@NotNull Song4Parser.PlayCommandContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterTimesig(Song4Parser.TimesigContext ctx) { }
+	@Override public void enterNotesElement(@NotNull Song4Parser.NotesElementContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitTimesig(Song4Parser.TimesigContext ctx) { }
+	@Override public void exitNotesElement(@NotNull Song4Parser.NotesElementContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterParallelNotes(Song4Parser.ParallelNotesContext ctx) { }
+	@Override public void enterGroupedRhythm(@NotNull Song4Parser.GroupedRhythmContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitParallelNotes(Song4Parser.ParallelNotesContext ctx) { }
+	@Override public void exitGroupedRhythm(@NotNull Song4Parser.GroupedRhythmContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterParallelNotesElement(Song4Parser.ParallelNotesElementContext ctx) { }
+	@Override public void enterChord(@NotNull Song4Parser.ChordContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitParallelNotesElement(Song4Parser.ParallelNotesElementContext ctx) { }
+	@Override public void exitChord(@NotNull Song4Parser.ChordContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterTimeBookmark(Song4Parser.TimeBookmarkContext ctx) { }
+	@Override public void enterVarDef(@NotNull Song4Parser.VarDefContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitTimeBookmark(Song4Parser.TimeBookmarkContext ctx) { }
+	@Override public void exitVarDef(@NotNull Song4Parser.VarDefContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterTimeRecall(Song4Parser.TimeRecallContext ctx) { }
+	@Override public void enterVoiceChange(@NotNull Song4Parser.VoiceChangeContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitTimeRecall(Song4Parser.TimeRecallContext ctx) { }
+	@Override public void exitVoiceChange(@NotNull Song4Parser.VoiceChangeContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterTimeSet(Song4Parser.TimeSetContext ctx) { }
+	@Override public void enterTimeSet(@NotNull Song4Parser.TimeSetContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitTimeSet(Song4Parser.TimeSetContext ctx) { }
+	@Override public void exitTimeSet(@NotNull Song4Parser.TimeSetContext ctx) { }
 
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterEveryRule(ParserRuleContext ctx) { }
+	@Override public void enterEveryRule(@NotNull ParserRuleContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitEveryRule(ParserRuleContext ctx) { }
+	@Override public void exitEveryRule(@NotNull ParserRuleContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void visitTerminal(TerminalNode node) { }
+	@Override public void visitTerminal(@NotNull TerminalNode node) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void visitErrorNode(ErrorNode node) { }
+	@Override public void visitErrorNode(@NotNull ErrorNode node) { }
 }

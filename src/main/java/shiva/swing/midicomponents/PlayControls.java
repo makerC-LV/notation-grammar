@@ -15,6 +15,7 @@ import javax.sound.midi.Sequence;
 import javax.sound.midi.Sequencer;
 import javax.sound.midi.Synthesizer;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JSlider;
 import javax.swing.JToggleButton;
 import javax.swing.SwingUtilities;
@@ -43,6 +44,8 @@ public class PlayControls extends TablePanel implements SequencePlayerListener, 
 	JButton equalizerButton = Util.equalizerButton();
 	JSlider seeker = new JSlider(0, 100);
 	DeviceChooser outputChooser = new DeviceChooser(DeviceChooser.Type.OUTPUT);
+	JCheckBox sendMidiCC = new JCheckBox("Send MIDICC");
+	
 	ExecutorService ses = Executors.newFixedThreadPool(4);
 	SequenceProvider sequenceProvider;
 	
@@ -76,6 +79,7 @@ public class PlayControls extends TablePanel implements SequencePlayerListener, 
 		table.addCell(equalizerButton);
 		table.addCell(seeker).expandX().fillX();
 		table.addCell(outputChooser);
+		table.addCell(sendMidiCC);
 		playPause.addActionListener(e -> { playOrPause(); }) ;
 		resetButton.addActionListener(e -> { reset(); });
 		seeker.addChangeListener(ce-> {sliderChanged();});
@@ -140,6 +144,7 @@ public class PlayControls extends TablePanel implements SequencePlayerListener, 
 
 	private void startBackground(Sequence seq) {
 		try {
+			sendMIDICC();
 			player.start(seq);
 		} catch (InvalidMidiDataException | MidiUnavailableException e) {
 			e.printStackTrace();
@@ -148,6 +153,13 @@ public class PlayControls extends TablePanel implements SequencePlayerListener, 
 	
 	
 	
+	private void sendMIDICC() {
+		if (sendMidiCC.isSelected()) {
+			player.sendMIDICC();
+		}
+		
+	}
+
 	private void setPlayingState() {
 		playPause.setSelected(true);
 		resetButton.setEnabled(false);
@@ -173,7 +185,10 @@ public class PlayControls extends TablePanel implements SequencePlayerListener, 
 	}
 	
 	public void reset() {
-		ses.execute(() -> {player.reset();});
+		ses.execute(() -> {
+			sendMIDICC();
+			player.reset();
+			});
 	}
 
 	private void pause() {

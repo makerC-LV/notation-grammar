@@ -148,7 +148,7 @@ public class NotesFromMidi  implements Receiver {
 		long msTime = System.currentTimeMillis();
 		int note = message.getData1();
 		int velocity = message.getData2();
-		System.out.println("Note off: chan:" + channel + " note:" + note + " vel:" + velocity + " ms:" + msTime);
+		//System.out.println("Note off: chan:" + channel + " note:" + note + " vel:" + velocity + " ms:" + msTime);
 		Long onTime = onNotes.get(note);
 		if (onTime != null) {
 			PlayedNote pn = new PlayedNote(note, velocity, onTime, msTime);
@@ -166,7 +166,7 @@ public class NotesFromMidi  implements Receiver {
 			noteOff(channel, message, timeStamp);
 			return;
 		}
-		System.out.println("Note on: chan:" + channel + " note:" + note + " vel:" + velocity + " ms:" + msTime);
+		//System.out.println("Note on: chan:" + channel + " note:" + note + " vel:" + velocity + " ms:" + msTime);
 //		if (lastNoteEnd > 0) {
 //			fillInRests(lastNoteEnd, msTime);
 //		}
@@ -203,7 +203,7 @@ public class NotesFromMidi  implements Receiver {
 		boolean firstNote = true;
 		for (PlayedNote pn : sortedNotes) {
 			if (pn.startPulses < currentTime) {
-				System.out.println("Warning - overlapping notes");
+				System.out.println("Warning - overlapping note: " + pn);
 			} 
 			if (currentTime < pn.startPulses && !firstNote) {
 				MMNote rest = new MMNote(
@@ -243,7 +243,7 @@ public class NotesFromMidi  implements Receiver {
 
 		int pulses = tc.millisecondsToPulses(end - start);
 		int adjusted = MMDuration.getClosestFittingDuration(pulses).getPulses();
-		System.out.println(pulses +  " -> " + adjusted);
+		//System.out.println(pulses +  " -> " + adjusted);
 		return adjusted;
 
 	}
